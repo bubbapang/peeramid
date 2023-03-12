@@ -8,7 +8,8 @@ function SignupForm () {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
-  const errors = useSelector(state => state.errors.session);
+  const errors = useSelector(state => state.session.errors);
+    // console.log("errors", errors)
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -9,7 +9,7 @@ function TweetCompose () {
     const dispatch = useDispatch();
     const author = useSelector(state => state.session.user);
     const newTweet = useSelector(state => state.tweets.new);
-    const errors = useSelector(state => state.errors.tweets);
+    const errors = useSelector(state => state.tweets.errors);
 
     useEffect(() => {
         return () => dispatch(clearTweetErrors());
