@@ -7,6 +7,8 @@ const cors = require('cors');
 const { isProduction } = require('./config/keys');
 const csurf = require('csurf');
 
+require('./models/User');
+
 const usersRouter = require('./routes/api/users'); // update the import file path
 const tweetsRouter = require("./routes/api/tweets");
 const csrfRouter = require('./routes/api/csrf');
@@ -37,7 +39,7 @@ app.use(
 );
 
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
+    const err = new Error('Not Found :(');
     err.statusCode = 404;
     next(err);
 });
