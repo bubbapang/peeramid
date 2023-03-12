@@ -30,6 +30,12 @@ export const clearSessionErrors = () => ({
 export const signup = user => startSession(user, 'api/users/register');
 export const login = user => startSession(user, 'api/users/login');
 
+export const getCurrentUser = () => async dispatch => {
+    const res = await jwtFetch('/api/users/current');
+    const user = await res.json();
+    return dispatch(receiveCurrentUser(user));
+};
+
 const startSession = (userInfo, route) => async dispatch => {
     try {  
       const res = await jwtFetch(route, {
@@ -81,5 +87,6 @@ const startSession = (userInfo, route) => async dispatch => {
     }
     };
 
+    
 
     export default sessionReducer;
