@@ -29,7 +29,7 @@ mongoose
   });
 
   const insertSeeds = () => {
-  console.log("Resetting db and seeding users and tweets...");
+  console.log("Resetting db and seeding users...");
 
   User.collection.drop()
                  .then(() => User.insertMany(users))
