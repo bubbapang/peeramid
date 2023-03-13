@@ -50,6 +50,13 @@ router.post('/register', validateRegisterInput ,async (req, res, next) => {
     if (user.username === req.body.username) {
       errors.username = "A user has already registered with this username";
     }
+    if (user.firstName === req.body.firstName) {
+      errors.firstName = "firstName must be between 2 and 30 characters";
+    }
+    if (user.lastName === req.body.lastName) {
+      errors.lastName = "lastName must be between 2 and 30 characters";
+    }
+    
     err.errors = errors;
     return next(err);
   }
@@ -57,6 +64,8 @@ router.post('/register', validateRegisterInput ,async (req, res, next) => {
   // Otherwise create a new user
   const newUser = new User({
     username: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email
   });
 
@@ -78,7 +87,10 @@ router.post('/register', validateRegisterInput ,async (req, res, next) => {
 
 router.post('/login', validateLoginInput ,async (req, res, next) => {
   passport.authenticate('local', async function(err, user) {
+    
+
     if (err) return next(err);
+    console.log(err)
     if (!user) {
       const err = new Error('Invalid credentials');
       err.statusCode = 400;
