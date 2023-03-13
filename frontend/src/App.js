@@ -16,13 +16,10 @@ function App() {
   useEffect(() => {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
   }, [dispatch]);
-
   return loaded && (
     <>
-
       <Switch>
         <AuthRoute exact path="/" component={Welcome} />
-
         {/* <ProtectedRoute exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/profile" component={Profile} />
         <ProtectedRoute exact path="/tweets/new" component={TweetCompose} /> */}
@@ -30,5 +27,4 @@ function App() {
     </>
   );
 }
-
 export default App;
