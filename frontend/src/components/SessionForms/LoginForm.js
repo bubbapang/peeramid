@@ -27,6 +27,7 @@ function LoginForm () {
   }
 
   return (
+    <div className="welcome-form">
     <form className="session-form" onSubmit={handleSubmit}>
       <h2>Log In Form</h2>
       <div className="errors">{errors?.email}</div>
@@ -53,6 +54,11 @@ function LoginForm () {
         disabled={!email || !password}
       />
     </form>
+    {/* <div className="welcome-picture">
+      <img src="https://peeramid-seeds.s3.us-west-1.amazonaws.com/blue+art.jpg" alt="pyr" />
+    </div> */}
+
+    </div>
   );
 }
 
