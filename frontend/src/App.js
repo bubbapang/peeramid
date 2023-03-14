@@ -1,4 +1,4 @@
-// import react shit 
+// import react shit
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch } from 'react-router-dom';
@@ -8,23 +8,23 @@ import { Route } from 'react-router-dom';
 import { getCurrentUser } from './store/session';
 
 // import components
-import { AuthRoute } from './components/Routes/Routes';
 import Welcome from './components/Welcome';
-
-//import Rating from './components/Rating';
 import Rating from './components/Rating';
 import HomePage from './components/HomePage';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getCurrentUser()).then(() => setLoaded(true));
   }, [dispatch]);
+
   return loaded && (
     <>
       <Switch>
-        <Route exact path="/" component={Welcome} /> 
+        <Route exact path="/" component={Welcome} />
+        <Route exact path="/rating" component={Rating} />
         <Route exact path="/home" component={HomePage} />
 
         {/* <AuthRoute exact path="/" component={Welcome} /> */}
