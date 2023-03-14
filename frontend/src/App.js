@@ -12,6 +12,7 @@ import { AuthRoute } from './components/Routes/Routes';
 
 //import Rating from './components/Rating';
 import Rating from './components/Rating';
+import HomePage from './components/HomePage';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -22,7 +23,8 @@ function App() {
   return loaded && (
     <>
       <Switch>
-        <Rating />
+        {/* <Rating /> */}
+        <HomePage />
         {/* <AuthRoute exact path="/" component={Welcome} /> */}
         {/* <ProtectedRoute exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/profile" component={Profile} />
