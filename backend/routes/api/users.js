@@ -160,7 +160,7 @@ router.post('/approve/:id', restoreUser, async(req, res, next) => {
       return res.status(404).json({message: 'Current user not found'})
     }
     if (!currentUser.followRequest.includes(requesterUser._id)) {
-      return res.status(400).json({message: `No request to approve ${requesterUser.followRequest}`})
+      return res.status(400).json({message: `No request to approve`})
     }
     // currentUser is approving
     await User.findByIdAndUpdate(currentUser._id, {
@@ -180,10 +180,24 @@ router.post('/approve/:id', restoreUser, async(req, res, next) => {
 })
 
 router.delete('/delete/:id', restoreUser, async(req, res, next) => {
-    const targetUser = await User.findById(req.params.id);
+    const requesterUser= await User.findById(req.params.id);
     const currentUser = req.user;
     try {
+      if (!requesterUser) {
+        return res.status(404).json({message:'User not found' })
+      }
+      if (!currentUser) {
+        return res.status(404).json({message: 'Current user not found'})
+      }
+      if (!currentUser.followRequest.includes(requesterUser._id)) {
+        return res.status(400).json({message: `No request to approve`})
+      }
+      // currentUser is approving
+      await User.findByIdAndUpdate(currentUser._id, {
+        $pull: { followRequest: requesterUser._id}
+      });
       
+      return res.status(200).json({message: 'Follow request deleted'})
     } catch (err) {
       return next(err)
     }
