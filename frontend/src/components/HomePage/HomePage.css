@@ -1,0 +1,13 @@
+.home-page-container {
+    display: flex;
+    
+    margin: 5%;
+    border: 1px solid red;
+    width: 90vw;
+    height: 80vh;
+}
+
+.home-page-container h1 {
+    position: absolute;
+}
+

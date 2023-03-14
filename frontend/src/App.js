@@ -8,7 +8,11 @@ import { getCurrentUser } from './store/session';
 
 // import components
 import { AuthRoute } from './components/Routes/Routes';
-import Welcome from './components/Welcome';
+// import Welcome from './components/Welcome';
+
+//import Rating from './components/Rating';
+import Rating from './components/Rating';
+import HomePage from './components/HomePage';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -19,7 +23,12 @@ function App() {
   return loaded && (
     <>
       <Switch>
-        <AuthRoute exact path="/" component={Welcome} />
+        {/* <Rating /> */}
+        <HomePage />
+        {/* <AuthRoute exact path="/" component={Welcome} /> */}
+        {/* <ProtectedRoute exact path="/tweets" component={Tweets} />
+        <ProtectedRoute exact path="/profile" component={Profile} />
+        <ProtectedRoute exact path="/tweets/new" component={TweetCompose} /> */}
       </Switch>
     </>
   );
