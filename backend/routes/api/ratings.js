@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Rating = mongoose.model('Rating');
+const User = mongoose.model('User');
 const { requireUser } = require('../../config/passport');
 
 /*
@@ -28,17 +29,38 @@ router.post('/', requireUser, async (req, res, next) => {
     }
 });
 
-router.get('/' , async (req, res ) => {
+router.get('/public', async (req, res, next ) => {
+    const publicUsers = await User.find({public: true }, '_id ');
+    const publicUserIds = publicUsers.map((user) => user._id )
     try {
-        const ratings = await Rating.find()
-                                    .populate("user", "_id username")
+        const ratings = await Rating.find({ user: { $in: publicUserIds }})
+                                    .populate("user", "_id")
+        if (!ratings) {
+            return res.status(404).json({message: 'Rating not found'});
+        }
         return res.json(ratings);
 
-    }
-    catch(err) {
-        return res.json([]);
+    } catch(err) {
+        next(err)
     }
 });
+
+router.get('/following', requireUser, async(req, res, next) => {
+    const currentUser = req.user;
+    const followingUserIds = currentUser.following
+    try {
+        const ratings = await Rating.find({ user: { $in: followingUserIds}})
+                                    .populate("user", "_id")
+        if (!ratings) {
+            return res.status(404).json({message: 'Rating not found'})
+        }
+        return res.json(ratings);
+    } catch(err) {
+        next(err)
+    }
+});
+
+
 
 // router.patch('/', function(req, res, next) {
     
