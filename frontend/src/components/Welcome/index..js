@@ -4,7 +4,7 @@ import './welcome.css';
 
 import { login, clearSessionErrors } from '../../store/session';
 
-function Welcome () {
+export default function Welcome () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const errors = useSelector(state => state.session.errors);
@@ -79,4 +79,3 @@ const hideLoginShowSignup = () => {
   }
 }
 
-export default LoginForm;
