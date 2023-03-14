@@ -18,19 +18,19 @@ export default function Rating () {
     const colorsOfNeeds = ["#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#9400D3", "#000000"];
     const widthsOfNeeds = [500, 550, 600, 650, 700, 750, 800, 850];
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log("Heres how you rated your day:",
-    //     "Transcendence:", transcendence,
-    //     "Self-Actualization: ", selfActualization,
-    //     "Aesthetic: ", aesthetic,
-    //     "Cognition: ", cognition,
-    //     "Esteem: ", esteem,
-    //     "Love: ", love,
-    //     "Safety: ", safety,
-    //     "Physiology: ", physiology,
-    //     )
-    // }
+    const handleSubmit = (e) => {
+         e.preventDefault();
+         console.log("Heres how you rated your day:",
+         "Transcendence:", transcendence,
+         "Self-Actualization: ", selfActualization,
+         "Aesthetic: ", aesthetic,
+         "Cognition: ", cognition,
+         "Esteem: ", esteem,
+         "Love: ", love,
+         "Safety: ", safety,
+         "Physiology: ", physiology,
+         )
+    }
 
     return (
         <div className='needs-wrapper'>

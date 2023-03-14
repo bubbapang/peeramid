@@ -1,3 +1,5 @@
+import './Suggestions.css';
+
 export default function Suggestions() {
     return (
         <div className="suggestions-container">
