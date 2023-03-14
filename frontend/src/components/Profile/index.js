@@ -1,11 +1,24 @@
 import React, { useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import Chart from 'chart.js/auto';
 import './Profile.css';
 import PinnedSuggestions from '../PinnedSuggestions';
+// import 'animate.css';
 
 const Profile = () => {
+  const [bio, setBio] = useState('');
   const lineChartRef = useRef(null);
   const radarChartRef = useRef(null);
+
+  const handleBioChange = (event) => {
+    setBio(event.target.value);
+  };
+
+  const handleBioSubmit = (event) => {
+    event.preventDefault();
+    // do something with the bio, e.g. send it to the server
+  };
 
   useEffect(() => {
     if (lineChartRef.current !== null) {
@@ -108,15 +121,36 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
+        <div className="profile-header">
+            <h1 className="typed">Welcome Back Andre</h1>
+        </div>
+        
+        <div className="profile"> 
         <div className='left-side'>
             <i id="profile-icon" class="fas fa-user-circle"></i>
-            <div className='user-info-middle'>
-                <h2>First Name</h2>
-                <h2>Last Name</h2>
-                <h2>Username</h2>
+            <div className='user-info-left'>
+                <h2>Andre Hanna</h2>
+                <br></br>
                 <h2>Member Since: 2021</h2>
+                <br></br>
                 <h2>Days Logged: 10</h2>
             </div>
+
+            <div className='user-info-right'>
+                <button> Following </button>
+                <br></br>
+                <button> Followers </button>
+            </div>
+
+            {/* <div className="bio">
+                <h2>Bio</h2>
+                <form onSubmit={handleBioSubmit}>
+                    <input type="text" placeholder="Enter your bio here..." value={bio} onChange={handleBioChange}></input>
+                    <button type="submit">Submit</button>
+                </form>
+                {bio && <p id="bio" >{bio}</p>}
+            </div> */}
+            
 
             <div className="suggestions">
                 <PinnedSuggestions />
@@ -130,6 +164,8 @@ const Profile = () => {
       </div>
       
     </div>
+        </div>
+        
   );
 }
 

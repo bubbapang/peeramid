@@ -1,7 +1,8 @@
 .pinned-suggestions-container {
 
-    margin: 5px;
-    margin-left: 95%;
+    /* margin: 5px; */
+    margin-top: 5px;
+    margin-left: 70%;
     width: 500px;
     height: 90%;
     border: palevioletred solid 1px;
