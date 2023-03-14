@@ -1,14 +1,75 @@
+.container {
+    position: relative;
+    display: inline-block;
+}
+
 .need {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
-    height: 100%;
+    height: 100px;
     padding: 0 1rem;
     text-align: center;
-    color: #fff;
+    color: #ffffff;
     background: #000;
     border-radius: 0.5rem;
-    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+    /* box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5); */
+    transition: opacity 0.3s ease;
+}
+
+.need .middle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.buttons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden; /* Hide the parts of the buttons that extend beyond the container's rounded corners */
+    border-radius: 0.5rem;
+}
+
+.buttons button {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    height: 100%;
+    font-size: 2rem;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-weight: bold;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttons button:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+.buttons button:last-child {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+.container:hover .need {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.container:hover .buttons {
+    opacity: 1;
+    pointer-events: all;
 }
