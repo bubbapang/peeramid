@@ -11,6 +11,7 @@ export default function NavBar(props) {
 
     const logUserOut = () => {
         dispatch(logout())
+        window.location.href = '/';
     }
 
     return (
@@ -18,6 +19,7 @@ export default function NavBar(props) {
             <button onClick={() => handleButtonClick('Profile')}>Profile</button>
             <button onClick={() => handleButtonClick('Feed')}>Feed</button>
             <button onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
+            <button onClick={() => handleButtonClick('Rating')}>Rate your day</button>
             <button onClick={logUserOut}>Log Out</button>
         </div>
     )

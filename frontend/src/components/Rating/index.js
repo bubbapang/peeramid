@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import './Rating.css';
 // import { createRating } from '../../store/rating';
 // import { useState } from 'react';
 
@@ -46,7 +47,7 @@ export default function Rating () {
     }
 
     return (
-        <div>
+        <div className='rating-container'>
             <form className="rating-form">
                 <label>
                     <span>Transcendence</span>
