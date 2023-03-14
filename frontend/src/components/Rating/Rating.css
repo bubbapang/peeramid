@@ -1,21 +1,24 @@
 .needs-wrapper {
-    background-color: #282828;
+    background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/ocean+painting.jpg");
+    background-size: cover;
+
     width: 100vw;
     height: 100vh;
-    /* padding: 200px; */
 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
 }
 
 .needs {
-    background-color: #bbbbbb;
-    width: 1000px;
-    height: 500px;
+    /* background-color: transparent; */
+    width: 1400px;
+    height: 900px;
+    border-radius: 30px;
 
     font-size: 2rem;
+    font-family: "Monaco", "Courier New", monospace;
     font-weight: bold;
     text-align: center;
 
@@ -24,5 +27,51 @@
     justify-content: center;
     align-items: center;
 
+    padding: 0px;
+
     /* margin: 100px; */
+}
+
+button.info {
+    padding: 12px 24px;
+    font-size: 18px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+    background-color: #787878;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+button.submit {
+    padding: 12px 24px;
+    font-size: 18px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
+    background-color: #15D99B;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+button.info:hover, button.submit:hover {
+    background-color: #12488e;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+button.info:active, button.submit:active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
 }
