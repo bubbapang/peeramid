@@ -12,9 +12,31 @@ users.push(
     firstName: 'Madhur',
     lastName: 'Luthra',
     username: 'demo-user',
-    email: 'demo-user@appacademy.io',
+    email: 'madhur@user.io',
     hashedPassword: bcrypt.hashSync('starwars', 10)
-  })
+  }),
+    new User ({
+    firstName: 'andre',
+    lastName: 'hanna',
+    username: 'andre01',
+    email: 'andre@user.io',
+    hashedPassword: bcrypt.hashSync('password', 10)
+  }),
+  new User ({
+    firstName: 'adam',
+    lastName: 'pen',
+    username: 'adam01',
+    email: 'adam@user.io',
+    public: false,
+    hashedPassword: bcrypt.hashSync('password', 10)
+  }),
+  new User ({
+    firstName: 'jasmine',
+    lastName: 'kobata',
+    username: 'jasmine01',
+    email: 'jasmine@user.io',
+    hashedPassword: bcrypt.hashSync('password', 10)
+  }),
 )
 
 mongoose

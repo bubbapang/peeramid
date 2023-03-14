@@ -31,27 +31,84 @@
     height: 80vh;
     width: 80vw;
     /* background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/minimal+pyramid.jpg"); */
+    /* border: 1px solid red; */
     /* border-radius: 100px; */
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
+    background-color: transparent; /* set the background color to transparent */
 }
 
 .welcome-form {
     height: 100%;
     width: 100%;
-    background-color: #ffffff;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+    background-color: #242424;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    font-family: 'Monaco', 'Courier New', monospace;
+    color: #ffffff;
+    /* font-weight: ; */
+}
+
+#title {
+    /* increase size */
+    font-size: 4rem;
+    margin-bottom: 80px;
+}
+
+.welcome-form h2 {
+    /* increase size */
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.welcome-form label {
+    display: block; /* make the label a block element */
+    margin-bottom: 10px; /* add 10px of margin below the label */
+    /* increase size */
+    font-size: 1.5rem;
+}
+
+.welcome-form input {
+    display: block; /* make the input a block element */
+    margin-bottom: 20px; /* add 20px of margin below the input */
+    /* increase size */
+    font-size: 1.5rem;
+    border-radius: 10px;
+}
+
+.welcome-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    /* space them left and right in the box */
+    gap: 100px;
+}
+
+.profile-pic {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background-color: #191919;
+    background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/maslow+profile+pic.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 20px;
 }
 
 .welcome-image {
     height: 100%;
     width: 100%;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
     background-color: #191919;
     background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/minimal+pyramid.jpg");
     background-size: 600px 400px;
