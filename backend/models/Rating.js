@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const User = require('./user'); 
+const User = require('./User'); 
 
 const ratingSchema = new Schema({
     transcendance: {
@@ -43,7 +43,7 @@ const ratingSchema = new Schema({
         type: String,
         optional: true
     },
-    user_id: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: "User"
     }

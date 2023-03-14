@@ -101,4 +101,6 @@ router.post('/login', validateLoginInput ,async (req, res, next) => {
   })(req, res, next);
 });
 
+// router.post('/follow')
+
 module.exports = router;
