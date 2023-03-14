@@ -1,7 +1,7 @@
 {
-  "name": "mern-twitter",
+  "name": "Peeramid",
   "version": "1.0.0",
-  "description": "mern twitter by Peeramid group",
+  "description": "A self-check in app",
   "engines": {
     "node": "16.18.1"
   },
@@ -16,13 +16,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bubbapang/mern-twitter.git"
+    "url": "git+https://github.com/bubbapang/peeramid.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/bubbapang/mern-twitter/issues"
+    "url": "https://github.com/bubbapang/peeramid/issues"
   },
-  "homepage": "https://github.com/bubbapang/mern-twitter#readme"
+  "homepage": "https://github.com/bubbapang/peeramid#readme"
 }
