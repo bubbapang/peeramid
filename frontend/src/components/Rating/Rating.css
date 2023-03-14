@@ -1,0 +1,28 @@
+.needs-wrapper {
+    background-color: #282828;
+    width: 100vw;
+    height: 100vh;
+    /* padding: 200px; */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.needs {
+    background-color: #bbbbbb;
+    width: 1000px;
+    height: 500px;
+
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* margin: 100px; */
+}
