@@ -8,13 +8,14 @@ const csurf = require('csurf');
 const { isProduction } = require('./config/keys');
 
 require('./models/User');
+require('./models/Rating')
 require('./config/passport');
 const passport = require('passport');
 const usersRouter = require('./routes/api/users');
+const ratingsRouter = require('./routes/api/ratings');
 const csrfRouter = require('./routes/api/csrf');
 
 const app = express();
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -67,6 +68,7 @@ app.use(
 // Attach Express routers
 app.use('/api/users', usersRouter);
 app.use('/api/csrf', csrfRouter);
+app.use('/api/ratings', ratingsRouter)
 
 // Express custom middleware for catching all unmatched requests and formatting
 // a 404 error to be sent as the response.
