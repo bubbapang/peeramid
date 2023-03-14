@@ -40,12 +40,24 @@
     transition: all 0.3s ease-in-out;
 } */
 
-.user-info-middle {
+.user-info-left {
     border: green solid 1px;
     /* width: 100%; */
     height: fit-content;
     margin: 20px;
     color: aliceblue;
+}
+
+.user-info-right {
+    border: green solid 1px;
+    /* width: 100%; */
+    height: fit-content;
+    margin: 20px;
+    color: aliceblue;
+}
+
+.user-info-right button {
+   margin: 10px;
 }
     
 .left-side i {
@@ -61,6 +73,60 @@
     width: 97%;
     border-bottom-left-radius: 100px;
     border-top-left-radius: 100px;
+}
+#bio {
+    margin: 20px;
+    position: absolute;
+    color: aliceblue;
+    /* border: blue solid 1px; */
+    background-color: #222831;
+    border-bottom-left-radius: 100px;
+    border-top-left-radius: 100px;
+    flex-wrap: wrap;
+    /* add these properties */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 250px; /* set a maximum width for the element */
+  }
+ 
+.profile-header {
+  /* display: inline-block; */
+  /* border: #222831 solid 1px; */
+  font-family: "arial";
+  font-size: 14px;
+  margin: 5px;
+}
+
+.profile-header h1 {
+    color: #7c795d; 
+    font-family: 'Trocchi', serif;
+    font-size: 45px;
+  /* border: #222831 solid 1px; */
+
+    /* font-weight: normal; 
+    line-height: 48px; 
+    margin: 1px;  */
+}
+
+.typed {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    display: inline-block;
+    animation: typing 5.5s steps(300, end) forwards;
+  }
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.profile {
+    margin-top: 80px;
 }
 
 

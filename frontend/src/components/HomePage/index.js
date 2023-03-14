@@ -7,7 +7,7 @@ import Suggestions from '../Suggestions';
 import './HomePage.css';
 
 export default function HomePage() {
-    const [activeButton, setActiveButton] = useState('Profile');
+    const [activeButton, setActiveButton] = useState('Rating');
 
     const sendToHome = () => {
         window.location.href = '/';
