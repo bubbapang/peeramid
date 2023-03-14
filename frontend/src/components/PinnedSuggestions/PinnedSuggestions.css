@@ -1,0 +1,10 @@
+.pinned-suggestions-container {
+
+    margin: 5px;
+    margin-left: 95%;
+    width: 500px;
+    height: 90%;
+    border: palevioletred solid 1px;
+    border-radius: 3px;
+    background-color: #43445c;
+}

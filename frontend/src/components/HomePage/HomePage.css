@@ -1,10 +1,11 @@
 .home-page-container {
     display: flex;
-    
-    margin: 5%;
+    margin: auto;
+    margin-top: 3vh;
     border: 1px solid red;
-    width: 90vw;
-    height: 80vh;
+    
+    width: 98vw;
+    height: 94vh;
 }
 
 .home-page-container h1 {

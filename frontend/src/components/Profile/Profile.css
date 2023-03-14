@@ -1,0 +1,66 @@
+.profile-container {
+    border: rgb(55, 210, 20) solid 1px;
+    width: 100%;
+}
+
+.charts-container {
+    border: black solid 1px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 97%;
+    height: fit-content;
+    margin: 20px;
+}
+
+#lineChart {
+    max-width: 700px  !important;
+    height: 400px !important;
+    border: paleturquoise solid 1px;
+}
+
+#radarChart {   
+    max-width: 400px !important;
+    height: 400px !important;
+    border: paleturquoise solid 1px;
+}
+
+.charts-container canvas {
+    /* padding: 5px; */
+    width: 50%;
+    height: 50%;
+    margin: 10px;
+    
+    transform: translate3d(0, 0, 0);
+}
+/* 
+.charts-container canvas:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    transform: translate3d(0, -10px, 0);
+    transition: all 0.3s ease-in-out;
+} */
+
+.user-info-middle {
+    border: green solid 1px;
+    /* width: 100%; */
+    height: fit-content;
+    margin: 20px;
+    color: aliceblue;
+}
+    
+.left-side i {
+    font-size: 150px;
+    margin: 10px;
+}
+
+.left-side {
+    display: flex;
+    margin: 20px;
+    border: blue solid 1px;
+    background-color: #222831;
+    width: 97%;
+    border-bottom-left-radius: 100px;
+    border-top-left-radius: 100px;
+}
+
+

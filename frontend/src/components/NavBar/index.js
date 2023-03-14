@@ -1,35 +1,25 @@
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
 import './NavBar.css'
 
-export default function NavBar() {
+export default function NavBar(props) {
     const dispatch = useDispatch();
-    const currentUser = useSelector(state => state.session.user)
 
-    const sendToProfile = () => {
-        window.location.href = `/users/${currentUser.id}`
-    }
-
-    const sendToFeed = () => {
-        window.location.href = `/feed`
-    }
-
-    const sendToSuggestions = () => {
-        window.location.href = `/suggestions`
+    const handleButtonClick = (buttonName) => {
+        props.onButtonClick(buttonName);
     }
 
     const logUserOut = () => {
         dispatch(logout())
+        window.location.href = '/';
     }
-
-
 
     return (
         <div className="nav-bar-container">
-            <button onClick={sendToProfile}>Profile</button>
-            <button onClick={sendToFeed}>Feed</button>
-            <button onClick={sendToSuggestions}>Suggestions</button>
+            <button onClick={() => handleButtonClick('Profile')}>Profile</button>
+            <button onClick={() => handleButtonClick('Feed')}>Feed</button>
+            <button onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
+            <button onClick={() => handleButtonClick('Rating')}>Rate your day</button>
             <button onClick={logUserOut}>Log Out</button>
         </div>
     )
