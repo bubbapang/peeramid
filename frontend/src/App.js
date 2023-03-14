@@ -2,13 +2,14 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 // import session shit
 import { getCurrentUser } from './store/session';
 
 // import components
 import { AuthRoute } from './components/Routes/Routes';
-// import Welcome from './components/Welcome';
+import Welcome from './components/Welcome';
 
 //import Rating from './components/Rating';
 import Rating from './components/Rating';
@@ -23,8 +24,9 @@ function App() {
   return loaded && (
     <>
       <Switch>
-        {/* <Rating /> */}
-        <HomePage />
+        <Route exact path="/" component={Welcome} /> 
+        <Route exact path="/home" component={HomePage} />
+
         {/* <AuthRoute exact path="/" component={Welcome} /> */}
         {/* <ProtectedRoute exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/profile" component={Profile} />
