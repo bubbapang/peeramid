@@ -40,8 +40,6 @@ router.get('/' , async (req, res ) => {
     }
 });
 
-router.delete()
-
 // router.patch('/', function(req, res, next) {
     
 // })

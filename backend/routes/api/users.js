@@ -27,7 +27,7 @@ router.get('/current', restoreUser, (req, res) => {
   if (!req.user) return res.json(null);
   res.json({
     _id: req.user._id,
-    username: req.user.username,
+    // username: req.user.username,
     email: req.user.email
   });
 });
@@ -66,7 +66,12 @@ router.post('/register', validateRegisterInput ,async (req, res, next) => {
     username: req.body.username,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
-    email: req.body.email
+    email: req.body.email,
+    public: req.body.public,
+    following: req.body.following,
+    followers: req.body.followers,
+    followRequest: req.body.followRequest
+    
   });
 
   bcrypt.genSalt(10, (err, salt) => {
@@ -85,7 +90,7 @@ router.post('/register', validateRegisterInput ,async (req, res, next) => {
   });
 });
 
-router.post('/login', validateLoginInput ,async (req, res, next) => {
+router.post('/login', validateLoginInput, async (req, res, next) => {
   passport.authenticate('local', async function(err, user) {
     
 
@@ -101,6 +106,87 @@ router.post('/login', validateLoginInput ,async (req, res, next) => {
   })(req, res, next);
 });
 
-// router.post('/follow')
+router.post('/:id/follow', restoreUser, async (req, res, next) => {
+  const targetUser = await User.findById(req.params.id)
+  const currentUser = req.user;
+
+  try {
+    if (!targetUser) {
+      return res.status(404).json({message: 'User not found'});
+    }
+    if (!currentUser) {
+      return res.status(404).json({message: 'Current user not found'})
+    }
+    if (currentUser._id === targetUser._id) {
+      return res.status(404).json({message: 'Cannot follow self'})
+    }
+    if (currentUser.following.includes(req.params.id)) {
+      return res.status(400).json({message: `Already following this user`});
+    }
+    if (currentUser.followRequest.includes(req.params.id)) {
+      return res.status(400).json({message: `Already sent follow request`});
+    }
+    if (targetUser.public) {
+      await User.findOneAndUpdate(
+        { _id: currentUser._id },
+        { $push: {following: targetUser._id }}
+      );
+      await User.findOneAndUpdate(
+        { _id: targetUser._id },
+        { $push: {followers: currentUser._id }}
+      );
+       return res.status(200).json({message: 'User followed successfully'}); // Add this line;
+    } else {
+      await User.findOneAndUpdate(
+        { _id: targetUser._id },
+        { $push: {followRequest: currentUser._id }}
+      );
+       return res.status(200).json({message: 'Follow request sent'}); // Add this line
+    }
+  } catch (err) {
+    return next(err)
+  }
+});
+
+router.post('/approve/:id', restoreUser, async(req, res, next) => {
+  const requesterUser = await User.findById(req.params.id) //user who sent request
+  const currentUser = req.user; //user approving request
+  
+  try {
+    if (!requesterUser) {
+      return res.status(404).json({message:'User not found' })
+    }
+    if (!currentUser) {
+      return res.status(404).json({message: 'Current user not found'})
+    }
+    if (!currentUser.followRequest.includes(requesterUser._id)) {
+      return res.status(400).json({message: `No request to approve ${requesterUser.followRequest}`})
+    }
+    // currentUser is approving
+    await User.findByIdAndUpdate(currentUser._id, {
+      $push: { followers: requesterUser._id },
+      $pull: { followRequest: requesterUser._id}
+    });
+    
+    // requesterUser is requesting to follow
+    await User.findByIdAndUpdate(requesterUser._id, {
+      $push: { following: currentUser._id }
+    })
+    return res.status(200).json({message: 'Follow request approved'})
+  } catch (err) {
+    return next(err)
+  }
+  
+})
+
+router.delete('/delete/:id', restoreUser, async(req, res, next) => {
+    const targetUser = await User.findById(req.params.id);
+    const currentUser = req.user;
+    try {
+      
+    } catch (err) {
+      return next(err)
+    }
+} )
 
 module.exports = router;

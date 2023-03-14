@@ -34,11 +34,7 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
-  requestSent: [{
-    type:Schema.Types.ObjectId,
-    ref: 'User'
-  }],
-  pendingApproval: [{
+  followRequest: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
   }]
