@@ -1,13 +1,13 @@
 import React, { useRef, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import Chart from 'chart.js/auto';
 import './Profile.css';
-import PinnedSuggestions from './Pin/Pin';
+import Pin from './Pin';
 // import 'animate.css';
 
-const Profile = () => {
-  const [bio, setBio] = useState('');
+export default function Profile () {
+  const [bio, setBio] = useState('this is my bio');
   const lineChartRef = useRef(null);
   const radarChartRef = useRef(null);
 
@@ -142,18 +142,18 @@ const Profile = () => {
                 <button> Followers </button>
             </div>
 
-            {/* <div className="bio">
+            <div className="bio">
                 <h2>Bio</h2>
                 <form onSubmit={handleBioSubmit}>
                     <input type="text" placeholder="Enter your bio here..." value={bio} onChange={handleBioChange}></input>
                     <button type="submit">Submit</button>
                 </form>
                 {bio && <p id="bio" >{bio}</p>}
-            </div> */}
+            </div>
             
 
             <div className="suggestions">
-                <PinnedSuggestions />
+                <Pin />
             </div>
         </div>  
         
@@ -168,5 +168,3 @@ const Profile = () => {
         
   );
 }
-
-export default Profile;

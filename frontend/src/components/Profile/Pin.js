@@ -1,6 +1,6 @@
-import './PinnedSuggestions.css';
+import './Pin.css';
 
-export default function PinnedSuggestions() {
+export default function Pin() {
     // const pinnedSuggestions = useSelector(state => state.pinnedSuggestions); to add later
 
     return (
