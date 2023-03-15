@@ -10,7 +10,7 @@ export default function Feed() {
             user: {
                 id: 1,
                 username: "user1",
-                profilePic: "https://i.imgur.com/3XQX5Z0.jpg"
+                profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
             },
             ratings: {
                 physiological: 5,
@@ -21,15 +21,31 @@ export default function Feed() {
                 aesthetics: 5,
                 actualization: 4,
                 transcendence: 3,
+            }     
+        }, {
+            user: {
+                id: 2,
+                username: "user2",
+                profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+            },
+            ratings: {
+                physiological: 5,
+                safety: 4,
+                love: 3,
+                esteem: 2,
+                cognitition: 1,
+                aesthetics: 5,  
+                actualization: 4,
+                transcendence: 3,
             }
         }
     ]
     return (
         <div className="feed-container">
+            <h1>Feed</h1>
             {posts.map(post => 
                 <FeedItem post={post} />
             )}
-            <h1>Feed</h1>
         </div>
     )
 }
