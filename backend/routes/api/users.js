@@ -3,8 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
+const Rating = mongoose.model('Rating')
 const passport = require('passport');
-const { loginUser, restoreUser } = require('../../config/passport');
+const Suggestion = mongoose.model('Suggestion');
+const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
@@ -201,6 +203,35 @@ router.delete('/delete/:id', restoreUser, async(req, res, next) => {
     } catch (err) {
       return next(err)
     }
-} )
+});
+
+router.get('/:id/ratings', async(req, res, next) => {
+  const visitedUser = await User.findById(req.params.id);
+
+  try {
+      const ratings = await Rating.find({ user: visitedUser._id})
+                                  .populate("user", "_id")
+      if (!ratings) {
+          return res.status(404).json({message: 'Rating not found'})
+      }
+      return res.json(ratings);
+  } catch(err) {
+      next(err)
+  }
+});
+
+router.get("/:id/suggestions", requireUser, async (req, res, next) => {
+  try {
+      const suggestions = await Suggestion.find({user: req.params.id });
+
+      if (!suggestions) {
+          return res.status(404).json({message: 'Suggestion not found'});
+      }
+      return res.json(suggestions);
+
+  } catch(err) {
+      next(err)
+  }
+});
 
 module.exports = router;
