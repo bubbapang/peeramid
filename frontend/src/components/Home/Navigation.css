@@ -1,29 +1,54 @@
 .nav-bar-container {
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    /* height: 10vh; */
-    /* width: 100vw; */
-    background-color: #f5f5f5;
-    border-bottom: 1px solid #e0e0e0;
-    
-   
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 20px;
+    background-color: #3c3c3c;
+    border-bottom: 1px solid #2b2b2b;
 }
 
 .nav-bar-container button {
-    /* font-size: 1.5rem; */
-    border: red solid 1px;
     font-weight: 600;
-    color: #757575;
+    color: #ffffff;
     cursor: pointer;
     outline: none;
     margin: 5px;
+    padding: 5px 10px;
+    border: none;
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
 }
 
-.nav-bar-container button:last-child {
-    border: blue solid 1px;
-    background-color: #757575;
-    color: white;
+.nav-bar-container .today {
+    background-color: green;
+}
+
+.nav-bar-container button:hover {
+    background-color: #4e4e4e;
+}
+
+.profile-icon img {
+    border-radius: 50%;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    margin: 0 10px;
+}
+
+.search-input {
+    width: 60%;
+    padding: 5px 10px;
+    border: 1px solid #757575;
     border-radius: 3px;
-}   
+    outline: none;
+}
