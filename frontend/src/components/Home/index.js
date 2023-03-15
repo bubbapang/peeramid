@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import NavBar from '../NavBar';
+import NavBar from './Navigation/Navigation';
 import Profile from '../Profile';
 import Feed from '../Feed';
 import Rating from '../Rating';
-import Suggestions from '../Suggestions';
+import Suggestions from '../Suggestion';
 import './HomePage.css';
 
 export default function HomePage() {

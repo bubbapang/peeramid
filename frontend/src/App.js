@@ -10,7 +10,7 @@ import { getCurrentUser } from './store/session';
 // import components
 import Welcome from './components/Welcome';
 import Rating from './components/Rating';
-import HomePage from './components/HomePage';
+import HomePage from './components/Home';
 
 function App() {
   const [loaded, setLoaded] = useState(false);

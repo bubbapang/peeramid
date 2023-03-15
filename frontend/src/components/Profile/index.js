@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import Chart from 'chart.js/auto';
 import './Profile.css';
-import PinnedSuggestions from '../PinnedSuggestions';
+import PinnedSuggestions from './Pin/Pin';
 // import 'animate.css';
 
 const Profile = () => {
