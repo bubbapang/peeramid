@@ -165,6 +165,86 @@ const posts = [
             actualization: 4,
             transcendence: 3,
         }
+    }, {
+        user: {
+            id: 11,
+            username: "user11",
+            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+        },
+        ratings: {
+            physiological: 1,
+            safety: 4,
+            love: 9,
+            esteem: 6,
+            cognitition: 5,
+            aesthetics: 8,  
+            actualization: 7,
+            transcendence: 6,
+        }
+    }, {
+        user: {
+            id: 12,
+            username: "user12",
+            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+        },
+        ratings: {
+            physiological: 1,
+            safety: 4,
+            love: 9,
+            esteem: 6,
+            cognitition: 5,
+            aesthetics: 8,  
+            actualization: 7,
+            transcendence: 6,
+        }
+    }, {
+        user: {
+            id: 13,
+            username: "user13",
+            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+        },
+        ratings: {
+            physiological: 1,
+            safety: 4,
+            love: 9,
+            esteem: 6,
+            cognitition: 5,
+            aesthetics: 8,  
+            actualization: 7,
+            transcendence: 6,
+        }
+    }, {
+        user: {
+            id: 14,
+            username: "user14",
+            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+        },
+        ratings: {
+            physiological: 1,
+            safety: 4,
+            love: 9,
+            esteem: 6,
+            cognitition: 5,
+            aesthetics: 8,  
+            actualization: 7,
+            transcendence: 6,
+        }
+    }, {
+        user: {
+            id: 15,
+            username: "user15",
+            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+        },
+        ratings: {
+            physiological: 1,
+            safety: 4,
+            love: 9,
+            esteem: 6,
+            cognitition: 5,
+            aesthetics: 8,  
+            actualization: 7,
+            transcendence: 6,
+        }
     }
 ]
 
