@@ -110,9 +110,38 @@ router.get("/:id/suggestions", async (req, res, next) => {
         }
         return res.json(suggestions);
 
-    } catch(err) {
+    }
+    catch(err) {
         next(err)
     }
 });
+
+// IDEA IMPLEMENTATION OF UPDATE RATING
+// router.put('/:id', requireUser, async (req, res, next) => {
+//     const currentUser = req.user;
+//     const ratingId = req.params.id;
+//     const updatedData = req.body;
+
+//     try {
+//         const rating = await Rating.findById(ratingId);
+
+//         if (!rating) {
+//             return res.status(404).json({ message: 'Rating not found' });
+//         }
+
+//         if (rating.user.toString() !== currentUser._id.toString()) {
+//             return res.status(403).json({ message: 'Not Authorized' });
+//         }
+
+//         // Update the rating document with the new data
+
+//         Object.assign(rating, updatedData);
+
+//         await rating.save();
+//         return res.status(200).json(rating);
+//     } catch (err) {
+//         next(err);
+//     }
+// });
 
 module.exports = router
