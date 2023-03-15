@@ -18,10 +18,11 @@
   
   .feed-container {
     /* Adjust the height according to your needs */
-    max-height: 91vh;
+    max-height: 100%;
     width: 100%;
     /* Add scrolling */
     overflow-y: auto;
+    background-color: #4c4955;
   
     /* Set custom scrollbar variables */
     --scroll-size: 15px;
@@ -32,5 +33,6 @@
     /* Hide scrollbar for Firefox, IE, and Edge */
     scrollbar-width: none; /* Firefox */
     -ms-overflow-style: none; /* IE and Edge */
+    
   }
   
