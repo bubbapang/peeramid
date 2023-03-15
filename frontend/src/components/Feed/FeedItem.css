@@ -81,7 +81,6 @@
     border: rgb(103, 126, 146) solid 2px;
 }
 
-
 .form-drawer {
     position: fixed;
     top: 0;
@@ -91,16 +90,17 @@
     background-color: #fff;
     padding: 20px;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Added opacity to the transition */
     z-index: 1000;
-
+  
     transform: translateX(100%);
-    transition: transform 0.3s ease-in-out;
-
+    opacity: 0; /* Set the initial opacity to 0 */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Added opacity to the transition */
   }
-
+  
   .form-drawer.visible {
     transform: translateX(0%);
+    opacity: 1; /* Set the opacity to 1 when the form-drawer is visible */
   }
   
   .close-button {
@@ -109,4 +109,4 @@
     font-size: 1.5rem;
     cursor: pointer;
   }
-
+  

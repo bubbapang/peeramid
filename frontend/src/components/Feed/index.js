@@ -190,16 +190,19 @@ export default function Feed() {
 
   // Add an event listener for scrolling
   useEffect(() => {
+    
     const handleScroll = () => {
-      if (!containerRef.current) {
-        return;
-      }
-      const { scrollTop, clientHeight, scrollHeight } = containerRef.current;
-      if (scrollHeight - scrollTop === clientHeight) {
-        loadMorePosts();
-        console.log('scroll')
-      }
-    };
+        if (!containerRef.current) {
+          return;
+        }
+        const { scrollTop, clientHeight, scrollHeight } = containerRef.current;
+        const isBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
+      
+        if (isBottom) {
+          loadMorePosts();
+        }
+      };
+
     if (containerRef.current) {
         console.log('scroll')
       containerRef.current.addEventListener('scroll', handleScroll);
