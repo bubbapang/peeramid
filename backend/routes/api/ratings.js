@@ -60,16 +60,22 @@ router.get('/following', requireUser, async(req, res, next) => {
     }
 });
 
-
-
-// router.patch('/', function(req, res, next) {
-    
-// })
-
-// get all ratings
-
-// router.get('/:follewerId/')
-
-// router.get('/:userId/ratings')
+router.delete('/:id', requireUser, async(req, res, next) => {
+    const currentUser = req.user;
+    const ratingId = req.params.id
+    try {
+        const rating = await Rating.findById(ratingId)
+        if (rating.user.toString() !== currentUser._id.toString()) {
+            return res.status(404).json({message: 'Not Authorized'})
+        }
+        if (!rating) {
+            return res.status(404).json({ message: 'Rating not found' })
+        }
+        await Rating.findByIdAndDelete(ratingId)
+        return res.status(200).json({ message: 'Rating deleted' });
+    } catch(err) {
+        next(err)
+    }    
+});
 
 module.exports = router

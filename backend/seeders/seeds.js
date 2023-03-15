@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { mongoURI: db } = require('../config/keys.js');
 const User = require('../models/User');
 const Rating = require('../models/Rating')
+const Suggestion = require("../models/Suggestion")
 const bcrypt = require('bcryptjs');
 const { faker } = require('@faker-js/faker');
 
@@ -94,6 +95,8 @@ ratings.push(
     user: "6410f061b5f29b490a72aed7",
   }),
 )
+
+
 
 
 mongoose
