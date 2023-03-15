@@ -6,7 +6,7 @@ const User = mongoose.model('User');
 const Rating = mongoose.model('Rating');
 const Suggestion = mongoose.model('Suggestion')
 
-
+// Delete a suggestion
 router.delete("/:id", requireUser, async(req, res, next) => {
     const currentUser = req.user;
     const suggestionId = req.params.id
@@ -26,6 +26,7 @@ router.delete("/:id", requireUser, async(req, res, next) => {
     }    
 });
 
+// Get all public suggestions under a certain category
 router.get("/:categoryTag", async (req, res, next) => {
     try {
         const suggestions = await Suggestion.find({categoryTag: req.params.categoryTag })
@@ -53,6 +54,7 @@ router.get("/:categoryTag", async (req, res, next) => {
     }
 })
 
+// Update a suggestion
 router.put("/:id", requireUser, async (req, res, next) => {
     const currentUser = req.user;
     const suggestionId = req.params.id;
@@ -83,7 +85,8 @@ router.put("/:id", requireUser, async (req, res, next) => {
     }
 });
 
-router.post("/:id/likes", requireUser, async (req, res, next) => {
+// Like a suggestion
+router.post("/:id/like", requireUser, async (req, res, next) => {
     const currentUser = req.user;
     const suggestionId = req.params.id
     try {
@@ -91,6 +94,23 @@ router.post("/:id/likes", requireUser, async (req, res, next) => {
         if (!currentUser) {
             return res.status(404).json({message: 'Current user not found'})
         }
+        // Check if user has already liked the suggestion
+        if (currentUser.likes.includes(suggestionId)) {
+            // Remove the dislike
+            return res.status(404).json({message: 'Cannot like more than once'})
+        }
+
+        // Check if the user has already disliked the suggestion
+        if (currentUser.dislikes.includes(suggestionId)) {
+          // Remove the dislike
+            await User.findByIdAndUpdate(currentUser._id, {
+                $pull: { dislikes: suggestionId },
+            });
+            await Suggestion.findByIdAndUpdate(suggestionId, {
+                $pull: { dislikes: currentUser._id },
+            });
+        }
+
         await User.findOneAndUpdate(
             { _id: currentUser._id },
             { $push: { likes: suggestionId }}
@@ -105,7 +125,8 @@ router.post("/:id/likes", requireUser, async (req, res, next) => {
     }
 });
 
-router.post("/:id/dislikes", requireUser, async (req, res, next) => {
+// Dislike a suggestion
+router.post("/:id/dislike", requireUser, async (req, res, next) => {
     const currentUser = req.user;
     const suggestionId = req.params.id
     try {
@@ -113,6 +134,23 @@ router.post("/:id/dislikes", requireUser, async (req, res, next) => {
         if (!currentUser) {
             return res.status(404).json({message: 'Current user not found'})
         }
+        // Check if user has already disliked the suggestion
+        if (currentUser.dislikes.includes(suggestionId)) {
+            // Remove the dislike
+            return res.status(404).json({message: 'Cannot dislike more than once'})
+        }
+
+        // Check if the user has already liked the suggestion
+        if (currentUser.likes.includes(suggestionId)) {
+          // Remove the dislike
+            await User.findByIdAndUpdate(currentUser._id, {
+                $pull: { likes: suggestionId },
+            });
+            await Suggestion.findByIdAndUpdate(suggestionId, {
+                $pull: { likes: currentUser._id },
+            });
+        }
+
         await User.findOneAndUpdate(
             { _id: currentUser._id },
             { $push: { dislikes: suggestionId }}
@@ -127,7 +165,8 @@ router.post("/:id/dislikes", requireUser, async (req, res, next) => {
     }
 });
 
-router.delete("/:id/likes", requireUser, async (req, res, next) => {
+// Remove like on a suggestion
+router.delete("/:id/like", requireUser, async (req, res, next) => {
     const currentUser = req.user;
     const suggestionId = req.params.id;
     try {
@@ -148,7 +187,8 @@ router.delete("/:id/likes", requireUser, async (req, res, next) => {
     }
 });
 
-router.delete("/:id/dislikes", requireUser, async (req, res, next) => {
+// Remove dislike on a suggestion
+router.delete("/:id/dislike", requireUser, async (req, res, next) => {
     const currentUser = req.user;
     const suggestionId = req.params.id;
     try {
@@ -168,7 +208,6 @@ router.delete("/:id/dislikes", requireUser, async (req, res, next) => {
         next(err);
     }
 });
-
 
 
 
