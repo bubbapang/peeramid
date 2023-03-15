@@ -27,6 +27,7 @@
   "homepage": "https://github.com/bubbapang/peeramid#readme",
   "dependencies": {
     "chart.js": "^4.2.1",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "react-chartjs-2": "^5.2.0"
   }
 }

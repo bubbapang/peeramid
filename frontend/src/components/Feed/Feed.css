@@ -1,8 +1,36 @@
-.feed-container{
-    width: 100%;
-    border: purple solid 1px;
-}
 
 .feed-container h1 {
     margin: 5px;
 }
+
+/* Add custom scrollbar styles */
+.feed-container::-webkit-scrollbar {
+    width: var(--scroll-size);
+    height: var(--scroll-size);
+    border-radius: var(--scroll-radius);
+    background-color: var(--scroll-track);
+  }
+  
+  .feed-container::-webkit-scrollbar-thumb {
+    background-image: var(--scroll-thumb);
+    border-radius: var(--scroll-radius);
+  }
+  
+  .feed-container {
+    /* Adjust the height according to your needs */
+    max-height: 91vh;
+    width: 100%;
+    /* Add scrolling */
+    overflow-y: auto;
+  
+    /* Set custom scrollbar variables */
+    --scroll-size: 15px;
+    --scroll-radius: 20px;
+    --scroll-track: rgb(255, 255, 255, 0.1);
+    --scroll-thumb: linear-gradient(45deg, #00aeff, #a68eff);
+  
+    /* Hide scrollbar for Firefox, IE, and Edge */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
