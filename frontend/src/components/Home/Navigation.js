@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { logout } from "../../store/session";
+import { logout } from "../../../store/session";
 import './NavBar.css'
 
 export default function NavBar(props) {
