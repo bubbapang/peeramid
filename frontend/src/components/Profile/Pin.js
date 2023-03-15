@@ -1,16 +1,21 @@
+import React from 'react';
+import PinItem from './PinItem';
 import './Pin.css';
 
 export default function Pin() {
-    // const pinnedSuggestions = useSelector(state => state.pinnedSuggestions); to add later
+    const pinnedSuggestions = [
+        { body: 'You should transcend more' },
+        { body: 'I worked out last week, it helped me!' },
+        { body: 'You should meditate more' },
+        { body: 'You should eat more vegetables' },
+    ]
 
     return (
-        <div className="pinned-suggestions-container">
-            <h1>These are your pinned suggestions</h1>
+        <div className="pins">
             {
-                // pinnedSuggestions.map(suggestion =>
-                //     <PinnedSuggestionsIndexItem suggestion={suggestion} />
-                // )
-
+                pinnedSuggestions.map((suggestion, idx) =>
+                    <PinItem key={idx} suggestion={suggestion[idx]} />
+                )
             }
         </div>
     )

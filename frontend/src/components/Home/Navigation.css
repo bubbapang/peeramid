@@ -3,14 +3,16 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0 20px;
+    height: 5%;
+    /* position: fixed; */
+    /* top: 0; */
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    /* padding: 0 20px; */
     background-color: #3c3c3c;
     border-bottom: 1px solid #2b2b2b;
-    z-index: 1000;
+    position: relative;
+    z-index: 2;
 }
 
 .nav-bar-container button {
@@ -18,7 +20,7 @@
     color: #ffffff;
     cursor: pointer;
     outline: none;
-    margin: 5px;
+    /* margin: 5px; */
     padding: 5px 10px;
     border: none;
     background-color: transparent;
@@ -43,7 +45,7 @@
     align-items: center;
     justify-content: center;
     flex-grow: 1;
-    margin: 0 10px;
+    /* margin: 0 10px; */
 }
 
 .search-input {

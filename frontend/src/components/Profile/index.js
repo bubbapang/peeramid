@@ -1,170 +1,132 @@
-import React, { useRef, useEffect } from 'react';
-// import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import Chart from 'chart.js/auto';
+import React, { useEffect, useState } from 'react';
+import { Line, Radar } from 'react-chartjs-2';
 import './Profile.css';
 import Pin from './Pin';
-// import 'animate.css';
 
-export default function Profile () {
+export default function Profile() {
   const [bio, setBio] = useState('this is my bio');
-  const lineChartRef = useRef(null);
-  const radarChartRef = useRef(null);
+  const [lineData, setLineData] = useState({
+    labels: [],
+    datasets: [],
+  });
+  const [radarData, setRadarData] = useState({
+    labels: [],
+    datasets: [],
+  });
+  const [lineOptions, setLineOptions] = useState({});
+  const [radarOptions, setRadarOptions] = useState({});
 
-  const handleBioChange = (event) => {
-    setBio(event.target.value);
-  };
+  // Handle bio change and submit
+  // const handleBioChange = (event) => {
+  //   setBio(event.target.value);
+  // };
 
-  const handleBioSubmit = (event) => {
-    event.preventDefault();
-    // do something with the bio, e.g. send it to the server
-  };
+  // const handleBioSubmit = (event) => {
+  //   event.preventDefault();
+  //   // Do something with the bio, e.g. send it to the server
+  // };
 
+  // Set up chart data and options
   useEffect(() => {
-    if (lineChartRef.current !== null) {
-      lineChartRef.current.destroy();
-    }
-    const lineChartCanvas = document.getElementById('lineChart');
-    const lineChartConfig = {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        datasets: [
-            {
-              label: 'Physiology',
-              data: [55, 99, 80, 81, 76, 85, 40, 55, 99, 80, 81, 76],
-              fill: false,
-              borderColor: 'rgb(75, 192, 192)',
-              tension: 0.1
-            },
-            {
-              label: 'Safety',
-              data: [30, 40, 45, 50, 55, 60, 65, 30, 40, 45, 50, 55],
-              fill: false,
-              borderColor: 'rgb(55, 159, 64)',
-              tension: 0.1
-            },
-            {
-              label: 'Love',
-              data: [70, 65, 60, 55, 50, 45, 40, 70, 65, 60, 55, 50],
-              fill: false,
-              borderColor: 'rgb(155, 97, 12)',
-              tension: 0.1
-            },
-            {
-              label: 'Esteem',
-              data: [30, 55, 70, 35, 90, 55, 70, 30, 55, 70, 35, 90],
-              fill: false,
-              borderColor: 'rgb(215, 39, 32)',
-              tension: 0.1
-            },
-            {
-              label: 'Cognition',
-              data: [70, 65, 60, 55, 50, 45, 40, 70, 65, 60, 55, 50],
-              fill: false,
-              borderColor: 'rgb(25, 99, 12)',
-              tension: 0.1
-            },
-            {
-              label: 'Aesthetic',
-              data: [70, 65, 60, 55, 50, 45, 40, 70, 65, 60, 55, 50],
-              fill: false,
-              borderColor: 'rgb(20, 49, 32)',
-              tension: 0.1
-            },
-            {
-              label: 'Self-Actualization',
-              data: [70, 65, 60, 55, 50, 45, 40, 70, 65, 60, 55, 50],
-              fill: false,
-              borderColor: 'rgb(0, 99, 13)',
-              tension: 0.1
-            },
-            {
-              label: 'Transcendence',
-              data: [70, 65, 60, 55, 50, 45, 40, 70, 65, 60, 55, 50],
-              fill: false,
-              borderColor: 'rgb(65, 93, 32)',
-              tension: 0.1
-            }
-          ]
-
-        
-      },
-      options: {}
+    const lineChartData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label: 'My First Dataset',
+          data: [65, 59, 80, 81, 56, 55, 40],
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1,
+        },
+      ],
     };
-    lineChartRef.current = new Chart(lineChartCanvas, lineChartConfig);
+    
 
-    if (radarChartRef.current !== null) {
-      radarChartRef.current.destroy();
-    }
-    const radarChartCanvas = document.getElementById('radarChart');
-    const radarChartConfig = {
-      type: 'radar',
-      data: {
-        labels: ['Physiology', 'Safety', 'Love', 'Esteem', 'Cognitive', 'Aesthetic', 'Self-Actualization', 'Transcendence'],
-        datasets: [{
-          label: 'Avg Ratings',
-          data: [85, 69, 90, 81, 86, 75, 80, 72],
+    const lineChartOptions = {
+      // Your existing options
+    };
+
+    const radarChartData = {
+      labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+      datasets: [
+        {
+          label: 'My First Dataset',
+          data: [65, 59, 90, 81, 56, 55, 40],
           fill: true,
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgb(255, 99, 132)',
-          pointBackgroundColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgb(75, 192, 192)',
+          pointBackgroundColor: 'rgb(75, 192, 192)',
           pointBorderColor: '#fff',
           pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(255, 99, 132)'
-        }]
-      },
-      options: {}
+          pointHoverBorderColor: 'rgb(75, 192, 192)',
+        },
+      ],
     };
-    radarChartRef.current = new Chart(radarChartCanvas, radarChartConfig);
+
+    const radarChartOptions = {
+      // Your existing radar options
+    };
+
+    setLineData(lineChartData);
+    setLineOptions(lineChartOptions);
+    setRadarData(radarChartData);
+    setRadarOptions(radarChartOptions);
+
   }, []);
 
   return (
-    <div className="profile-container">
-        <div className="profile-header">
-            <h1 className="typed">Welcome Back Andre</h1>
+    // Profile Page
+    <div className="profile-page">
+
+      {/* Top */}
+      <div className="top">
+
+        {/* Info box */}
+        <div className="info-box">
+          {/* Profile Icon */}
+          <i id="profile-icon" className="fas fa-user-circle"></i>
+
+          {/* Username */}
+          <div className="username-layer">
+            <h2 className="username">andre_hanna</h2>
+          </div>
+
+          {/* Ratings, Followers, Following */}
+          <div className="stats-layer">
+            <div className="stat-item">
+              <span className="stat-value">123</span>
+              <span className="stat-label">Ratings</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">456</span>
+              <span className="stat-label">Followers</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-value">789</span>
+              <span className="stat-label">Following</span>
+            </div>
+          </div>
+
+          {/* Bio */}
+          <div className="bio-layer">
+            <p>{bio}</p>
+          </div>
         </div>
-        
-        <div className="profile"> 
-        <div className='left-side'>
-            <i id="profile-icon" class="fas fa-user-circle"></i>
-            <div className='user-info-left'>
-                <h2>Andre Hanna</h2>
-                <br></br>
-                <h2>Member Since: 2021</h2>
-                <br></br>
-                <h2>Days Logged: 10</h2>
-            </div>
-
-            <div className='user-info-right'>
-                <button> Following </button>
-                <br></br>
-                <button> Followers </button>
-            </div>
-
-            <div className="bio">
-                <h2>Bio</h2>
-                <form onSubmit={handleBioSubmit}>
-                    <input type="text" placeholder="Enter your bio here..." value={bio} onChange={handleBioChange}></input>
-                    <button type="submit">Submit</button>
-                </form>
-                {bio && <p id="bio" >{bio}</p>}
-            </div>
-            
-
-            <div className="suggestions">
-                <Pin />
-            </div>
-        </div>  
-        
-      <div className="charts-container">
-        
-        <canvas id="lineChart"></canvas>
-        <canvas id="radarChart"></canvas>
       </div>
-      
-    </div>
+
+      {/* Bottom */}
+      <div className="bottom">
+        {/* Charts */}
+        <div className='charts-container'>
+          <Line data={lineData} options={lineOptions} />
+          <Radar data={radarData} options={radarOptions} />
         </div>
-        
+          {/* Suggestions */}
+          <div className="suggestions">
+            <Pin />
+          </div>
+      </div>
+
+    </div>
   );
 }

@@ -1,15 +1,15 @@
 .home-page-container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
-    /* border: 1px solid red; */ /* Commented out or remove this line to hide the red border */
+    justify-content: flex-start;
+    /* width: 100vw;
+    height: 100vh; */
+    z-index: 0;
+    overflow-y: hidden; /* Prevent horizontal scrolling */
 }
 
-/* .home-page-container:first-child {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+/* .home-page-container > * {
+    margin: 10px;
+    
 } */
