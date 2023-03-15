@@ -116,32 +116,43 @@ router.get("/:id/suggestions", async (req, res, next) => {
     }
 });
 
-// IDEA IMPLEMENTATION OF UPDATE RATING
-// router.put('/:id', requireUser, async (req, res, next) => {
-//     const currentUser = req.user;
-//     const ratingId = req.params.id;
-//     const updatedData = req.body;
 
-//     try {
-//         const rating = await Rating.findById(ratingId);
+function isSameDay(timestamp) {
+    const date1 = new Date(timestamp);
+    const date2 = new Date();
+    return  date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate();
+}
 
-//         if (!rating) {
-//             return res.status(404).json({ message: 'Rating not found' });
-//         }
 
-//         if (rating.user.toString() !== currentUser._id.toString()) {
-//             return res.status(403).json({ message: 'Not Authorized' });
-//         }
+router.put('/:id', requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const ratingId = req.params.id;
+    const updatedData = req.body;
 
-//         // Update the rating document with the new data
+    try {
+        const rating = await Rating.findById(ratingId);
 
-//         Object.assign(rating, updatedData);
+        if (!rating) {
+            return res.status(404).json({ message: 'Rating not found' });
+        }
 
-//         await rating.save();
-//         return res.status(200).json(rating);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+        if (rating.user.toString() !== currentUser._id.toString()) {
+            return res.status(403).json({ message: 'Not Authorized' });
+        }
+
+        if (!isSameDay(rating.createdAt)) {
+            return res.status(403).json({ message: 'Cannot edit - Too much time passed' });
+        }
+
+        Object.assign(rating, updatedData);
+
+        await rating.save();
+        return res.status(200).json(rating);
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router

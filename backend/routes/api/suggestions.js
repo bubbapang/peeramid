@@ -28,73 +28,147 @@ router.delete("/:id", requireUser, async(req, res, next) => {
 
 router.get("/:categoryTag", async (req, res, next) => {
     try {
-        const suggestions = await Suggestion.find({categoryTag: req.params.categoryTag });
-//ONLY RETURN SUGGESTIONS IF BOTH POSTER AND COMMENTER ARE BOTH PUBLIC
-//FIX THIS TOMORROW
-        if (!suggestions) {
+        const suggestions = await Suggestion.find({categoryTag: req.params.categoryTag })
+                                            .populate('user', '_id public')
+                                            .populate({
+                                                path: 'dayRating',
+                                                populate: {
+                                                    path: 'user',
+                                                    model: 'User',
+                                                    select: '_id public'
+                                                }
+                                            })
+
+        const publicSuggestions = suggestions.filter(suggestion => {
+            return suggestion.user.public && suggestion.dayRating.user.public
+        })
+
+        if (!publicSuggestions) {
             return res.status(404).json({message: 'Suggestion not found'});
         }
-        return res.json(suggestions);
+        return res.json(publicSuggestions);
 
     } catch(err) {
         next(err)
     }
 })
 
-// THIS IS AN IDEA IMPLEMENTATION OF FILTERING OUT THE SUGGESTIONS AND GETTING THE ONES WHERE BOTH USERS ARE PUBLIC
-// router.get("/:categoryTag", async (req, res, next) => {
-//     try {
-//         const categoryTag = req.params.categoryTag;
-//         const suggestions = await Suggestion.find({ categoryTag: categoryTag })
-//                                              .populate('user', )
-//                                              .populate
-        
-//         const publicSuggestions = suggestions.filter(suggestion => {
-//             const posterIsPublic = suggestion.user.public;
-//             const commenterIsPublic = suggestion.dayRating.user.public;
-//             return posterIsPublic && commenterIsPublic;
-//         });
+router.put("/:id", requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const suggestionId = req.params.id;
+    const updatedData = req.body;
 
-//         if (!publicSuggestions.length) {
-//             return res.status(404).json({ message: "Suggestion not found" });
-//         }
-//         return res.json(publicSuggestions);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+    try {
+        let suggestion = await Suggestion.findById(suggestionId);
 
-// IDEA IMPLEMENTATION OF UPDATE SUGGESTION
+        if (!suggestion) {
+            return res.status(404).json({ message: "Suggestion not found" });
+        }
 
-// router.put("/:id", requireUser, async (req, res, next) => {
-// const currentUser = req.user;
-// const suggestionId = req.params.id;
-// const updatedData = req.body;
+        if (suggestion.user.toString() !== currentUser._id.toString()) {
+            return res.status(403).json({ message: "Not Authorized" });
+        }
 
-// try {
-//     let suggestion = await Suggestion.findById(suggestionId);
+        Object.assign(suggestion, updatedData);
+        await suggestion.save();
 
-//     if (!suggestion) {
-//     return res.status(404).json({ message: "Suggestion not found" });
-//     }
+        suggestion = await Suggestion.populate(suggestion, [
+        { path: "dayRating", select: "_id" },
+        { path: "user", select: "_id username" },
+        ]);
 
-//     if (suggestion.user.toString() !== currentUser._id.toString()) {
-//     return res.status(403).json({ message: "Not Authorized" });
-//     }
+        return res.json(suggestion);
+    } catch (err) {
+        next(err);
+    }
+});
 
-//     Object.assign(suggestion, updatedData);
-//     await suggestion.save();
+router.post("/:id/likes", requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const suggestionId = req.params.id
+    try {
+        // return res.status(400).json({message: `${suggestionId}`})
+        if (!currentUser) {
+            return res.status(404).json({message: 'Current user not found'})
+        }
+        await User.findOneAndUpdate(
+            { _id: currentUser._id },
+            { $push: { likes: suggestionId }}
+        )
+        await Suggestion.findOneAndUpdate(
+            { _id: suggestionId },
+            { $push: { likes: currentUser._id }}
+        )
+        return res.status(200).json({message: "Liked successfully"})
+    } catch (err) {
+        next(err);
+    }
+});
 
-//     suggestion = await Suggestion.populate(suggestion, [
-//     { path: "dayRating", select: "_id" },
-//     { path: "user", select: "_id username" },
-//     ]);
+router.post("/:id/dislikes", requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const suggestionId = req.params.id
+    try {
+        // return res.status(400).json({message: `${suggestionId}`})
+        if (!currentUser) {
+            return res.status(404).json({message: 'Current user not found'})
+        }
+        await User.findOneAndUpdate(
+            { _id: currentUser._id },
+            { $push: { dislikes: suggestionId }}
+        )
+        await Suggestion.findOneAndUpdate(
+            { _id: suggestionId },
+            { $push: { dislikes: currentUser._id }}
+        )
+        return res.status(200).json({message: "Disliked successfully"})
+    } catch (err) {
+        next(err);
+    }
+});
 
-//     return res.json(suggestion);
-// } catch (err) {
-//     next(err);
-// }
-// });
+router.delete("/:id/likes", requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const suggestionId = req.params.id;
+    try {
+        if (!currentUser) {
+            return res.status(404).json({message: 'Current user not found'});
+        }
+        await User.findOneAndUpdate(
+            { _id: currentUser._id },
+            { $pull: { likes: suggestionId }} 
+        );
+        await Suggestion.findOneAndUpdate(
+            { _id: suggestionId },
+            { $pull: { likes: currentUser._id }} 
+        );
+        return res.status(200).json({message: "Unliked successfully"}); 
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.delete("/:id/dislikes", requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const suggestionId = req.params.id;
+    try {
+        if (!currentUser) {
+            return res.status(404).json({message: 'Current user not found'});
+        }
+        await User.findOneAndUpdate(
+            { _id: currentUser._id },
+            { $pull: { dislikes: suggestionId }} 
+        );
+        await Suggestion.findOneAndUpdate(
+            { _id: suggestionId },
+            { $pull: { dislikes: currentUser._id }} 
+        );
+        return res.status(200).json({message: "Undisliked successfully"}); 
+    } catch (err) {
+        next(err);
+    }
+});
+
 
 
 
