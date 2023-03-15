@@ -41,7 +41,7 @@ const ratingSchema = new Schema({
     },
     lowlights: {
         type: String,
-        optional: true
+h        optional: true
     },
     user: {
         type: Schema.Types.ObjectId,
