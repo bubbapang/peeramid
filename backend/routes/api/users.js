@@ -18,11 +18,9 @@ router.get('/', function(req, res, next) {
   });
 });
 
+
 router.get('/current', restoreUser, (req, res) => {
   if (!isProduction) {
-    // In development, allow React server to gain access to the CSRF token
-    // whenever the current user information is first loaded into the
-    // React application
     const csrfToken = req.csrfToken();
     res.cookie("CSRF-TOKEN", csrfToken);
   }
@@ -92,6 +90,7 @@ router.post('/register', validateRegisterInput ,async (req, res, next) => {
   });
 });
 
+// TO LOGIN THE USER
 router.post('/login', validateLoginInput, async (req, res, next) => {
   passport.authenticate('local', async function(err, user) {
     
@@ -108,6 +107,14 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
   })(req, res, next);
 });
 
+router.delete('/logout', (req, res) => {
+  req.logout(() => {
+      res.json({ message: 'You have successfully logged out' });
+  });
+});
+
+
+// CREATES A FOLLOWING FOR PUBLIC AND SENDS A REQ IF THE USER RECEIVING THE REQUEST IS PRIVATE
 router.post('/:id/follow', restoreUser, async (req, res, next) => {
   const targetUser = await User.findById(req.params.id)
   const currentUser = req.user;
@@ -150,6 +157,7 @@ router.post('/:id/follow', restoreUser, async (req, res, next) => {
   }
 });
 
+// FOR PRIVATE USERS, ACCEPTS THE FOLLOW REQUEST
 router.post('/approve/:id', restoreUser, async(req, res, next) => {
   const requesterUser = await User.findById(req.params.id) //user who sent request
   const currentUser = req.user; //user approving request
@@ -181,6 +189,7 @@ router.post('/approve/:id', restoreUser, async(req, res, next) => {
   
 })
 
+// FOR PRIVATE USERS, DELETES THE FOLLOW REQUEST
 router.delete('/delete/:id', restoreUser, async(req, res, next) => {
     const requesterUser= await User.findById(req.params.id);
     const currentUser = req.user;
@@ -205,6 +214,7 @@ router.delete('/delete/:id', restoreUser, async(req, res, next) => {
     }
 });
 
+// GET USERS RATINGS
 router.get('/:id/ratings', async(req, res, next) => {
   const visitedUser = await User.findById(req.params.id);
 
@@ -220,6 +230,7 @@ router.get('/:id/ratings', async(req, res, next) => {
   }
 });
 
+// GET SUGGESTIONS USER MADE
 router.get("/:id/suggestions", requireUser, async (req, res, next) => {
   try {
       const suggestions = await Suggestion.find({user: req.params.id });
@@ -236,6 +247,7 @@ router.get("/:id/suggestions", requireUser, async (req, res, next) => {
 
 // implemented seach query for users, here regex means regular expression helps in pattern matching, options helps in making the query case-insensitive
 // So, we find teh users by the options, and select the fields we need and return them
+// SEARCH FOR USERS
 router.get('/search', async (req, res, next) => {
   const searchQuery = req.query.q;
   try {
@@ -252,5 +264,71 @@ router.get('/search', async (req, res, next) => {
   }
 });
 
+// GET LIKES BY THE USER
+router.get('/:id/likes', async(req, res, next) => {
+  const currentUser = req.user;
+  try {
+      const user = await User.findById(req.params.id)
+                                  .populate('likes')
+      if (!user) {
+          return res.status(404).json({message: 'User not found'})
+      }
+
+      const visibleLikes = [];
+
+      for (const like of user.likes) {
+        const suggestion = await Suggestion.findById(like._id)
+                                .populate('user', '_id public');
+        const author = suggestion.user;
+        if (author.public || (currentUser && currentUser.following.includes(author._id))) {
+          visibleLikes.push(like);
+        }
+      }
+
+      return res.json(visibleLikes);
+  } catch(err) {
+      next(err)
+  }
+});
+
+// GET DISLIKES BY THE USER
+router.get('/dislikes', requireUser, async(req, res, next) => {
+  try {
+      const currentUser = await User.findById(req.user._id)
+                                  .populate('dislikes')
+      if (!currentUser) {
+          return res.status(404).json({message: 'Current user not found'})
+      }
+      return res.json(currentUser.dislikes);
+  } catch(err) {
+      next(err)
+  }
+});
+
+// GET PINS BY THE USER
+router.get('/:id/pins', async(req, res, next) => {
+  const currentUser = req.user;
+  try {
+      const user = await User.findById(req.params.id)
+                                  .populate('pins')
+      if (!user) {
+          return res.status(404).json({message: 'User not found'})
+      }
+      const visiblePins = [];
+
+      for (const pin of user.pins) {
+        const suggestion = await Suggestion.findById(pin._id)
+                                .populate('user', '_id public');
+        const author = suggestion.user;
+        if (author.public || (currentUser && currentUser.following.includes(author._id))) {
+          visiblePins.push(pin);
+        }
+      }
+
+      return res.json(visiblePins);
+  } catch(err) {
+      next(err)
+  }
+});
 
 module.exports = router;

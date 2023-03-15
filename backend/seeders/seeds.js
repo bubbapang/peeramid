@@ -6,6 +6,13 @@ const Suggestion = require("../models/Suggestion")
 const bcrypt = require('bcryptjs');
 const { ObjectId } = require('mongoose').Types;
 
+
+function generatePastDate(daysAgo) {
+  const date = new Date();
+  date.setDate(date.getDate() - daysAgo);
+  return date.toISOString();
+}
+
 const user1Id = new ObjectId();
 const user2Id = new ObjectId();
 const user3Id = new ObjectId();
@@ -56,6 +63,8 @@ users.push(
     lastName: 'kobata',
     username: 'jasmine01',
     email: 'jasmine@user.io',
+    likes: [suggestion1Id, suggestion2Id, suggestion3Id],
+    pins: [suggestion1Id, suggestion2Id, suggestion3Id],
     hashedPassword: bcrypt.hashSync('password', 10)
   }),
 )
@@ -103,7 +112,8 @@ ratings.push(
     lowlights: "yes sir",
     user: user3Id
   }),
-  new Rating ({
+  )
+const rating4 = new Rating ({
     _id: rating4Id,
     transcendance: 10,
     actualization: 6,
@@ -115,38 +125,41 @@ ratings.push(
     physiological: 4,
     highlights: "great stuff",
     lowlights: "yes sir",
-    user: user4Id,
-  }),
-)
+    user: user4Id
+  });
+const pastDate = generatePastDate(3);
+rating4.createdAt = pastDate;
+rating4.updatedAt = pastDate;
+
+  ratings.push(rating4)
 
 suggestions.push(
   new Suggestion({
     _id: suggestion1Id,
     body: "keep on building on your needs you did great",
     categoryTag: "aesthetics",
-    likes: "2",
-    dislikes: "15",
-    dayRating: user2Id,
-    user:user2Id
+    dayRating: rating2Id,
+    pins: [user4Id],
+    likes: [user4Id],
+    user:user1Id
   }),
 
   new Suggestion({
     _id: suggestion2Id,
     body: "your rating can go higher if you practice meditation, really helped for me.",
     categoryTag: "transcendance",
-    likes: "7",
-    dislikes: "1",
     dayRating: rating2Id,
-    user:user2Id
+    pins: [user4Id],
+    likes: [user4Id],
+    user:user4Id
   }),
   new Suggestion({
     _id: suggestion3Id,
     body: "since you have the same focus on knowledge, reading books is a great start",
     categoryTag: "knowledge",
-    likes: "4",
-    dislikes: "5",
     dayRating: rating3Id,
-    user: user4Id
+    likes: [user4Id],
+    user: user3Id
   })
 )
 

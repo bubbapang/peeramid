@@ -6,21 +6,28 @@ const User = mongoose.model('User');
 const Suggestion = mongoose.model('Suggestion')
 const { requireUser } = require('../../config/passport');
 
-/*
-create ratings
-edit ratings
-delete ratings
-get ALL ratings
-get followed ratings
-get user ratings
-*/
 
+function isSameDay(timestamp) {
+    const date1 = new Date(timestamp);
+    const date2 = new Date();
+    return  date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate();
+}
+
+// Create new rating
 router.post('/', requireUser, async (req, res, next) => {
     try {
         const newRating = new Rating( {
             ...req.body,
             user: req.user._id
         });
+        const ratings = await Rating.find({user: req.user._id})
+        const samedayRating = ratings.filter(rating => isSameDay(rating.createdAt))
+        if (samedayRating.length > 0) {
+            return res.status(404).json({message: 'Cannot rate twice in one day'});
+        }
+
         let rating = await newRating.save();
         rating = await rating.populate('user', '_id username');
         return res.json(rating);
@@ -30,6 +37,7 @@ router.post('/', requireUser, async (req, res, next) => {
     }
 });
 
+// Get all public ratings
 router.get('/public', async (req, res, next ) => {
     const publicUsers = await User.find({public: true }, '_id ');
     const publicUserIds = publicUsers.map((user) => user._id )
@@ -46,6 +54,7 @@ router.get('/public', async (req, res, next ) => {
     }
 });
 
+// Get ratings of users you're following
 router.get('/following', requireUser, async(req, res, next) => {
     const currentUser = req.user;
     const followingUserIds = currentUser.following
@@ -61,6 +70,7 @@ router.get('/following', requireUser, async(req, res, next) => {
     }
 });
 
+// Delete a rating
 router.delete('/:id', requireUser, async(req, res, next) => {
     const currentUser = req.user;
     const ratingId = req.params.id
@@ -79,6 +89,7 @@ router.delete('/:id', requireUser, async(req, res, next) => {
     }    
 });
 
+// Post a suggestion to a rating
 router.post("/:id/suggestions", requireUser, async (req, res, next) => {
     try {
         const newSuggestion = new Suggestion( {
@@ -101,6 +112,7 @@ router.post("/:id/suggestions", requireUser, async (req, res, next) => {
     }
 });
 
+// Get all suggestions for a rating
 router.get("/:id/suggestions", async (req, res, next) => {
     try {
         const suggestions = await Suggestion.find({dayRating: req.params.id });
@@ -116,32 +128,34 @@ router.get("/:id/suggestions", async (req, res, next) => {
     }
 });
 
-// IDEA IMPLEMENTATION OF UPDATE RATING
-// router.put('/:id', requireUser, async (req, res, next) => {
-//     const currentUser = req.user;
-//     const ratingId = req.params.id;
-//     const updatedData = req.body;
+// Update a rating
+router.put('/:id', requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const ratingId = req.params.id;
+    const updatedData = req.body;
 
-//     try {
-//         const rating = await Rating.findById(ratingId);
+    try {
+        const rating = await Rating.findById(ratingId);
 
-//         if (!rating) {
-//             return res.status(404).json({ message: 'Rating not found' });
-//         }
+        if (!rating) {
+            return res.status(404).json({ message: 'Rating not found' });
+        }
 
-//         if (rating.user.toString() !== currentUser._id.toString()) {
-//             return res.status(403).json({ message: 'Not Authorized' });
-//         }
+        if (rating.user.toString() !== currentUser._id.toString()) {
+            return res.status(403).json({ message: 'Not Authorized' });
+        }
 
-//         // Update the rating document with the new data
+        if (!isSameDay(rating.createdAt)) {
+            return res.status(403).json({ message: 'Cannot edit - Too much time passed' });
+        }
 
-//         Object.assign(rating, updatedData);
+        Object.assign(rating, updatedData);
 
-//         await rating.save();
-//         return res.status(200).json(rating);
-//     } catch (err) {
-//         next(err);
-//     }
-// });
+        await rating.save();
+        return res.status(200).json(rating);
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router

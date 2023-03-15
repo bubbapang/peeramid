@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Suggestion = require('./Suggestion'); 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -26,6 +27,21 @@ const userSchema = new Schema({
     type: Boolean,
     default: true
   },
+  pins: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Suggestion',
+    optional: true
+    }],
+  likes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Suggestion',
+    optional: true
+  }],
+  dislikes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Suggestion',
+    optional: true
+  }],
   following: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
