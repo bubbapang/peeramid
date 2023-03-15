@@ -3,24 +3,35 @@ import './FeedItem.css';
   import Chart from 'chart.js/auto';
   import { useState } from 'react';
 
-  function FormDrawer({ onClose, visible }) {
+  function FormDrawer({ onClose, visible, closing, post }) {
     return (
-      <div className={`form-drawer${visible ? ' visible' : ''}`}>
+      <div className={`form-drawer${visible ? ' visible' : ''}${closing ? ' closing' : ''}`}>
         <button className="close-button" onClick={onClose}>
           Close
         </button>
         {/* Your form content goes here */}
-        <h2>Form Content</h2>
+        <h2>{post.user.username}</h2>
       </div>
     );
   }
   
 
   export default function FeedItem({ post }) {
+    const [formDrawerClosing, setFormDrawerClosing] = useState(false);
     const chartRef = useRef(null);
     const [formDrawerVisible, setFormDrawerVisible] = useState(false);
    
     const [activeDiv, setActiveDiv] = useState(null);
+
+    
+  const closeFormDrawer = () => {
+    setFormDrawerClosing(true);
+    setTimeout(() => {
+      setFormDrawerVisible(false);
+      setFormDrawerClosing(false);
+    }, 300); // Match the duration of the CSS transition
+  };
+
 
     const toggleFormDrawer = (divName) => {
       if (divName !== activeDiv) {
@@ -136,7 +147,7 @@ import './FeedItem.css';
               <h3> {post.user.username}'s lowlight today was:  </h3>
             </div>
           </div>
-          {formDrawerVisible && <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} />}
+          <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} post={post} />
       </div>
     );
   }
