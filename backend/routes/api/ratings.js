@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Rating = mongoose.model('Rating');
 const User = mongoose.model('User');
+const Suggestion = mongoose.model('Suggestion')
 const { requireUser } = require('../../config/passport');
 
 /*
@@ -76,6 +77,42 @@ router.delete('/:id', requireUser, async(req, res, next) => {
     } catch(err) {
         next(err)
     }    
+});
+
+router.post("/:id/suggestions", requireUser, async (req, res, next) => {
+    try {
+        const newSuggestion = new Suggestion( {
+            ...req.body,
+            dayRating: req.params.id,
+            user: req.user._id
+        });
+        let suggestion = await newSuggestion.save();
+        if (!suggestion) {
+            return res.status(404).json({message: `Suggestion not created`});
+        }
+        suggestion = await Suggestion.populate(
+            suggestion, [
+            { path: 'dayRating', select: '_id' },
+            { path: 'user', select: '_id username' },
+            ])
+        return res.json(suggestion);
+    } catch(err) {
+        next(err);
+    }
+});
+
+router.get("/:id/suggestions", async (req, res, next) => {
+    try {
+        const suggestions = await Suggestion.find({dayRating: req.params.id });
+
+        if (!suggestions) {
+            return res.status(404).json({message: 'Suggestion not found'});
+        }
+        return res.json(suggestions);
+
+    } catch(err) {
+        next(err)
+    }
 });
 
 module.exports = router

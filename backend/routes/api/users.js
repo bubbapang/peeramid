@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 const Rating = mongoose.model('Rating')
 const passport = require('passport');
-const { loginUser, restoreUser } = require('../../config/passport');
+const Suggestion = mongoose.model('Suggestion');
+const { loginUser, restoreUser, requireUser } = require('../../config/passport');
 const { isProduction } = require('../../config/keys');
 const validateRegisterInput = require('../../validations/register');
 const validateLoginInput = require('../../validations/login');
@@ -219,5 +220,18 @@ router.get('/:id/ratings', async(req, res, next) => {
   }
 });
 
+router.get("/:id/suggestions", requireUser, async (req, res, next) => {
+  try {
+      const suggestions = await Suggestion.find({user: req.params.id });
+
+      if (!suggestions) {
+          return res.status(404).json({message: 'Suggestion not found'});
+      }
+      return res.json(suggestions);
+
+  } catch(err) {
+      next(err)
+  }
+});
 
 module.exports = router;

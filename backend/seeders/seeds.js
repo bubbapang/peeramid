@@ -8,6 +8,7 @@ const { faker } = require('@faker-js/faker');
 
 const users = [];
 const ratings = [];
+const suggestions = [];
 
 users.push(
   new User ({
@@ -96,7 +97,33 @@ ratings.push(
   }),
 )
 
+suggestions.push(
+  new Suggestion({
+    body: "keep on building on your needs you did great",
+    categoryTag: "aesthetics",
+    likes: "2",
+    dislikes: "15",
+    dayRating: "641127ded8332854163f7f04",
+    user: "6410f061b5f29b490a72aed4"
+  }),
 
+  new Suggestion({
+    body: "your rating can go higher if you practice meditation, really helped for me.",
+    categoryTag: "transcendance",
+    likes: "7",
+    dislikes: "1",
+    dayRating: "641127ded8332854163f7f04",
+    user: "6410f061b5f29b490a72aed4"
+  }),
+  new Suggestion({
+    body: "since you have the same focus on knowledge, reading books is a great start",
+    categoryTag: "knowledge",
+    likes: "4",
+    dislikes: "5",
+    dayRating: "641127ded8332854163f7f04",
+    user: "6410f061b5f29b490a72aed5"
+  })
+)
 
 
 mongoose
@@ -113,8 +140,11 @@ mongoose
   const insertSeeds = () => {
   console.log("Resetting db and seeding users...");
 
-  Rating.collection.drop()
-                    .then(() => Rating.insertMany(ratings))
+  // Rating.collection.drop()
+  //                   .then(() => Rating.insertMany(ratings))
+
+  Suggestion.collection.drop()
+                    .then(() => Suggestion.insertMany(suggestions))
                     .then(() => {
                       console.log("Done!");
                       mongoose.disconnect();
