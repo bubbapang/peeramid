@@ -1,4 +1,5 @@
 import './Feed.css';
+import FeedItem from './FeedItem';
 
 export default function Feed() {
     // const ratings = useSelector(state => state.ratings); to add later
@@ -25,9 +26,9 @@ export default function Feed() {
     ]
     return (
         <div className="feed-container">
-            {/* {posts.map(post => 
-                <FeedIndexItem post={post} />
-            )} */}
+            {posts.map(post => 
+                <FeedItem post={post} />
+            )}
             <h1>Feed</h1>
         </div>
     )

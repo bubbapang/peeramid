@@ -1,8 +1,8 @@
-import './Suggestions.css';
+import './Suggestion.css';
 
-export default function Suggestions() {
+export default function Suggestion() {
     return (
-        <div className="suggestions-container">
+        <div className="suggestion-container">
             <h1>Suggestions</h1>
         </div>
     )

@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
-import { logout } from "../../../store/session";
-import './NavBar.css'
+import { logout } from "../../store/session";
+import './Navigation.css'
 
-export default function NavBar(props) {
+export default function Navigation(props) {
     const dispatch = useDispatch();
 
     const handleButtonClick = (buttonName) => {
