@@ -23,6 +23,11 @@ dislikes: [{
     ref: 'User',
     optional: true
     }],
+pins: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    optional: true
+    }],
 dayRating: {
     type: Schema.Types.ObjectId,
     ref: "Rating"

@@ -27,6 +27,11 @@ const userSchema = new Schema({
     type: Boolean,
     default: true
   },
+  pins: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Suggestion',
+    optional: true
+    }],
   likes: [{
     type: Schema.Types.ObjectId,
     ref: 'Suggestion',

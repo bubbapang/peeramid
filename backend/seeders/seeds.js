@@ -5,7 +5,7 @@ const Rating = require('../models/Rating')
 const Suggestion = require("../models/Suggestion")
 const bcrypt = require('bcryptjs');
 const { ObjectId } = require('mongoose').Types;
-const { faker } = require('@faker-js/faker')
+
 
 function generatePastDate(daysAgo) {
   const date = new Date();
@@ -63,6 +63,8 @@ users.push(
     lastName: 'kobata',
     username: 'jasmine01',
     email: 'jasmine@user.io',
+    likes: [suggestion1Id, suggestion2Id, suggestion3Id],
+    pins: [suggestion1Id, suggestion2Id, suggestion3Id],
     hashedPassword: bcrypt.hashSync('password', 10)
   }),
 )
@@ -125,7 +127,7 @@ const rating4 = new Rating ({
     lowlights: "yes sir",
     user: user4Id
   });
-const pastDate = generatePastDate(3); // 3 days ago
+const pastDate = generatePastDate(3);
 rating4.createdAt = pastDate;
 rating4.updatedAt = pastDate;
 
@@ -137,6 +139,8 @@ suggestions.push(
     body: "keep on building on your needs you did great",
     categoryTag: "aesthetics",
     dayRating: rating2Id,
+    pins: [user4Id],
+    likes: [user4Id],
     user:user1Id
   }),
 
@@ -145,6 +149,8 @@ suggestions.push(
     body: "your rating can go higher if you practice meditation, really helped for me.",
     categoryTag: "transcendance",
     dayRating: rating2Id,
+    pins: [user4Id],
+    likes: [user4Id],
     user:user4Id
   }),
   new Suggestion({
@@ -152,7 +158,8 @@ suggestions.push(
     body: "since you have the same focus on knowledge, reading books is a great start",
     categoryTag: "knowledge",
     dayRating: rating3Id,
-    user: user2Id
+    likes: [user4Id],
+    user: user3Id
   })
 )
 

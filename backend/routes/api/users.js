@@ -107,6 +107,13 @@ router.post('/login', validateLoginInput, async (req, res, next) => {
   })(req, res, next);
 });
 
+router.delete('/logout', (req, res) => {
+  req.logout(() => {
+      res.json({ message: 'You have successfully logged out' });
+  });
+});
+
+
 // CREATES A FOLLOWING FOR PUBLIC AND SENDS A REQ IF THE USER RECEIVING THE REQUEST IS PRIVATE
 router.post('/:id/follow', restoreUser, async (req, res, next) => {
   const targetUser = await User.findById(req.params.id)
@@ -258,20 +265,34 @@ router.get('/search', async (req, res, next) => {
 });
 
 // GET LIKES BY THE USER
-router.get('/like', requireUser, async(req, res, next) => {
+router.get('/:id/likes', async(req, res, next) => {
+  const currentUser = req.user;
   try {
-      const currentUser = await User.findById(req.user._id)
+      const user = await User.findById(req.params.id)
                                   .populate('likes')
-      if (!currentUser) {
-          return res.status(404).json({message: 'Current user not found'})
+      if (!user) {
+          return res.status(404).json({message: 'User not found'})
       }
-      return res.json(currentUser.likes);
+
+      const visibleLikes = [];
+
+      for (const like of user.likes) {
+        const suggestion = await Suggestion.findById(like._id)
+                                .populate('user', '_id public');
+        const author = suggestion.user;
+        if (author.public || (currentUser && currentUser.following.includes(author._id))) {
+          visibleLikes.push(like);
+        }
+      }
+
+      return res.json(visibleLikes);
   } catch(err) {
       next(err)
   }
 });
+
 // GET DISLIKES BY THE USER
-router.get('/dislike', requireUser, async(req, res, next) => {
+router.get('/dislikes', requireUser, async(req, res, next) => {
   try {
       const currentUser = await User.findById(req.user._id)
                                   .populate('dislikes')
@@ -279,6 +300,32 @@ router.get('/dislike', requireUser, async(req, res, next) => {
           return res.status(404).json({message: 'Current user not found'})
       }
       return res.json(currentUser.dislikes);
+  } catch(err) {
+      next(err)
+  }
+});
+
+// GET PINS BY THE USER
+router.get('/:id/pins', async(req, res, next) => {
+  const currentUser = req.user;
+  try {
+      const user = await User.findById(req.params.id)
+                                  .populate('pins')
+      if (!user) {
+          return res.status(404).json({message: 'User not found'})
+      }
+      const visiblePins = [];
+
+      for (const pin of user.pins) {
+        const suggestion = await Suggestion.findById(pin._id)
+                                .populate('user', '_id public');
+        const author = suggestion.user;
+        if (author.public || (currentUser && currentUser.following.includes(author._id))) {
+          visiblePins.push(pin);
+        }
+      }
+
+      return res.json(visiblePins);
   } catch(err) {
       next(err)
   }

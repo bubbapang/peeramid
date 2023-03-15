@@ -209,6 +209,55 @@ router.delete("/:id/dislike", requireUser, async (req, res, next) => {
     }
 });
 
+// Pin a suggestion
+router.post("/:id/pin", requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const suggestionId = req.params.id
+    try {
+        // return res.status(400).json({message: `${suggestionId}`})
+        if (!currentUser) {
+            return res.status(404).json({message: 'Current user not found'})
+        }
+        // Check if user has already liked the suggestion
+        if (currentUser.pins.includes(suggestionId)) {
+            // Remove the dislike
+            return res.status(404).json({message: 'Cannot pin more than once'})
+        }
 
+        await User.findOneAndUpdate(
+            { _id: currentUser._id },
+            { $push: { pins: suggestionId }}
+        )
+        await Suggestion.findOneAndUpdate(
+            { _id: suggestionId },
+            { $push: { pins: currentUser._id }}
+        )
+        return res.status(200).json({message: "Pinned successfully"})
+    } catch (err) {
+        next(err);
+    }
+});
+
+// Remove pin on a suggestion
+router.delete("/:id/pin", requireUser, async (req, res, next) => {
+    const currentUser = req.user;
+    const suggestionId = req.params.id;
+    try {
+        if (!currentUser) {
+            return res.status(404).json({message: 'Current user not found'});
+        }
+        await User.findOneAndUpdate(
+            { _id: currentUser._id },
+            { $pull: { pins: suggestionId }} 
+        );
+        await Suggestion.findOneAndUpdate(
+            { _id: suggestionId },
+            { $pull: { pins: currentUser._id }} 
+        );
+        return res.status(200).json({message: "Unpinned successfully"}); 
+    } catch (err) {
+        next(err);
+    }
+});
 
 module.exports = router
