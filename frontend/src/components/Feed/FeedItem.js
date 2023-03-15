@@ -1,4 +1,4 @@
-  import './FeedItem.css';
+import './FeedItem.css';
   import { useRef, useEffect } from 'react';
   import Chart from 'chart.js/auto';
   import { useState } from 'react';
@@ -121,18 +121,22 @@
           <canvas className="chart" id={`chart-${post.user.id}`}></canvas>
         </div>
           <div className='lights-container'>
-            <div className="highlight" onClick={() => toggleFormDrawer('highlight')} >
+            <div
+          className="highlight"
+          onClick={() => toggleFormDrawer('highlight')}
+        >
               <h3> {post.user.username}'s highlight today was:  </h3>
             </div>
 
-            <div className="lowlight" onClick={() => toggleFormDrawer('lowlight')} >
+            <div
+          className="lowlight"
+          onClick={() => toggleFormDrawer('lowlight')}
+        >
               {/* add conditional here to check if there was a lowlight */}
               <h3> {post.user.username}'s lowlight today was:  </h3>
             </div>
           </div>
-          <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} />
-
+          {formDrawerVisible && <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} />}
       </div>
     );
   }
-
