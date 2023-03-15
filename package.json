@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/bubbapang/mern-twitter/issues"
   },
-  "homepage": "https://github.com/bubbapang/mern-twitter#readme"
+  "homepage": "https://github.com/bubbapang/mern-twitter#readme",
+  "dependencies": {
+    "mongo": "^0.1.0"
+  }
 }
