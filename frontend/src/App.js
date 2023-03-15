@@ -9,7 +9,7 @@ import { getCurrentUser } from './store/session';
 
 // import components
 import Welcome from './components/Welcome';
-import Rating from './components/Rating';
+// import Rating from './components/Rating';
 import Home from './components/Home';
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
     <>
       <Switch>
         <Route exact path="/" component={Welcome} />
-        <Route exact path="/rating" component={Rating} />
+        {/* <Route exact path="/rating" component={Rating} /> */}
         <Route exact path="/home" component={Home} />
 
         {/* <AuthRoute exact path="/" component={Welcome} /> */}

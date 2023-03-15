@@ -1,7 +1,10 @@
-export default function PinItem() {
+import React from "react"
+import "./PinItem.css"
+
+export default function PinItem({suggestion}) {
     return (
-        <div className="pinned-suggestions-index-item-container">
-            <h1>You should transcend more</h1>
+        <div className="pinItem">
+            <h1>{suggestion}</h1>
         </div>
     )
 }

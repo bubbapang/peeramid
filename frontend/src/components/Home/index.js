@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import Navigation from './Navigation.js';
 import Profile from '../Profile';
