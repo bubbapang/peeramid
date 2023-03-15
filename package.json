@@ -1,12 +1,11 @@
 {
-  "name": "Peeramid",
+  "name": "peeramid",
   "version": "1.0.0",
   "description": "A self-check in app",
   "engines": {
-    "node": "16.18.1"
+    "node": "16.19.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "backend-install": "npm install --prefix backend",
     "backend": "npm run dev --prefix backend",
     "frontend-install": "npm install --prefix frontend",
