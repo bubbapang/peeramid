@@ -46,7 +46,7 @@ router.get("/:categoryTag", async (req, res, next) => {
 //     try {
 //         const categoryTag = req.params.categoryTag;
 //         const suggestions = await Suggestion.find({ categoryTag: categoryTag })
-//                                              .populate('user ')
+//                                              .populate('user', )
 //                                              .populate
         
 //         const publicSuggestions = suggestions.filter(suggestion => {
