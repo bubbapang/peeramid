@@ -1,4 +1,4 @@
-.suggestion-item {
+.sugg-item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -15,7 +15,7 @@
     margin: 15px;
     position: relative;
   }
-.suggestion-item-content {
+.sugg-item-content {
     display: flex;
     flex-direction: column; /* Change this to column */
     justify-content: space-between;
@@ -24,13 +24,13 @@
     padding: 10px; /* Add some padding */
   }
   
-  .suggestion-item .emoji {
+  .sugg-item .emoji {
     font-size: 20px;
     margin-top: 15px;
 
   }
   
-  .suggestion-item h1 {
+  .sugg-item h1 {
     color: white;
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
@@ -41,7 +41,7 @@
     left: 10px;
   }
   
-  .suggestion-body {
+  .sugg-body {
     color: white;
     font-family: 'Roboto', sans-serif;
     font-size: 15px;
@@ -55,7 +55,7 @@
     padding-top: 15px;
   }
   
-  .buttons-part {
+  .buttons-parts {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -86,13 +86,13 @@ button:focus {
     outline: none;
 }
 
-.username-emoji-container {
+.user-emoji-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .suggestion-item:hover {
+  .sugg-item:hover {
     transform: translateY(-5px);
     box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.40); /* Increase the intensity and size of the shadow */
   }

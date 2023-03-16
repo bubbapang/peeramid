@@ -1,95 +1,88 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import './Feed.css';
 import FeedItem from './FeedItem';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-const placeholderImg = "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/";
+const placeholderImg = <FontAwesomeIcon icon={faUser} size="2x" />; // Placeholder image for posts
+const needs = ['Physiology', 'Safety', 'Love', 'Esteem', 'Cognition', 'Aesthetics', 'Actualization', 'Transcendence'];
 
-const posts = [
-  // Add posts data here
-    {
-        user: {
-            id: 1,
-            username: 'user1',
-            profilePic: placeholderImg
-        },
-        ratings: {
-            physiology: 1,
-            safety: 2,
-            love: 3,
-            esteem: 4,
-            cognition: 5,
-            selfActualization: 6,
-            selfTranscendence: 7,
-            selfAcceptance: 8
-        },
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.'
-    },
-    {
-        user: {
-            id: 2,
-            username: 'user2',
-            profilePic: placeholderImg
-        },
-        ratings: {
-            physiology: 1,
-            safety: 2,
-            love: 3,
-            esteem: 4,
-            cognition: 5,
-            selfActualization: 6,
-            selfTranscendence: 7,
-            selfAcceptance: 8
-        },
-        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.'
-    },
-].map((post, index) => ({
+const createRandomPosts = () => {
+  const posts = [];
+
+  for (let idx = 0; idx < 30; idx++) {
+    const ratings = {};
+
+    for (const need of needs) {
+      ratings[need] = Math.floor(Math.random() * 10);
+    }
+
+    posts.push({
+      user: {
+        id: idx + 1,
+        username: `User ${idx + 1}`,
+        profilePic: placeholderImg,
+      },
+      ratings,
+    });
+  }
+
+  return posts;
+};
+
+const postData = createRandomPosts();
+
+postData.map((post, index) => ({
   ...post,
   user: { ...post.user, profilePic: placeholderImg },
   id: index + 1,
 }));
 
 export default function Feed() {
-  const [loadedPosts, setLoadedPosts] = useState([]);
-  const postBatchSize = 5;
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    setLoadedPosts(posts.slice(0, postBatchSize));
-  }, []);
-
-  const loadMorePosts = useCallback(() => {
-    const currentPostCount = loadedPosts.length;
-
-    if (currentPostCount < posts.length) {
-      const newPosts = posts.slice(currentPostCount, currentPostCount + postBatchSize);
-      setLoadedPosts([...loadedPosts, ...newPosts]);
-    }
-  }, [loadedPosts]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) {
-        return;
+    const [displayedPosts, setDisplayedPosts] = useState([]);
+    const postBatchSize = 5;
+    const containerRef = useRef(null);
+  
+    // Load initial batch of posts
+    useEffect(() => {
+      setDisplayedPosts(postData.slice(0, postBatchSize));
+    }, []);
+  
+    const loadMorePosts = useCallback(() => {
+      const currentPostCount = displayedPosts.length;
+  
+      if (currentPostCount < postData.length) {
+        const newPosts = postData.slice(currentPostCount, currentPostCount + postBatchSize);
+        setDisplayedPosts(prevPosts => [...prevPosts, ...newPosts]);
       }
-      const { scrollTop, clientHeight, scrollHeight } = containerRef.current;
-      const isBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
-
-      if (isBottom) {
-        loadMorePosts();
-      }
-    };
-
-    containerRef.current?.addEventListener('scroll', handleScroll);
-    return () => {
-      containerRef.current?.removeEventListener('scroll', handleScroll);
-    };
-  }, [loadMorePosts]);
-
-  return (
-    <div ref={containerRef} className="feed-container">
-      {loadedPosts.map(post => (
-        <FeedItem key={post.user.id} post={post} />
-      ))}
-    </div>
-  );
-}
+    }, [displayedPosts]);
+  
+    // Infinite scrolling effect
+    useEffect(() => {
+      const handleScroll = () => {
+        if (!containerRef.current) {
+          return;
+        }
+        const { scrollTop, clientHeight, scrollHeight } = containerRef.current;
+        const isBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
+  
+        if (isBottom) {
+          loadMorePosts();
+        }
+      };
+  
+      const containerElement = containerRef.current;
+      containerElement?.addEventListener('scroll', handleScroll);
+      return () => {
+        containerElement?.removeEventListener('scroll', handleScroll);
+      };
+    }, [loadMorePosts]);
+  
+    return (
+      <div ref={containerRef} className="feed-container">
+        {displayedPosts.map(post => (
+          <FeedItem key={post.user.id} post={post} />
+        ))}
+      </div>
+    );
+  }

@@ -33,7 +33,6 @@ function App() {
         <Route exact path="/" component={Welcome} />
 
         <Route exact path="/home" >
-          <Navigation />
           <Home />
         </Route>
 

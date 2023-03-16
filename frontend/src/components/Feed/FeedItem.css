@@ -15,46 +15,44 @@
     z-index: -1;
   }
   
+  /* Feed item info section */
   .feed-item-info {
-    /* margin: 20px; */
     position: relative;
     background-color: #222831;
-    padding: 19px;
+    padding: 20px;
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
   
+  /* Lights container section */
   .lights-container {
     display: flex;
     flex-direction: column;
-    float: right;
-    margin-top: 20px;
-    height: 360px;
+    height: 100%;
     width: 30vw;
-    border-radius: 30px;
+    /* border-radius: 30px; */
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    overflow: hidden; /* Hide the child div's rounded corners */
   }
   
   .lights-container div {
     padding: 20px;
+    height: 50%;
+    /* width: 100%; */
   }
   
   .lowlight, .highlight {
-    height: 50%;
-    width: 100%;
-    /* border-radius: 30px; */
+    transition: background-color 0.3s ease, border 0.3s ease;
   }
   
   .lowlight {
     background-color: rgb(66, 60, 60);
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
   }
   
   .highlight {
     background-color: rgb(103, 126, 146);
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
   }
   
   .lowlight:hover {
@@ -69,6 +67,7 @@
     border: rgb(103, 126, 146) solid 2px;
   }
   
+  /* Form drawer section */
   .form-drawer {
     position: fixed;
     top: 0;

@@ -3,6 +3,7 @@ import PinItem from './PinItem';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import './Pin.css';
+
 import { fetchPins, getPins } from '../../store/pins';
 
 export default function Pin() {
@@ -32,6 +33,7 @@ console.log(pins);
         { body: 'You should eat less meat' },
     ]
 
+
     if (!pins || Object.values(pins).length === 0) {
         return null;
     }
@@ -39,9 +41,11 @@ console.log(pins);
     return (
         <div className="pins">
             {
+
                 pins.map((object, idx) =>
                     <PinItem key={idx} suggestion={object} />
                 )
+
             }
 
         </div>

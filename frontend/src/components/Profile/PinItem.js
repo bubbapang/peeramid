@@ -1,5 +1,6 @@
-import React from "react";
-import "./PinItem.css";
+// import React from "react";
+// import "./PinItem.css";
+
 
 export default function PinItem({suggestion}) {
     return (
@@ -21,3 +22,4 @@ export default function PinItem({suggestion}) {
         </div>
     );
 }
+
