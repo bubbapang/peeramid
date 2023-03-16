@@ -1,5 +1,6 @@
 import React from 'react';
 import './Welcome.css';
+import { NavLink } from 'react-router-dom';
 
 export default function Welcome () {
   return (
@@ -29,6 +30,7 @@ export default function Welcome () {
                 <div className='welcome-buttons'>
                   <input type="submit" value="Login" />
                   <input type="submit" value="Signup" />
+                
                 </div>
 
               </form>

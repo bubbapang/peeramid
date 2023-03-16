@@ -1,0 +1,61 @@
+.suggestion-item {
+    display: flex;
+    margin: 10px;
+    /* border: rgb(0, 0, 0) solid 1px; */
+    background-color: #acbdca;
+    /* max-width: 50%; */
+    width: 300px;
+    border-radius: 7px;
+    height: fit-content;
+    padding: 5px;
+    cursor: pointer;
+    box-shadow:  14px 15px rgba(0, 0, 0, 0.1) !important;
+    z-index: 1;
+    /* make a drop-shadow */
+
+}
+
+/* make suggestion item rise up when hovered over */
+.suggestion-item:hover {
+    transform: translateY(-5px);
+    
+}
+
+/* make the emoji float to the right and make it bigger */
+.suggestion-item .emoji {
+    /* align-items: center; */
+    /* border: #010006 solid 1px; */
+    float: right;
+    font-size: 40px;
+}
+
+/* style the h1 to make it fancier */
+.suggestion-item h1 {
+    /* roboto font */
+    color:#6589a4;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+    padding: 5px;
+    border-bottom: gray solid 1px;
+}
+/* style the body to make it fancier */
+.suggestion-body {
+    /* roboto font */
+    color:#6589a4;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    margin: 0;
+    /* make the words wrap */
+    /* width: fit-content; */
+    word-wrap: break-word;
+    flex-wrap: wrap;
+}
+
+.suggestion-item-content {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}

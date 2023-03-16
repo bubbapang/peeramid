@@ -10,6 +10,10 @@ export default function Navigation({ onButtonClick }) {
         onButtonClick(buttonName);
     };
 
+    const sendToFeed = () => {
+        window.location.href = '/feed';
+    };
+
     // const logUserOut = () => {
     //     dispatch(logout());
     //     window.location.href = '/';
