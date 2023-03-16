@@ -60,7 +60,6 @@ export const fetchUserRatings = (userId) => async (dispatch) => {
     }
 }
 
-//?
 export const createRating = (rating) => async (dispatch) => {
     const response = await jwtFetch(`/api/ratings`, {
         method: 'POST',
@@ -94,5 +93,25 @@ export const deleteRating = (ratingId) => async (dispatch) => {
 
     if (response.ok) {
         dispatch(removeRating(ratingId));
+    }
+}
+
+let initialState = {};
+export const ratingsReducer = (oldState = initialState, action ) => {
+
+    const nextState = { ...oldState};
+
+    switch (action.type) {
+        case RECEIVE_RATINGS:
+            return action.ratings
+        case RECEIVE_RATING:
+            nextState[action.rating.id] = action.rating
+            return nextState
+        case REMOVE_RATING:
+            const ratingId = action.ratingId
+            delete nextState[ratingId]
+            return nextState
+        default: 
+            return oldState;
     }
 }

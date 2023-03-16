@@ -36,15 +36,15 @@ export const createFollow = (userId) => async (dispatch) => {
 }
 
 // Implement after creating Unfollow route
-// export const deleteFollow = (userId) => async (dispatch) => {
-//     const response = await jwtFetch(`/api/users/${userId}/follow`, {
-//         method: 'DELETE'
-//     });
+export const deleteFollow = (userId) => async (dispatch) => {
+    const response = await jwtFetch(`/api/users/${userId}/follow`, {
+        method: 'DELETE'
+    });
 
-//     if (response.ok) {
-//         dispatch(removeFollow(userId));
-//     }
-// }
+    if (response.ok) {
+        dispatch(removeFollow(userId));
+    }
+}
 
 export const approveFollow = (userId) => async (dispatch) => {
     const response = await jwtFetch(`/api/users/approve/${userId}`, {
