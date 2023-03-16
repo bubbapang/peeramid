@@ -1,184 +1,62 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import './Feed.css';
-import { useRef } from 'react';
 import FeedItem from './FeedItem';
 
+const placeholderImg = "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/";
+
 const posts = [
-    //each post will have a user object as well as the 8 ratings from maslows hierarchy of needs
+  // Add posts data here
     {
         user: {
             id: 1,
-            username: "user1",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+            username: 'user1',
+            profilePic: placeholderImg
         },
         ratings: {
-            physiological: 1,
-            safety: 4,
+            physiology: 1,
+            safety: 2,
             love: 3,
-            esteem: 2,
-            cognitition: 1,
-            aesthetics: 5,
-            actualization: 4,
-            transcendence: 3,
-        }     
-    }, {
+            esteem: 4,
+            cognition: 5,
+            selfActualization: 6,
+            selfTranscendence: 7,
+            selfAcceptance: 8
+        },
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.'
+    },
+    {
         user: {
             id: 2,
-            username: "user2",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+            username: 'user2',
+            profilePic: placeholderImg
         },
         ratings: {
-            physiological: 1,
-            safety: 4,
-            love: 9,
-            esteem: 6,
-            cognitition: 5,
-            aesthetics: 8,  
-            actualization: 7,
-            transcendence: 6,
-        }
-    }, {
-        user: {
-            id: 3,
-            username: "user3",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
-        },
-        ratings: {
-            physiological: 10,
-            safety: 10,
-            love: 10,
-            esteem: 10,
-            cognitition: 10,
-            aesthetics: 10,
-            actualization: 10,
-            transcendence: 10,
-        }
-    },{
-        user: {
-            id: 4,
-            username: "user4",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
-        },
-        ratings: {
-            physiological: 1,
-            safety: 4,
+            physiology: 1,
+            safety: 2,
             love: 3,
-            esteem: 2,
-            cognitition: 1,
-            aesthetics: 5,
-            actualization: 4,
-            transcendence: 3,
-        }
-    }, {
-        user: {
-            id: 5,
-            username: "user5",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
+            esteem: 4,
+            cognition: 5,
+            selfActualization: 6,
+            selfTranscendence: 7,
+            selfAcceptance: 8
         },
-        ratings: {
-            physiological: 1,
-            safety: 4,
-            love: 3,
-            esteem: 2,
-            cognitition: 1,
-            aesthetics: 5,
-            actualization: 4,
-            transcendence: 3,
-        }
-    }, {
-        user: {
-            id: 6,
-            username: "user6",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
-        },
-        ratings: {
-            physiological: 1,
-            safety: 4,
-            love: 3,
-            esteem: 2,
-            cognitition: 1,
-            aesthetics: 5,
-            actualization: 4,
-            transcendence: 3,
-        }
-    }, {
-        user: {
-            id: 7,
-            username: "user7",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
-        },
-        ratings: {
-            physiological: 1,
-            safety: 4,
-            love: 3,
-            esteem: 2,
-            cognitition: 1,
-            aesthetics: 5,
-            actualization: 4,
-            transcendence: 3,
-        }
-    }, {
-        user: {
-            id: 8,
-            username: "user8",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
-        },
-        ratings: {
-            physiological: 1,
-            safety: 4,
-            love: 3,
-            esteem: 2,
-            cognitition: 1,
-            aesthetics: 5,
-            actualization: 4,
-            transcendence: 3,
-        }
-    }, {
-        user: {
-            id: 9,
-            username: "user9",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
-        },
-        ratings: {
-            physiological: 1,
-            safety: 4,
-            love: 3,
-            esteem: 2,
-            cognitition: 1,
-            aesthetics: 5,
-            actualization: 4,
-            transcendence: 3,
-        }
-    }, {
-        user: {
-            id: 10,
-            username: "user10",
-            profilePic: "https://www.pngfind.com/download/hJmwxix_image-placeholder-png-user-profile-placeholder-image-png/"
-        },
-        ratings: {
-            physiological: 1,
-            safety: 4,
-            love: 3,
-            esteem: 2,
-            cognitition: 1,
-            aesthetics: 5,
-            actualization: 4,
-            transcendence: 3,
-        }
-    }
-]
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl. Sed euismod, nisl nec ultricies lacinia, nunc nisl aliquam nisl, eget aliquam nisl nisl sit amet nisl.'
+    },
+].map((post, index) => ({
+  ...post,
+  user: { ...post.user, profilePic: placeholderImg },
+  id: index + 1,
+}));
 
 export default function Feed() {
   const [loadedPosts, setLoadedPosts] = useState([]);
   const postBatchSize = 5;
   const containerRef = useRef(null);
 
-  // Load the initial batch of posts
   useEffect(() => {
     setLoadedPosts(posts.slice(0, postBatchSize));
   }, []);
 
-  // Load more posts when the user scrolls to the bottom
   const loadMorePosts = useCallback(() => {
     const currentPostCount = loadedPosts.length;
 
@@ -188,37 +66,27 @@ export default function Feed() {
     }
   }, [loadedPosts]);
 
-  // Add an event listener for scrolling
   useEffect(() => {
-    
     const handleScroll = () => {
-        if (!containerRef.current) {
-          return;
-        }
-        const { scrollTop, clientHeight, scrollHeight } = containerRef.current;
-        const isBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
-      
-        if (isBottom) {
-          loadMorePosts();
-        }
-      };
+      if (!containerRef.current) {
+        return;
+      }
+      const { scrollTop, clientHeight, scrollHeight } = containerRef.current;
+      const isBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
 
-    if (containerRef.current) {
-        console.log('scroll')
-      containerRef.current.addEventListener('scroll', handleScroll);
-    }
-    return () => {
-      if (containerRef.current) {
-        console.log('scroll')
-        containerRef.current.removeEventListener('scroll', handleScroll);
+      if (isBottom) {
+        loadMorePosts();
       }
     };
-  }, [loadMorePosts, containerRef]);
-  ;
+
+    containerRef.current?.addEventListener('scroll', handleScroll);
+    return () => {
+      containerRef.current?.removeEventListener('scroll', handleScroll);
+    };
+  }, [loadMorePosts]);
 
   return (
     <div ref={containerRef} className="feed-container">
-      <h1>Feed</h1>
       {loadedPosts.map(post => (
         <FeedItem key={post.user.id} post={post} />
       ))}
