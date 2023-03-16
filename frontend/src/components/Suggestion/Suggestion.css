@@ -13,7 +13,7 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
     margin-top: 60px;
-    background-color: #ebeaf1;
+    background-color: #9DBFB2;
     overflow-y: auto; /* Add this line to enable vertical scrolling */
     padding-right: 10px; /* Add this line to make room for the scrollbar */
     border-radius: 5px;

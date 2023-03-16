@@ -2,6 +2,8 @@ import './Suggestion.css';
 import Sidebar from './Sidebar';
 import ItemSuggestions from './ItemSuggestions';
 import { useState } from 'react';
+import Pin from '../Profile/Pin';
+import PinItem from '../Profile/PinItem';
 
 
 const categories = [
@@ -16,9 +18,9 @@ const categories = [
   ];
   
   const bodySamples = [
-    'I think you should try thisooooooooooooooooooooooooooooooooooooooooooooooooooooooo',
-    'Have you considered doing this?oooooooooooooooooooooooooo',
-    'This could be a great option for youooooooooooooooooooo',
+    'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu,',
+    'Have you considered doing this?ooooooooooooooooooooooooooI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try this',
+    'This could be a great option for youoooooooooooooooooooI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try thisI think you should try this',
     'Maybe give this a shotooooooooooooooooooooooooo',
     'This is worth exploringoooooooooooooooooooooooooo',
     'I believe this could help youooooooooooooooooooooooo',
@@ -35,7 +37,7 @@ const categories = [
   function generateReviews() {
     const suggestions = [];
   
-    for (let i = 1; i <= 500; i++) {
+    for (let i = 1; i <= 50; i++) {
       suggestions.push({
         id: i,
         user: {
