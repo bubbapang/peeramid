@@ -1,7 +1,31 @@
 import React from 'react';
 import './Welcome.css';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { NavLink, useHistory } from 'react-router-dom';
+import { login, clearSessionErrors } from '../../store/session';
 
 export default function Welcome () {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const userCredentials = {
+    email,
+    password,
+  };
+
+  const success = await dispatch(login(userCredentials));
+
+  if (success) {
+    history.push('/feed');
+  }
+};
+
   return (
     <>
         <div className="background">
@@ -14,21 +38,25 @@ export default function Welcome () {
               <div className='profile-pic'/>
               <h2>Abraham Maslow</h2>
 
-              <form>
+              <form onSubmit={handleSubmit}>
 
                 <label>
                   Email:
-                  <input type="text" name="email" />
+                  <input type="text" name="email" value={email}
+                    onChange={(e) => setEmail(e.target.value)}/>
                 </label>
 
                 <label>
                   Password:
-                  <input type="text" name="password" />
+                  <input type="text" name="password"  value={password}
+                    onChange={(e) => setPassword(e.target.value)}/>
                 </label>
 
                 <div className='welcome-buttons'>
                   <input type="submit" value="Login" />
-                  <input type="submit" value="Signup" />
+                  <NavLink to="/signup">
+                  <button style={{textDecoration: "none"}} type="button" value="Signup">Signup</button>
+                  </NavLink>
                 </div>
 
               </form>

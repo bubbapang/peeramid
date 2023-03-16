@@ -82,7 +82,12 @@
     font-size: 1.5rem;
     border-radius: 10px;
 }
-
+.welcome-buttons button {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+}
 .welcome-buttons {
     display: flex;
     justify-content: center;

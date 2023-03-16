@@ -11,6 +11,9 @@ import { getCurrentUser } from './store/session';
 import Welcome from './components/Welcome';
 // import Rating from './components/Rating';
 import Home from './components/Home';
+import Navigation from './components/Home/Navigation';
+import Feed from './components/Feed';
+import Signup from './components/Welcome/SignupForm';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -26,6 +29,13 @@ function App() {
         <Route exact path="/" component={Welcome} />
         {/* <Route exact path="/rating" component={Rating} /> */}
         <Route exact path="/home" component={Home} />
+        <Route exact path="/feed">
+          <Navigation />
+          <Feed />
+        </Route>
+        <Route exact path="/signup">
+          <Signup />
+        </Route>
 
         {/* <AuthRoute exact path="/" component={Welcome} /> */}
         {/* <ProtectedRoute exact path="/tweets" component={Tweets} />
