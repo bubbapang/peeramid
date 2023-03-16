@@ -1,13 +1,18 @@
+/* html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}  */
 .needs-wrapper {
     background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/ocean+painting.jpg");
     background-size: cover;
     background-position: center;
-  
+    overflow: hidden;
     width: 100%;
-    /* height: fit-content; */
-    /* margin-top: 60px;
+    height: 105vh;
+    /* margin-top: 20px; */
+    /* 
     padding-top: 100px; */
-  
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -136,4 +141,5 @@ button.info:active, button.submit:active {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translateY(2px);
 }
+
 

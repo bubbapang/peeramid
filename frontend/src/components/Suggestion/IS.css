@@ -1,99 +1,101 @@
+.sugg-wrapper {
+  width: 100%;  
+}
 .sugg-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    width: 80%;
-    min-height: 100px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduce the intensity and size of the shadow */
-    transition: all var(--transition-duration);
-    margin: 15px;
-    position: relative;
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  width: 95%;
+  min-height: 100px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-duration);
+  margin: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  position: relative;
+  height: fit-content;
+}
 .sugg-item-content {
-    display: flex;
-    flex-direction: column; /* Change this to column */
-    justify-content: space-between;
-    width: 100%;
-    position: relative;
-    padding: 10px; /* Add some padding */
-  }
-  
-  .sugg-item .emoji {
-    font-size: 20px;
-    margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  height: 100%;
+}
 
-  }
-  
-  .sugg-item h1 {
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-size: 20px;
-    font-weight: 500;
-    margin: 0;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  }
-  
-  .sugg-body {
-    color: white;
-    font-family: 'Roboto', sans-serif;
-    font-size: 15px;
-    font-weight: 400;
-    margin: 30px 0 0 0; /* Adjust the margin-top to create space for h1 */
-    word-wrap: break-word;
-    flex-wrap: wrap;
-    width: 90%;
-    border-top: #ffffff 1px solid;
-    /* margin-top: 10px; */
-    padding-top: 15px;
-  }
-  
-  .buttons-parts {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    position: absolute;
-    right: 10px;
-    top: 50%; /* Add this */
-    transform: translateY(-50%); /* Add this */
-  }
+.sugg-item .emoji {
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.sugg-item h1 {
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.sugg-body {
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  margin: 10px 0 0 0;
+  word-wrap: break-word;
+  flex-wrap: wrap;
+  width: 90%;
+  border-top: #ffffff 1px solid;
+  padding-top: 15px;
+  max-height: fit-content;
+}
+
+.buttons-parts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
 button {
-    background-color: var(--button-color);
-    color: #4d908e;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all var(--transition-duration);
+  background-color: var(--button-color);
+  color: #4d908e;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all var(--transition-duration);
 }
 
 button:hover {
-    background-color: var(--button-hover-color);
+  background-color: var(--button-hover-color);
 }
 
 button:focus {
-    outline: none;
+  outline: none;
 }
 
 .user-emoji-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .sugg-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.40); /* Increase the intensity and size of the shadow */
-  }
-  
+.sugg-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.40);
+}
+

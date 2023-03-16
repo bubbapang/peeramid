@@ -14,7 +14,9 @@ const categoryEmojiMap = {
 
 export default function ItemSuggestion({ suggestion }) {
   return (
+    <div className="sugg-wrapper">
     <div className="sugg-item">
+
       <div className="sugg-item-content">
 
         <div className="user-emoji-container">
@@ -35,6 +37,7 @@ export default function ItemSuggestion({ suggestion }) {
               {categoryEmojiMap[suggestion.category]}
             </div>
       </div>
+    </div>
     </div>
   );
 }
