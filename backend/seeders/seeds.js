@@ -148,7 +148,7 @@ suggestions.push(
   new Suggestion({
     _id: suggestion1Id,
     body: "keep on building on your needs you did great",
-    categoryTag: "aesthetics",
+    categoryTag: "Aesthetics",
     dayRating: rating2Id,
     pins: [user4Id],
     likes: [user4Id],
@@ -158,7 +158,7 @@ suggestions.push(
   new Suggestion({
     _id: suggestion2Id,
     body: "your rating can go higher if you practice meditation, really helped for me.",
-    categoryTag: "transcendance",
+    categoryTag: "Transcendence",
     dayRating: rating2Id,
     pins: [user4Id],
     likes: [user4Id],
@@ -167,7 +167,7 @@ suggestions.push(
   new Suggestion({
     _id: suggestion3Id,
     body: "since you have the same focus on knowledge, reading books is a great start",
-    categoryTag: "knowledge",
+    categoryTag: "Cognition",
     dayRating: rating3Id,
     likes: [user4Id],
     user: user3Id

@@ -29,7 +29,7 @@ export default function Rating () {
             safety,
             physiological: physiology
         }
-        console.log(newRating)
+        // console.log(newRating)
         dispatch(createRating(newRating))
     }
 

@@ -4,12 +4,14 @@ import session from './session';
 import { logout } from './session';
 import ratings from './ratings';
 import pins from './pins'
+import suggestions from './suggestions';
 
 
 const rootReducer = combineReducers({
   session,
   ratings,
-  pins
+  pins,
+  suggestions
 });
 
 
