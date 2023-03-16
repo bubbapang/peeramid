@@ -14,6 +14,7 @@ export default function Home() {
         setActiveButton(buttonName);
     };
 
+    // keep this in here for now
     const renderActiveComponent = () => {
         switch (activeButton) {
             case 'Feed':

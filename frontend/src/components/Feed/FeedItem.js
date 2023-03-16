@@ -2,9 +2,6 @@ import { useRef, useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import './FeedItem.css';
 
-function FormDrawer({ onClose, visible, post }) {
-  const drawerClass = `form-drawer${visible ? ' visible' : ''}`;
-
   function FormDrawer({ onClose, visible, closing, post }) {
     return (
       <div className={`form-drawer${visible ? ' visible' : ''}${closing ? ' closing' : ''}`}>
@@ -37,10 +34,10 @@ function FormDrawer({ onClose, visible, post }) {
    
     const [activeDiv, setActiveDiv] = useState(null);
 
-  const toggleFormDrawer = (divName) => {
-    setActiveDiv(divName === activeDiv ? null : divName);
-    setFormDrawerVisible(divName !== activeDiv);
-  };
+  // const toggleFormDrawer = (divName) => {
+  //   setActiveDiv(divName === activeDiv ? null : divName);
+  //   setFormDrawerVisible(divName !== activeDiv);
+  // };
 
 
     const toggleFormDrawer = (divName) => {
