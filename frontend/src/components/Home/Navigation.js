@@ -2,9 +2,17 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './Navigation.css';
 import SearchBar from './SearchBar';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/session';
 
 export default function Navigation() {
+  const dispatch = useDispatch();
   const history = useHistory();
+
+  const handleLogout = (e) => {
+    e.preventDefault()
+    dispatch(logout())
+}
 
   const handleButtonClick = (buttonName) => {
     history.push(`/${buttonName.toLowerCase()}`);
@@ -30,6 +38,8 @@ export default function Navigation() {
       <SearchBar onSearch={handleSearch} users={users} />
       <button onClick={() => handleButtonClick('Feed')}>Feed</button>
       <button onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
+      {/* <button onClick={() => handleButtonClick('Settings')}>Settings</button> */}
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 }

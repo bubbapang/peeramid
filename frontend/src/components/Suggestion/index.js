@@ -66,14 +66,21 @@ export default function Suggestion() {
 
     return (
         <div className="suggestion-page">
-            <div className="sidebar">
-            <Sidebar setFilter={setFilter} />
+
+            <div className="create-suggestion">
+              <button className="create-suggestion-button">Create Suggestion</button>
             </div>
+
+            <div className="sidebar">
+              <Sidebar setFilter={setFilter} />
+            </div>
+
             <div className="suggestion-list">
-            {filteredSuggestions.map((suggestion) => (
-                <ItemSuggestions key={suggestion.id} suggestion={suggestion} />
-            ))}
-        </div>
+              {filteredSuggestions.map((suggestion) => (
+                  <ItemSuggestions key={suggestion.id} suggestion={suggestion} />
+              ))}
+          </div>
+          
         </div>
     )
 }
