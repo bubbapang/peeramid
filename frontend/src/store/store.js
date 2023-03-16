@@ -2,10 +2,16 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session';
 import { logout } from './session';
+import ratings from './ratings';
+import pins from './pins'
+import suggestions from './suggestions';
 
 
 const rootReducer = combineReducers({
-  session
+  session,
+  ratings,
+  pins,
+  suggestions
 });
 
 

@@ -54,6 +54,32 @@ router.get("/:categoryTag", async (req, res, next) => {
     }
 })
 
+router.get("/", async (req, res, next) => {
+    try {
+        const suggestions = await Suggestion.find()
+                                            .populate('user', '_id username public')
+                                            .populate({
+                                                path: 'dayRating',
+                                                populate: {
+                                                    path: 'user',
+                                                    model: 'User',
+                                                    select: '_id public'
+                                                }
+                                            })
+
+        if (suggestions.length === 0) {
+            return res.status(404).json({message: 'Suggestion not found'});
+        }
+        return res.json(suggestions);
+
+    } catch(err) {
+        next(err)
+    }
+})
+
+
+
+
 // Update a suggestion
 router.put("/:id", requireUser, async (req, res, next) => {
     const currentUser = req.user;

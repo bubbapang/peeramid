@@ -25,7 +25,7 @@ export const removeSuggestion = (suggestionId) => {
     }
 }
 
-export const getSuggestions = (store) => {
+export const getAllSuggestions = (store) => {
     return store.suggestions ? Object.values(store.suggestions) : [];
 }
 
@@ -53,6 +53,15 @@ export const fetchUserSuggestions = (userId) => async (dispatch) => {
 
 export const fetchCategorySuggestions = (category) => async (dispatch) => {
     const response = await jwtFetch(`/api/suggestions/${category}`);
+
+    if (response.ok) {
+        const suggestions = await response.json();
+        dispatch(receiveSuggestions(suggestions));
+    }
+}
+
+export const fetchAllPublicSuggestions = () => async (dispatch) => {
+    const response = await jwtFetch(`/api/suggestions/`);
 
     if (response.ok) {
         const suggestions = await response.json();
@@ -97,17 +106,19 @@ export const deleteSuggestion = (suggestionId) => async (dispatch) => {
 }
 
 let initialState = {};
-export const suggestionsReducer = (oldState = initialState, action) => {
+const suggestionsReducer = (oldState = initialState, action) => {
     const nextState = {...oldState};
 
     switch (action.type) {
         case RECEIVE_SUGGESTIONS:
-            break;
+            return action.suggestions
         case RECEIVE_SUGGESTION:
-            break;
+            return oldState;
         case REMOVE_SUGGESTION:
-            break;
+            return oldState;
         default:
             return oldState;
     }
 }
+
+export default suggestionsReducer

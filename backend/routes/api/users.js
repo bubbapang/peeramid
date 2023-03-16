@@ -26,9 +26,7 @@ router.get('/current', restoreUser, (req, res) => {
   }
   if (!req.user) return res.json(null);
   res.json({
-    _id: req.user._id,
-    // username: req.user.username,
-    email: req.user.email
+    ...req.user._doc
   });
 });
 
@@ -359,7 +357,7 @@ router.get('/:id/pins', async(req, res, next) => {
                                 .populate('user', '_id public');
         const author = suggestion.user;
         if (author.public || (currentUser && currentUser.following.includes(author._id))) {
-          visiblePins.push(pin);
+          visiblePins.push(suggestion);
         }
       }
 

@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './Feed.css';
 import FeedItem from './FeedItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 const placeholderImg = <FontAwesomeIcon icon={faUser} size="2x" />; // Placeholder image for posts
 const needs = ['Physiology', 'Safety', 'Love', 'Esteem', 'Cognition', 'Aesthetics', 'Actualization', 'Transcendence'];
@@ -39,10 +41,11 @@ postData.map((post, index) => ({
 }));
 
 export default function Feed() {
+
     const [displayedPosts, setDisplayedPosts] = useState([]);
     const postBatchSize = 5;
     const containerRef = useRef(null);
-  
+
     // Load initial batch of posts
     useEffect(() => {
       setDisplayedPosts(postData.slice(0, postBatchSize));

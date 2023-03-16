@@ -38,6 +38,9 @@ users.push(
     lastName: 'Luthra',
     username: 'demo-user',
     email: 'madhur@user.io',
+    pins: [suggestion1Id, suggestion2Id, suggestion3Id],
+    followers: [user2Id, user3Id, user4Id],
+    following: [user2Id, user3Id, user4Id],
     hashedPassword: bcrypt.hashSync('starwars', 10)
   }),
     new User ({
@@ -46,6 +49,9 @@ users.push(
     lastName: 'hanna',
     username: 'andre01',
     email: 'andre@user.io',
+    pins: [suggestion1Id, suggestion2Id, suggestion3Id],
+    followers: [user1Id, user3Id, user4Id],
+    following: [user1Id, user3Id, user4Id],
     hashedPassword: bcrypt.hashSync('password', 10)
   }),
   new User ({
@@ -55,6 +61,9 @@ users.push(
     username: 'adam01',
     email: 'adam@user.io',
     public: false,
+    pins: [suggestion1Id, suggestion2Id, suggestion3Id],
+    followers: [user2Id, user1Id, user4Id],
+    following: [user2Id, user1Id, user4Id],
     hashedPassword: bcrypt.hashSync('password', 10)
   }),
   new User ({
@@ -63,6 +72,8 @@ users.push(
     lastName: 'kobata',
     username: 'jasmine01',
     email: 'jasmine@user.io',
+    followers: [user2Id, user3Id, user1Id],
+    following: [user2Id, user3Id, user1Id],
     likes: [suggestion1Id, suggestion2Id, suggestion3Id],
     pins: [suggestion1Id, suggestion2Id, suggestion3Id],
     hashedPassword: bcrypt.hashSync('password', 10)
@@ -137,7 +148,7 @@ suggestions.push(
   new Suggestion({
     _id: suggestion1Id,
     body: "keep on building on your needs you did great",
-    categoryTag: "aesthetics",
+    categoryTag: "Aesthetics",
     dayRating: rating2Id,
     pins: [user4Id],
     likes: [user4Id],
@@ -147,7 +158,7 @@ suggestions.push(
   new Suggestion({
     _id: suggestion2Id,
     body: "your rating can go higher if you practice meditation, really helped for me.",
-    categoryTag: "transcendance",
+    categoryTag: "Transcendence",
     dayRating: rating2Id,
     pins: [user4Id],
     likes: [user4Id],
@@ -156,7 +167,7 @@ suggestions.push(
   new Suggestion({
     _id: suggestion3Id,
     body: "since you have the same focus on knowledge, reading books is a great start",
-    categoryTag: "knowledge",
+    categoryTag: "Cognition",
     dayRating: rating3Id,
     likes: [user4Id],
     user: user3Id
