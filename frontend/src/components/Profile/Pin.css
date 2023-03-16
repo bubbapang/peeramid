@@ -11,8 +11,28 @@
     overflow: auto;
     padding-top: 50px;
     padding-bottom: 50px;
+    
+
 }
 
 .pins > * {
    /* height: fit-content; */
 }
+
+.pins::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+  }
+  
+  .pins::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Color of the scrollbar track */
+    border-radius: 10px; /* Border radius for the scrollbar track */
+  }
+  
+  .pins::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Border radius for the scrollbar thumb */
+  }
+  
+  .pins::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Color of the scrollbar thumb when hovered */
+  }
