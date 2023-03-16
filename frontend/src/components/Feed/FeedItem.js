@@ -69,12 +69,16 @@ export default function FeedItem({ post }) {
 
   return (
     <div className="feed-item-container">
+      {/* Feed item info section */}
       <div className="feed-item-info">
-      <h1>{post.user.username}</h1>
-      <i id="profile-picture" className="fas fa-user-circle"></i>
-      <canvas className="chart" id={`chart-${post.user.id}`}></canvas>
+        <h1>{post.user.username}</h1>
+        <i id="profile-picture" className="fas fa-user-circle"></i>
+        <canvas className="chart" id={`chart-${post.user.id}`}></canvas>
       </div>
+
+      {/* Lights container section */}
       <div className='lights-container'>
+        {/* Highlight section */}
         <div
           className="highlight"
           onClick={() => toggleFormDrawer('highlight')}
@@ -82,17 +86,20 @@ export default function FeedItem({ post }) {
           <h3>{post.user.username}'s highlight today was:</h3>
         </div>
 
+        {/* Lowlight section */}
         <div
           className="lowlight"
           onClick={() => toggleFormDrawer('lowlight')}
         >
-          {/* Add conditional here to check if there was a lowlight */}
-          {post.user.lowlight
-            ? <h3>{post.user.username}'s lowlight today was:</h3>
-            : <h3>{post.user.username} had no lowlight today.</h3>
+          {
+            post.user.lowlight
+              ? <h3>{post.user.username}'s lowlight today was:</h3>
+              : <h3>{post.user.username} had no lowlight today.</h3>
           }
         </div>
       </div>
+
+      {/* Form Drawer section */}
       <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} post={post} />
     </div>
   );
