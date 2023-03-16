@@ -6,21 +6,21 @@ export const REMOVE_RATING = `suggestions/REMOVE_RATING`;
 
 export const receiveRatings = (ratings) => {
     return {
-        type: RECEIVE_SUGGESTIONS,
+        type: RECEIVE_RATINGS,
         ratings
     }
 }
 
 export const receiveRating = (rating) => {
     return {
-        type: RECEIVE_SUGGESTION,
+        type: RECEIVE_RATING,
         rating
     }
 }
 
 export const removeRating = (ratingId) => {
     return {
-        type: REMOVE_SUGGESTION,
+        type: REMOVE_RATING,
         ratingId
     }
 }
@@ -33,7 +33,7 @@ export const getRating = (ratingId) => (store) => {
     return store.ratings ? store.ratings[ratingId] : null;
 }
 
-export const fetchPublicRatings = async (dispatch) => {
+export const fetchPublicRatings = () => async (dispatch) => {
     const response = await jwtFetch(`/api/ratings/public`);
 
     if (response.ok) {
@@ -42,7 +42,7 @@ export const fetchPublicRatings = async (dispatch) => {
     }
 }
 
-export const fetchFollowingRatings = async (dispatch) => {
+export const fetchFollowingRatings = () => async (dispatch) => {
     const response = await jwtFetch(`/api/ratings/following`);
 
     if (response.ok) {
@@ -97,13 +97,14 @@ export const deleteRating = (ratingId) => async (dispatch) => {
 }
 
 let initialState = {};
-export const ratingsReducer = (oldState = initialState, action ) => {
+const ratingsReducer = (oldState = initialState, action ) => {
 
     const nextState = { ...oldState};
 
     switch (action.type) {
         case RECEIVE_RATINGS:
-            return action.ratings
+            const ratings = action.ratings
+            return ratings
         case RECEIVE_RATING:
             nextState[action.rating.id] = action.rating
             return nextState
@@ -115,3 +116,4 @@ export const ratingsReducer = (oldState = initialState, action ) => {
             return oldState;
     }
 }
+export default ratingsReducer;

@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { Line, Radar } from 'react-chartjs-2';
+import { getCurrentUser } from '../../store/session'
+import { fetchUserRatings } from '../../store/ratings';
+import { getRatings } from '../../store/ratings';
 import './Profile.css';
 import Pin from './Pin';
 
 export default function Profile() {
+  const dispatch = useDispatch();
   const [bio, setBio] = useState('this is my bio');
   const [lineData, setLineData] = useState({
     labels: [],
@@ -15,6 +20,24 @@ export default function Profile() {
   });
   const [lineOptions, setLineOptions] = useState({});
   const [radarOptions, setRadarOptions] = useState({});
+  let currentUser = useSelector(state => state.session.user);
+  const dummyUser = {
+    firstName: 'Dummy',
+    lastName: 'User',
+    username: 'dummy_user',
+    email: 'dummy@user.io',
+    followers: ["", "", ""],
+    following: ["", "", ""]
+  };
+  const finalUser = currentUser ? currentUser : dummyUser;
+  const ratings = useSelector(getRatings);
+  ratings ||= {};
+
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(fetchUserRatings(currentUser._id))
+    }
+  }, [dispatch, currentUser])
 
   // Handle bio change and submit
   // const handleBioChange = (event) => {
@@ -163,21 +186,21 @@ export default function Profile() {
 
           {/* Username */}
           <div className="username-layer">
-            <h2 className="username">andre_hanna</h2>
+            <h2 className="username">{finalUser.username}</h2>
           </div>
 
           {/* Ratings, Followers, Following */}
           <div className="stats-layer">
             <div className="stat-item">
-              <span className="stat-value">123</span>
+              <span className="stat-value">{ratings.length}</span>
               <span className="stat-label">Ratings</span>
             </div>
             <div className="stat-item">
-              <span className="stat-value">456</span>
+              <span className="stat-value">{finalUser.followers.length}</span>
               <span className="stat-label">Followers</span>
             </div>
             <div className="stat-item">
-              <span className="stat-value">789</span>
+              <span className="stat-value">{finalUser.following.length}</span>
               <span className="stat-label">Following</span>
             </div>
           </div>

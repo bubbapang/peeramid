@@ -56,6 +56,8 @@ const categories = [
   
 
 export default function Suggestion() {
+
+  
     const [filter, setFilter] = useState('All Suggestions');
 
     const filteredSuggestions = filter === 'All Suggestions'

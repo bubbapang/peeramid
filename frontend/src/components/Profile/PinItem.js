@@ -8,14 +8,14 @@ export default function PinItem({suggestion}) {
                 <i className="fas fa-user-circle fa-2x" />
             </div>
             <div className="suggestion-part">
-                <h1>{suggestion}</h1>
+                <h1>{suggestion.body}</h1>
             </div>
             <div className="buttons-part">
                 <button>
-                    <i className="fas fa-heart" /> Like
+                    <i className="fas fa-heart" /> Like({suggestion.likes.length})
                 </button>
                 <button>
-                    <i className="fas fa-thumbtack" /> Pin
+                    <i className="fas fa-thumbtack" /> Pin({suggestion.pins.length})
                 </button>
             </div>
         </div>
