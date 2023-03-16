@@ -13,14 +13,21 @@ categoryTag: {
     type: String,
     required: true
     },
-likes: {
-    type: Number,
+likes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
     optional: true
-    },
-dislikes: {
-    type: Number,
+    }],
+dislikes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
     optional: true
-    },
+    }],
+pins: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    optional: true
+    }],
 dayRating: {
     type: Schema.Types.ObjectId,
     ref: "Rating"

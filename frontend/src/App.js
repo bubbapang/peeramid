@@ -11,6 +11,12 @@ import { getCurrentUser } from './store/session';
 import Welcome from './components/Welcome';
 // import Rating from './components/Rating';
 import Home from './components/Home';
+import Navigation from './components/Home/Navigation';
+import Feed from './components/Feed';
+import Suggestion from './components/Suggestion';
+import Rating from './components/Rating';
+import Signup from './components/Welcome/SignupForm';
+
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -24,13 +30,36 @@ function App() {
     <>
       <Switch>
         <Route exact path="/" component={Welcome} />
-        {/* <Route exact path="/rating" component={Rating} /> */}
-        <Route exact path="/home" component={Home} />
 
-        {/* <AuthRoute exact path="/" component={Welcome} /> */}
-        {/* <ProtectedRoute exact path="/tweets" component={Tweets} />
-        <ProtectedRoute exact path="/profile" component={Profile} />
-        <ProtectedRoute exact path="/tweets/new" component={TweetCompose} /> */}
+        <Route exact path="/home" >
+          <Home />
+        </Route>
+
+        <Route exact path="/profile">
+          <Home />
+        </Route>
+
+
+        <Route exact path="/feed">
+          <Navigation />
+          <Feed />
+        </Route>
+
+        <Route exact path="/rating">
+          <Navigation />
+          <Rating />
+        </Route>
+
+        <Route exact path="/suggestions">
+          <Navigation />
+          <Suggestion />
+        </Route>
+
+        
+        <Route exact path="/signup">
+          <Signup />
+        </Route>
+
       </Switch>
     </>
   );

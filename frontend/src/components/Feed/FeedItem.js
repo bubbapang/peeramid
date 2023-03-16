@@ -2,34 +2,61 @@ import { useRef, useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import './FeedItem.css';
 
-function FormDrawer({ onClose, visible, post }) {
-  const drawerClass = `form-drawer${visible ? ' visible' : ''}`;
+  function FormDrawer({ onClose, visible, closing, post }) {
+    return (
+      <div className={`form-drawer${visible ? ' visible' : ''}${closing ? ' closing' : ''}`}>
+        <button className="close-button" onClick={onClose}>
+          Close
+        </button>
 
-  return (
-    <div className={drawerClass}>
-      <button className="close-button" onClick={onClose}>Close</button>
-      <h2>{post.user.username}</h2>
-    </div>
-  );
-}
+        <h2>{post.user.username}</h2>
+        {/* Your form content goes here */}
+        <div className="form-drawer-content">
+            {/* input text box and label to send a suggestion */}
+            <div className="form-drawer-input">
+                <label htmlFor="suggestion">Suggestion</label>
+                <input type="text" id="suggestion" name="suggestion" placeholder="Enter a suggestion" />
+                <button className="form-drawer-button">Send</button>
+            </div>
+        </div>  
+        
+      </div>
+    );
+  }
+  
 
-export default function FeedItem({ post }) {
-  const chartRef = useRef(null);
-  const [formDrawerVisible, setFormDrawerVisible] = useState(false);
-  const [activeDiv, setActiveDiv] = useState(null);
+  export default function FeedItem({ post }) {
+    const [showFormDrawer, setShowFormDrawer] = useState(true);
 
-  const toggleFormDrawer = (divName) => {
-    setActiveDiv(divName === activeDiv ? null : divName);
-    setFormDrawerVisible(divName !== activeDiv);
-  };
+    const [formDrawerClosing, setFormDrawerClosing] = useState(false);
+    const chartRef = useRef(null);
+    const [formDrawerVisible, setFormDrawerVisible] = useState(false);
+   
+    const [activeDiv, setActiveDiv] = useState(null);
 
-  const handleOutsideClick = (e) => {
-    if (formDrawerVisible && !['form-drawer', 'highlight', 'lowlight'].some(cls => e.target.closest(`.${cls}`))) {
-      setFormDrawerVisible(false);
-      setActiveDiv(null);
-    }
-  };
+  // const toggleFormDrawer = (divName) => {
+  //   setActiveDiv(divName === activeDiv ? null : divName);
+  //   setFormDrawerVisible(divName !== activeDiv);
+  // };
 
+
+    const toggleFormDrawer = (divName) => {
+      if (divName !== activeDiv) {
+        setActiveDiv(divName);
+        setFormDrawerVisible(true);
+      } else {
+        setActiveDiv(null);
+        setFormDrawerVisible(false);
+      }
+    };
+    
+    const handleOutsideClick = (e) => {
+      if (formDrawerVisible && !e.target.closest('.form-drawer') && !e.target.closest('.highlight') && !e.target.closest('.lowlight')) {
+        setFormDrawerVisible(false);
+        setActiveDiv(null);
+      }
+    };
+    
   useEffect(() => {
     document.addEventListener('mousedown', handleOutsideClick);
     return () => document.removeEventListener('mousedown', handleOutsideClick);

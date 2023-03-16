@@ -5,8 +5,11 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import configureStore from './store/store';
 import './index.css';
+import { logout } from './store/session';
 
 let store = configureStore({});
+window.store = store
+window.logout = logout;
 
 function Root() {
   return (
@@ -26,3 +29,4 @@ root.render(
     <Root />
   </React.StrictMode>,
 );
+
