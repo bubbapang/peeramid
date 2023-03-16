@@ -358,7 +358,6 @@ router.get('/:id/pins', async(req, res, next) => {
         const author = suggestion.user;
         if (author.public || (currentUser && currentUser.following.includes(author._id))) {
           visiblePins.push(suggestion);
-          // visiblePins.push("HI")
         }
       }
 

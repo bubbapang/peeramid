@@ -19,7 +19,6 @@ export default function Pin() {
         }
     }, [dispatch, user])
 
-console.log(pins);
     const pinnedSuggestions = [
         { body: 'You should transcend more' },
         { body: 'I worked out last week, it helped me!' },

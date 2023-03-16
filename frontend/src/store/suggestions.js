@@ -60,6 +60,15 @@ export const fetchCategorySuggestions = (category) => async (dispatch) => {
     }
 }
 
+export const fetchAllPublicSuggestions = () => async (dispatch) => {
+    const response = await jwtFetch(`/api/suggestions/`);
+
+    if (response.ok) {
+        const suggestions = await response.json();
+        dispatch(receiveSuggestions(suggestions));
+    }
+}
+
 export const createSuggestion = (suggestion, ratingId) => async (dispatch) => {
     const response = await jwtFetch(`/api/ratings/${ratingId}/suggestions`, {
         method: 'POST',
@@ -97,17 +106,19 @@ export const deleteSuggestion = (suggestionId) => async (dispatch) => {
 }
 
 let initialState = {};
-export const suggestionsReducer = (oldState = initialState, action) => {
+const suggestionsReducer = (oldState = initialState, action) => {
     const nextState = {...oldState};
 
     switch (action.type) {
         case RECEIVE_SUGGESTIONS:
             return action.suggestions
         case RECEIVE_SUGGESTION:
-            break;
+            return oldState;
         case REMOVE_SUGGESTION:
-            break;
+            return oldState;
         default:
             return oldState;
     }
 }
+
+export default suggestionsReducer

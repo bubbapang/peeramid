@@ -31,7 +31,7 @@ import './FeedItem.css';
     const [formDrawerClosing, setFormDrawerClosing] = useState(false);
     const chartRef = useRef(null);
     const [formDrawerVisible, setFormDrawerVisible] = useState(false);
-   
+  
     const [activeDiv, setActiveDiv] = useState(null);
 
   // const toggleFormDrawer = (divName) => {
