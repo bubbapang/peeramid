@@ -132,7 +132,7 @@ router.post('/:id/follow', restoreUser, async (req, res, next) => {
     if (currentUser.following.includes(req.params.id)) {
       return res.status(400).json({message: `Already following this user`});
     }
-    if (currentUser.followRequest.includes(req.params.id)) {
+    if (targetUser.followRequest.includes(currentUser._id)) {
       return res.status(400).json({message: `Already sent follow request`});
     }
     if (targetUser.public) {
@@ -152,6 +152,44 @@ router.post('/:id/follow', restoreUser, async (req, res, next) => {
       );
        return res.status(200).json({message: 'Follow request sent'}); // Add this line
     }
+  } catch (err) {
+    return next(err)
+  }
+});
+
+// DELETE USER FROM FOLLOWING AND FOLLOW REQUEST
+router.delete('/:id/follow', restoreUser, async (req, res, next) => {
+  const targetUser = await User.findById(req.params.id)
+  const currentUser = req.user;
+
+  try {
+    if (!targetUser) {
+      return res.status(404).json({message: 'User not found'});
+    }
+    if (!currentUser) {
+      return res.status(404).json({message: 'Current user not found'})
+    }
+    if (currentUser._id === targetUser._id) {
+      return res.status(404).json({message: 'Cannot unfollow self'})
+    }
+    if (!currentUser.following.includes(req.params.id)
+      && !targetUser.followRequest.includes(currentUser._id)) {
+      return res.status(400).json({message: `Follow request never sent to this user`});
+    }
+
+    await User.findOneAndUpdate(
+      { _id: currentUser._id },
+      { $pull: {following: targetUser._id }}
+    );
+    await User.findOneAndUpdate(
+      { _id: targetUser._id },
+      { $pull: {followers: currentUser._id }}
+    );
+    await User.findOneAndUpdate(
+      { _id: targetUser._id },
+      { $pull: {followRequest: currentUser._id }}
+    );
+    return res.status(200).json({message: 'Follow deleted'}); // Add this line
   } catch (err) {
     return next(err)
   }
