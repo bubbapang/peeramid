@@ -28,44 +28,119 @@ export default function Profile() {
 
   // Set up chart data and options
   useEffect(() => {
+
+    // example datum
+    // {
+    //   label: 'My First Dataset',
+    //   data: [65, 59, 80, 81, 56, 55, 40],
+    //   fill: false,
+    //   borderColor: 'rgb(75, 192, 192)',
+    //   tension: 0.1,
+    // },
+    
+    // const needs = ['Physiology', 'Safety', 'Love', 'Esteem', 'Cognition', 'Aesthetics', 'Actualization', 'Transcendence']
+
+    const needColors = {
+      "Transcendence": "#577590",
+      "Actualization": "#4d908e",
+      "Aesthetics": "#43aa8b",
+      "Cognition": "#90be6d",
+      "Esteem": "#f9c74f",
+      "Love": "#f8961e",
+      "Safety": "#f3722c",
+      "Physiology": "#f94144"
+    };
+    const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+
+    const datasets = [];
+
+    for (const [need, color] of Object.entries(needColors)) {
+      datasets.push({
+        label: need,
+        borderColor: color,
+        data: months.map((month) => Math.floor(Math.random() * 10 + 1)),
+        fill: false,
+        tension: 0.1,
+      });
+    }
+    
+
     const lineChartData = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label: 'My First Dataset',
-          data: [65, 59, 80, 81, 56, 55, 40],
-          fill: false,
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1,
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+      // insert finished datasets here
+      datasets
+    };
+
+    const lineChartOptions = {
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          min: 1,
+          max: 10,
+          ticks: {
+            stepSize: 1,
+          },
         },
-      ],
+      },
     };
     
 
-    const lineChartOptions = {
-      // Your existing options
-    };
-
     const radarChartData = {
-      labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+      labels: ['Physiology', 'Safety', 'Love', 'Esteem', 'Cognition', 'Aesthetics', 'Actualization', 'Transcendence'],
+
       datasets: [
         {
-          label: 'My First Dataset',
-          data: [65, 59, 90, 81, 56, 55, 40],
+          label: 'Average over time',
+          data: [
+            8,
+            9,
+            8,
+            8,
+            8,
+            9,
+            8,
+            6
+          ],
           fill: true,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgb(75, 192, 192)',
           pointBackgroundColor: 'rgb(75, 192, 192)',
           pointBorderColor: '#fff',
           pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(75, 192, 192)',
+          pointHoverBorderColor: 'rgb(75, 192, 192)'
         },
       ],
     };
 
     const radarChartOptions = {
-      // Your existing radar options
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      scales: {
+        r: {
+          min: 1,
+          max: 10,
+          ticks: {
+            stepSize: 1,
+          },
+          angleLines: {
+            color: "darkgreen",
+          },
+          grid: {
+            color: "darkgreen",
+          },
+          pointLabels: {
+            color: "darkgreen",
+            font: {
+              size: 17,
+            },
+          },
+        },
+      },
     };
+    
 
     setLineData(lineChartData);
     setLineOptions(lineChartOptions);
@@ -116,15 +191,24 @@ export default function Profile() {
 
       {/* Bottom */}
       <div className="bottom">
+
         {/* Charts */}
         <div className='charts-container'>
-          <Line data={lineData} options={lineOptions} />
-          <Radar data={radarData} options={radarOptions} />
-        </div>
-          {/* Suggestions */}
-          <div className="suggestions">
-            <Pin />
+
+          <div className="radar-chart-container">
+            <Radar data={radarData} options={radarOptions} />
+
+            {/* Suggestions */}
+            <div className="suggestions">
+              <Pin />
+            </div>
           </div>
+
+          <div className="line-chart-container">
+            <Line data={lineData} options={lineOptions} />
+          </div>
+          
+        </div>
       </div>
 
     </div>

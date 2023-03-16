@@ -2,85 +2,74 @@
     display: flex;
     margin-top: 40px;
     justify-content: center;
-    /* height: 100%; */
-    /* border: blue solid 1px; */
-}
-
-#profile-picture {
+    width: 800px;
+    height: 400px;
+  }
+  
+  #profile-picture {
     position: absolute;
     font-size: 162px;
-    /* margin-top: 5.0px; */
-    /* margin-left: 0.1px; */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
-}
-
-#charts {
-    position: relative;
-    max-width: 200px;
-    height: 200px;
-    z-index: 1000;
-}
-
-
+  }
+  
   .feed-item-info {
-    margin: 20px;
+    /* margin: 20px; */
     position: relative;
-    /* margin-left: 375px; */
-    /* border: red solid 1px; */
     background-color: #222831;
     padding: 19px;
-    border-radius: 30px;
-    z-index: 0;
-}
-.lights-container {
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .lights-container {
     display: flex;
-    flex-direction: column ;
+    flex-direction: column;
     float: right;
     margin-top: 20px;
     height: 360px;
     width: 30vw;
     border-radius: 30px;
-    /* border: blue solid 1px; */
-}
-
-.lights-container div {
+  }
+  
+  .lights-container div {
     padding: 20px;
-}
-
-.lowlight {
-    height: 100%;
+  }
+  
+  .lowlight, .highlight {
+    height: 50%;
     width: 100%;
-    /* border: red solid 1px; */
+    /* border-radius: 30px; */
+  }
+  
+  .lowlight {
     background-color: rgb(66, 60, 60);
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-}
-
-.highlight {
-    height: 100%;
-    width: 100%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .highlight {
     background-color: rgb(103, 126, 146);
-    /* border: rgb(21, 157, 21) solid 1px; */
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-}
-
-.lowlight:hover {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  
+  .lowlight:hover {
     cursor: pointer;
     background-color: rgb(83, 74, 74);
     border: rgb(100, 89, 89) solid 2px;
-}
-
-.highlight:hover {
+  }
+  
+  .highlight:hover {
     cursor: pointer;
     background-color: rgb(124, 152, 177);
     border: rgb(103, 126, 146) solid 2px;
-}
-
-.form-drawer {
+  }
+  
+  .form-drawer {
     position: fixed;
     top: 0;
     right: 0;
@@ -89,17 +78,16 @@
     background-color: #fff;
     padding: 20px;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Added opacity to the transition */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     z-index: 1000;
   
     transform: translateX(100%);
-    opacity: 0; /* Set the initial opacity to 0 */
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Added opacity to the transition */
+    opacity: 0;
   }
   
   .form-drawer.visible {
     transform: translateX(0%);
-    opacity: 1; /* Set the opacity to 1 when the form-drawer is visible */
+    opacity: 1;
   }
   
   .close-button {
