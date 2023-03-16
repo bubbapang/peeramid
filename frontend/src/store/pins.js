@@ -1,13 +1,13 @@
 import jwtFetch from "./jwt";
-
+import { receiveSuggestions } from "./suggestions";
 export const RECEIVE_PINS = `pins/RECEIVE_PINS`;
 export const RECEIVE_PIN = `pins/RECEIVE_PIN`;
 export const REMOVE_PIN = `pins/REMOVE_PIN`;
 
-export const receivePins = (userId) => {
+export const receivePins = (suggestions) => {
     return {
         type: RECEIVE_PINS,
-        userId
+        suggestions
     }
 }
 
@@ -26,14 +26,15 @@ export const removePin = (suggestionId) => {
 }
 
 export const getPins = (userId) => (store) => {
-    return store.users[userId] ? store.users[userId].pins : []
+    return store.users && store.users[userId] ? store.users[userId].pins : []
 }
 
-export const fetchPins = (userId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/users/${userId}/pins`);
+export const fetchPins = (user) => async (dispatch) => {
+    const response = await jwtFetch(`/api/users/${user._id}/pins`);
 
     if (response.ok) {
-        dispatch(receivePins(userId));
+        const pins = await response.json();
+        dispatch(receivePins(pins));
     }
 }
 
@@ -52,3 +53,17 @@ export const deletePin = (suggestionId) => async (dispatch) => {
         dispatch(removePin(suggestionId));
     }
 }
+
+const pinsReducer = (oldState={}, action) => {
+
+    const nextState = {...oldState}
+
+    switch(action.type) {
+        case RECEIVE_PINS:
+            return action.suggestions;
+        default:
+            return oldState
+    }
+}
+
+export default pinsReducer

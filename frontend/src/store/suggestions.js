@@ -25,7 +25,7 @@ export const removeSuggestion = (suggestionId) => {
     }
 }
 
-export const getSuggestions = (store) => {
+export const getAllSuggestions = (store) => {
     return store.suggestions ? Object.values(store.suggestions) : [];
 }
 
@@ -102,7 +102,7 @@ export const suggestionsReducer = (oldState = initialState, action) => {
 
     switch (action.type) {
         case RECEIVE_SUGGESTIONS:
-            break;
+            return action.suggestions
         case RECEIVE_SUGGESTION:
             break;
         case REMOVE_SUGGESTION:

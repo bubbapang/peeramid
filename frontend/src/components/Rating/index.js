@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from "react-redux";
 import Need from './Need';
+import { receiveRating, createRating } from '../../store/ratings';
 import './Rating.css';
 // import { useHistory } from 'react-router-dom';
 
 
 export default function Rating () {
-
+    const dispatch = useDispatch();
     const [transcendence, setTranscendence] = useState(0);
     const [actualization, setSelfActualization] = useState(0);
     const [aesthetics, setAesthetic] = useState(0);
@@ -14,6 +16,22 @@ export default function Rating () {
     const [love, setLove] = useState(0);
     const [safety, setSafety] = useState(0);
     const [physiology, setPhysiology] = useState(0);
+
+    let handleSubmit = (e) => {
+        e.preventDefault();
+        const newRating = {
+            transcendance: transcendence,
+            actualization,
+            aesthetics,
+            knowledge: cognition,
+            esteem,
+            love,
+            safety,
+            physiological: physiology
+        }
+        console.log(newRating)
+        dispatch(createRating(newRating))
+    }
 
     const handleRating = (name, rating) => {
         switch (name) {
@@ -96,9 +114,22 @@ export default function Rating () {
                     )
                 }, [])}
             </div>
-            <div className='submit-stuff'>
-                <button className='submit' id="submitButton">Submit</button>
-            </div>
+
+            <button className='submit' onClick={handleSubmit}
+            // {() => {
+            //     console.log("Transcendence:", transcendence,
+            //                 "Actualization:", actualization,
+            //                 "Aesthetics:", aesthetics,
+            //                 "Cognition:", cognition,
+            //                 "Esteem:", esteem,
+            //                 "Love:", love,
+            //                 "Safety:", safety,
+            //                 "Physiology:", physiology
+            //     );
+            // }}
+            >Submit</button>
+
+
         </div>
     );
 }

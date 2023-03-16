@@ -16,6 +16,7 @@ import Feed from './components/Feed';
 import Suggestion from './components/Suggestion';
 import Rating from './components/Rating';
 import Signup from './components/Welcome/SignupForm';
+import RatingShow from './components/Profile/RatingShow';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
 
         <Route exact path="/profile">
           <Home />
+          <RatingShow />
         </Route>
 
 
