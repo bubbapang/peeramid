@@ -92,6 +92,13 @@ import './FeedItem.css';
       },
     };
     chartRef.current = new Chart(chartCanvas, chartConfig);
+    chartCanvas.addEventListener('click', (event) => {
+      const elements = chartRef.current.getElementsAtEventForMode(event, 'nearest', { intersect: true }, true);
+      if (elements.length) {
+        toggleFormDrawer('highlight'); // Show the FormDrawer
+      }
+    });
+
   }, [post.user.id, post.ratings]);
 
   return (

@@ -1,5 +1,6 @@
 .sugg-wrapper {
   width: 100%;  
+  height: fit-content;
 }
 .sugg-item {
   display: flex;
@@ -16,7 +17,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: all var(--transition-duration);
   margin: 5px;
-  margin-right: 5px;
+  /* margin-right: 5px; */
   margin-left: 5px;
   position: relative;
   height: fit-content;
@@ -99,3 +100,15 @@ button:focus {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.40);
 }
 
+
+.textarea-edit {
+  width: 95%;
+  resize: vertical; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: black;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+}

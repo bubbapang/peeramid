@@ -100,7 +100,13 @@ export default function Suggestion() {
 
     return (
         <div className="suggestion-page">
+
+            <div className="create-suggestion">
+              <button className="create-suggestion-button">Create Suggestion</button>
+            </div>
+
             <div className="sidebar">
+            
             {/* <Sidebar setFilter={setFilter} /> */}
             <div className="sidebar">
                 {buttons.map((button, index) => (
@@ -115,7 +121,9 @@ export default function Suggestion() {
                 ))}
               </div>
             </div>
+
             <div className="suggestion-list">
+
             {Object.values(filteredSuggestions).map((suggestion) => (
                 <ItemSuggestions key={suggestion.id} suggestion={suggestion} />
             ))}
