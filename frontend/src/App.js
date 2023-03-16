@@ -15,6 +15,7 @@ import Navigation from './components/Home/Navigation';
 import Feed from './components/Feed';
 import Signup from './components/Welcome/SignupForm';
 
+
 function App() {
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
@@ -37,6 +38,8 @@ function App() {
           <Signup />
         </Route>
 
+
+        
         {/* <AuthRoute exact path="/" component={Welcome} /> */}
         {/* <ProtectedRoute exact path="/tweets" component={Tweets} />
         <ProtectedRoute exact path="/profile" component={Profile} />

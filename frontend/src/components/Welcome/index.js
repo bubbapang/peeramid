@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { login, clearSessionErrors } from '../../store/session';
 
+
 export default function Welcome () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -57,6 +58,7 @@ const handleSubmit = async (e) => {
                   <NavLink to="/signup">
                   <button style={{textDecoration: "none"}} type="button" value="Signup">Signup</button>
                   </NavLink>
+
                 </div>
 
               </form>
