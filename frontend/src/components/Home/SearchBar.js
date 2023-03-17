@@ -1,20 +1,32 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { searchUsers } from '../../store/session';
+
 import './SearchBar.css';
 
-export default function SearchBar({ onSearch, users }) {
+export default function SearchBar({ onSearch }) {
+    const allSearchResults = useSelector(state => state.session.searchResults);
+    const dispatch = useDispatch();
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-    const handleChange = (event) => {
-        setSearchTerm(event.target.value);
+    // const handleChange = (event) => {
+    //     setSearchTerm(event.target.value);
 
-        const filteredResults = users.filter((user) =>
-        user.toLowerCase().includes(event.target.value.toLowerCase())
-        );
-        setSearchResults(filteredResults);
-        setIsDropdownVisible(true);
-    };
+    //     const filteredResults = users.filter((user) =>
+    //     user.toLowerCase().includes(event.target.value.toLowerCase())
+    //     );
+    //     setSearchResults(filteredResults);
+    //     setIsDropdownVisible(true);
+    // };
+
+    const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+    dispatch(searchUsers(event.target.value));
+    setIsDropdownVisible(true);
+};
+
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {

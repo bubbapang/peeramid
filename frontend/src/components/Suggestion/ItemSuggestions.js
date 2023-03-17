@@ -65,3 +65,4 @@ export default function ItemSuggestion({ suggestion }) {
     </div>
   );
 }
+

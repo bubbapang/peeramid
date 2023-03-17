@@ -1,43 +1,77 @@
+
 .suggestion-page {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    background-color: #42465c;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: hidden;
-  }
-  
-  .suggestion-list {
-    display: flex;
-    max-width: 85vw;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 50px;
-    background-color: #9DBFB2;
-    overflow-y: auto; /* Add this line to enable vertical scrolling */
-     /* Add this line to make room for the scrollbar */
-    border-radius: 5px;
-    padding: 10px;
-  }
- 
-  .suggestion-list::-webkit-scrollbar {
-    width: 10px; /* Width of the scrollbar */
-    }
-    
-    .suggestion-list::-webkit-scrollbar-track {
-    background-color: #a0a3aa; /* Color of the scrollbar track */
-    
-    }
-    
-    .suggestion-list::-webkit-scrollbar-thumb {
-    background-color: #888; /* Color of the scrollbar thumb */
-    border-radius: 10px; /* Border radius for the scrollbar thumb */
-    }
-    
-    .suggestion-list::-webkit-scrollbar-thumb:hover {
-    background-color: #555; /* Color of the scrollbar thumb when hovered */
-    }
-  
-  
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #42465c;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.suggestion-list {
+  /* flex: 1; */
+  /* max-width: 85vw;
+  max-width: 100%; */
+  /* gap: 20px; */
+  /* flex-wrap: wrap; */
+  /* margin-top: 120px; */
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: #9DBFB2;
+  overflow-y: auto;
+  padding-right: 10px;
+  border-radius: 5px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  height: 100%;
+  width: 70%;
+}
+
+.suggestion-list::-webkit-scrollbar {
+  width: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  /* padding: 5px; */
+  height: 100%;
+  width: 30%; /* Change to 30% to take up 30% of the screen width */
+  align-items: center;
+  gap: 8px;
+  margin-top: 23px;
+  background-color: #42465c; /* Add a background color */
+}
+
+.sidebar-button {
+  display: block;
+  background: transparent;
+  text-align: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  /* width: fit-content; */
+  height: 65px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+  transition: background-color 0.3s; /* Add transition for smooth hover effect */
+}
+
+.sidebar-button:hover {
+  background-color: #575c78;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle box-shadow on hover */
+}

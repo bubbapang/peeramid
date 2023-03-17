@@ -38,9 +38,6 @@ return (
         <div className="welcome-form">
         <h1 id="title">Peeramid</h1>
 
-        <div className="profile-pic" />
-        <h2>Abraham Maslow</h2>
-
         <form onSubmit={handleSubmit}>
             <label>
             First Name:

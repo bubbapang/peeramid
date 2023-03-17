@@ -14,7 +14,7 @@ export default function Pin() {
     
 
     useEffect(() => {
-        if (user._id) {
+        if (user && user._id) {
             dispatch(fetchPins(user))
         }
     }, [dispatch, user])
