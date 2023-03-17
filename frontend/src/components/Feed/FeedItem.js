@@ -17,6 +17,8 @@ import { createSuggestion } from '../../store/suggestions';
       dispatch(createSuggestion(newSuggestion, rating._id));
       const suggestionCreatedEvent = new CustomEvent('suggestionCreated');
       window.dispatchEvent(suggestionCreatedEvent);
+
+      onClose();
     }
 
     

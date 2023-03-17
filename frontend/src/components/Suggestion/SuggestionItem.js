@@ -4,6 +4,7 @@ import './SuggestionItem.css';
 import { createLike, deleteLike } from '../../store/likes'
 import { createPin, deletePin } from '../../store/pins';
 import { updateSuggestion } from '../../store/suggestions';
+import { deleteSuggestion } from '../../store/suggestions';
 
 const categoryEmojiMap = {
   Transcendence: '🌌',
@@ -25,7 +26,14 @@ export default function SuggestionItem({ suggestion }) {
     setEditMode(!editMode);
   };
 
-  
+  const deleteSugg = () => {
+    console.log('delete suggestion', suggestion._id);
+    dispatch(deleteSuggestion(suggestion._id));
+
+  }
+
+
+  //doesnt work
   const submitEdit = () => {
     const newSuggestion = {
       body: document.getElementById('update-suggestion-body').value,
@@ -82,6 +90,9 @@ export default function SuggestionItem({ suggestion }) {
                 </button>
                 <button onClick={toggleEditMode}>
                   <i className="fas fa-times" /> Cancel
+                </button>
+                <button onClick={deleteSugg}>
+                  <i className="fas fa-trash" /> Delete
                 </button>
               </>
             ) : (
