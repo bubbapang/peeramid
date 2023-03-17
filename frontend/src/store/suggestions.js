@@ -1,4 +1,5 @@
 import jwtFetch from "./jwt";
+import { RECEIVE_PIN } from './pins';
 
 export const RECEIVE_SUGGESTIONS = `suggestions/RECEIVE_SUGGESTIONS`;
 export const RECEIVE_SUGGESTION = `suggestions/RECEIVE_SUGGESTION`;
@@ -116,6 +117,9 @@ const suggestionsReducer = (oldState = initialState, action) => {
             return oldState;
         case REMOVE_SUGGESTION:
             return oldState;
+        // case RECEIVE_PIN:
+        //     console.log(nextState)
+        //     return;
         default:
             return oldState;
     }

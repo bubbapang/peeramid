@@ -11,12 +11,12 @@ export default function Navigation() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-
   const handleLogout = (e) => {
     e.preventDefault()
     dispatch(logout())
+    // send back to '/'
+    history.push('/')
 }
-
 
   const handleButtonClick = (buttonName) => {
     history.push(`/${buttonName.toLowerCase()}`);
@@ -38,14 +38,18 @@ export default function Navigation() {
 
   return (
     <div className="nav-bar-container">
-      <button className="profile-icon" onClick={() => handleButtonClick('Profile')}><i className="fas fa-user-circle fa-2x" /></button>
-      <button className="today" onClick={() => handleButtonClick('Rating')}>Today</button>
-      <SearchBar onSearch={handleSearch}  />
-      {/* {searchResults.length > 0 && <SearchResults searchResults={searchResults} />} */}
-      <button onClick={() => handleButtonClick('Feed')}>Feed</button>
-      <button onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
-      {/* <button onClick={() => handleButtonClick('Settings')}>Settings</button> */}
       <button onClick={handleLogout}>Logout</button>
+      <div className='profile-today-search'>
+        <div className='profile-today'>
+          <button className="profile-icon" onClick={() => handleButtonClick('Profile')}><i className="fas fa-user-circle fa-2x" /></button>
+          <button className="today" onClick={() => handleButtonClick('Rating')}>Today</button>
+        </div>
+        <SearchBar onSearch={handleSearch}  />
+      </div>
+      <div className='feed-suggestions'>
+        <button onClick={() => handleButtonClick('Feed')}>Feed</button>
+        <button onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
+      </div>
     </div>
   );
 }

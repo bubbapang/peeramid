@@ -1,10 +1,12 @@
 import jwtFetch from './jwt';
+import { RECEIVE_PIN } from './pins';
 
 const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
 const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
 const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
 export const RECEIVE_SEARCH_RESULTS = 'users/RECEIVE_SEARCH_RESULTS';
 export const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
+export const ADD_USER_PIN = "users/ADD_USER_PIN"
 
 // Dispatch receiveCurrentUser when a user logs in.
 const receiveCurrentUser = currentUser => ({
@@ -34,6 +36,15 @@ export const receiveSearchResults = (results) => {
     results,
   };
 };
+
+export const addUserPin = (suggestionId, userId) => {
+  return {
+    type: ADD_USER_PIN,
+    suggestionId,
+    userId,
+  };
+};
+
 export const signup = user => startSession(user, 'api/users/register');
 export const login = user => startSession(user, 'api/users/login');
 
@@ -86,6 +97,9 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
         return { user: action.currentUser };
       case RECEIVE_USER_LOGOUT:
         return initialState;
+      case ADD_USER_PIN:
+        state[action.userId].pins.push(action.suggestionId);
+        return state;
       case RECEIVE_SEARCH_RESULTS:
         return {...state, searchResults: action.results }
       default:
@@ -98,12 +112,13 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
     export const sessionErrorsReducer = (state = nullErrors, action) => {
     switch(action.type) {
         case RECEIVE_SESSION_ERRORS:
-        return action.errors;
+          return action.errors;
         case RECEIVE_CURRENT_USER:
+          
         case CLEAR_SESSION_ERRORS:
-        return nullErrors;
+          return nullErrors;
         default:
-        return state;
+          return state;
     }
     };
 

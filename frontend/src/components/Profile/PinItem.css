@@ -63,3 +63,7 @@ button:focus {
 .profile-part .fas {
     font-size: 30px; /* Adjust the size by changing this value */
 }
+
+.category-tag {
+    font-size: 25px;
+}

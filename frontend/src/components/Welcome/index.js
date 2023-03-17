@@ -20,10 +20,8 @@ const handleSubmit = async (e) => {
     email,
     password,
   };
-
-  const success = await dispatch(login(userCredentials));
-
-  if (success) {
+  dispatch(login(userCredentials));
+  if (currentUser) {
     history.push('/feed');
   }
 };

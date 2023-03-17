@@ -15,7 +15,7 @@ function isSameDay(timestamp) {
             date1.getDate() === date2.getDate();
 }
 
-// Create new rating
+// Create new ratingc
 router.post('/', requireUser, async (req, res, next) => {
     try {
         const newRating = new Rating( {
