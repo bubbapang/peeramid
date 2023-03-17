@@ -8,8 +8,16 @@ import './Sidebar.css';
 export default function Suggestion() {
   const user = useSelector((state) => state.session.user);
   const suggestions = useSelector((state) => state.suggestions);
-  const [suggestionsVersion, setSuggestionsVersion] = useState(0);
+  // const [suggestionsVersion, setSuggestionsVersion] = useState(0);
   const dispatch = useDispatch();
+
+ // make a useEffect that listens for changes in the suggestions in the state
+//  const [suggestions, setSuggestions] = useState([]);
+
+ useEffect(() => {
+   // Perform any side effects you need when the suggestions state changes.
+   console.log('suggestions state changed:', suggestions);
+ }, [suggestions]);
 
   useEffect(() => {
     const handleSuggestionCreated = () => {

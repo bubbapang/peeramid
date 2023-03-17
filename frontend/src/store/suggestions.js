@@ -99,11 +99,13 @@ export const updateSuggestion = (suggestion) => async (dispatch) => {
 }
 
 export const deleteSuggestion = (suggestionId) => async (dispatch) => {
+    console.log("suggestionID in the deleteSuggestion", suggestionId);
     const response = await jwtFetch(`/api/suggestions/${suggestionId}`, {
         method: 'DELETE'
     });
 
     if (response.ok) {
+        console.log("response is ok", response);
         dispatch(removeSuggestion(suggestionId));
     }
 }
