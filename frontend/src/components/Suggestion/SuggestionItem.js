@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './SuggestionItem.css';
 import { createLike, deleteLike } from '../../store/likes'
 import { createPin, deletePin } from '../../store/pins';
+import { updateSuggestion } from '../../store/suggestions';
 
 const categoryEmojiMap = {
   Transcendence: '🌌',
@@ -19,16 +20,23 @@ export default function SuggestionItem({ suggestion }) {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const currentUser = useSelector(state => state.session.user);
-
-  const submitEdit = (e) => {
-    e.preventDefault();
-    // console.log(e.target[0].value);
-    // setEditMode(false);
-  };
-
+  
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
+
+  
+  const submitEdit = () => {
+    const newSuggestion = {
+      body: document.getElementById('update-suggestion-body').value,
+      dayRating: suggestion.dayRating,
+      categoryTag: suggestion.label,
+    }
+    
+    dispatch(updateSuggestion(suggestion._id, newSuggestion));
+    toggleEditMode();
+  }
+  
 
   const likeDisplay = currentUser && currentUser.likes.includes(suggestion._id) ? "Liked" : "Like";
   const pinDisplay = currentUser && currentUser.pins.includes(suggestion._id) ? "Pinned" : "Pin";
@@ -57,8 +65,8 @@ export default function SuggestionItem({ suggestion }) {
 
           <div className="sugg-body">
             {editMode ? (
-              <form onSubmit={submitEdit}> 
-              <textarea defaultValue={suggestion.body}></textarea>
+              <form onSubmit={updateSuggestion}> 
+              <textarea id="update-suggestion-body" defaultValue={suggestion.body}></textarea>
             
               </form>
             ) : (
@@ -69,7 +77,7 @@ export default function SuggestionItem({ suggestion }) {
           <div className="buttons-parts">
             {editMode ? (
               <>
-                <button onClick={toggleEditMode}>
+                <button onClick={submitEdit}>
                   <i className="fas fa-save" /> Save
                 </button>
                 <button onClick={toggleEditMode}>
