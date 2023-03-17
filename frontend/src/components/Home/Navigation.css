@@ -80,3 +80,50 @@
     justify-content: center;
     height: 100%;
 }
+
+.profile-dropdown {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+    width: 100px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .privacy-toggle {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .toggle-switch {
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+    background-color: #ccc;
+    border-radius: 25px;
+    position: relative;
+    transition: background-color 0.3s;
+  }
+  
+  .toggle-switch i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: left 0.3s;
+  }
+  
+  .toggle-switch.public i {
+    left: 5px;
+  }
+  
+  .toggle-switch.private i {
+    left: 25px;
+  }
+  
+  .toggle-switch.private {
+    background-color: #4caf50;
+  }
+  

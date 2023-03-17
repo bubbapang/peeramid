@@ -4,20 +4,19 @@ import './FeedItem.css';
 import { useDispatch } from 'react-redux';
 import { createSuggestion } from '../../store/suggestions';
 
-  function FormDrawer({ onClose, visible, closing, rating, clickedLabel }) {
+  function FormDrawer({ onClose, visible, closing, rating={}, clickedLabel }) {
     const dispatch = useDispatch();
     const submitSuggestionForm = (e) => {
       e.preventDefault();
       const newSuggestion = {
         suggestion: document.getElementById('suggestion').value,
+        ratingId: rating.id,
         label: clickedLabel,
-
       }
 
-      dispatch(createSuggestion(newSuggestion));
+      dispatch(createSuggestion(newSuggestion, rating.id));
       const suggestionCreatedEvent = new CustomEvent('suggestionCreated');
       window.dispatchEvent(suggestionCreatedEvent);
-      
     }
 
     return (
@@ -133,7 +132,6 @@ import { createSuggestion } from '../../store/suggestions';
       {/* Feed item info section */}
       <div className="feed-item-info">
         <h1>{rating.user.username}</h1>
-        {/* <h2>{clickedLabel}</h2> */}
         <i id="profile-picture" className="fas fa-user-circle"></i>
         <canvas className="chart" id={`chart-${idx}`}>
         </canvas>
@@ -149,8 +147,11 @@ import { createSuggestion } from '../../store/suggestions';
           className="highlight"
           // onClick={() => toggleFormDrawer('highlight')}
         ><>
-          <h3>{rating.user.username}'s highlight today was: </h3>
-          {rating.highlights}</>
+          <h2> <span id="username"> {rating.user.username} 's </span> highlight today was: </h2>
+          <br></br>
+          <p>  {rating.highlights} </p>
+          
+          </>
         </div>
 
         {/* Lowlight section */}
@@ -160,9 +161,10 @@ import { createSuggestion } from '../../store/suggestions';
         >
           {
             rating.lowlights
-              ? <><h3>{rating.user.username}'s lowlight today was:</h3>
+              ? <><h3> <span id="username"> {rating.user.username} 's </span> lowlight today was:</h3>
+              <br></br>
               {rating.lowlights}</>
-              : <h3>{rating.user.username} had no lowlight today.</h3>
+              : <h3><span id="username"> {rating.user.username} </span> had no lowlight today.</h3>
           }
         </div>
       </div>
