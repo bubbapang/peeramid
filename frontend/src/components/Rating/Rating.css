@@ -1,3 +1,4 @@
+/* whole page */
 .today {
     background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/ocean+painting.jpg");
     background-size: cover;
@@ -12,6 +13,7 @@
     position: relative;
 }
 
+/* left */
 .left-side {
     display: flex;
     flex-direction: column;
@@ -19,19 +21,55 @@
     gap: 20px;
 }
 
-.modal {
-    display: none;
+.highlight-modal {
     background-color: rgba(0, 0, 0, 0.5);
     background-color: #fff;
     color: #000;
     z-index: 1;
     padding: 20px;
     border-radius: 10px;
+    position: absolute;
+    width: 50vw;
+    height: 50vh;
+    /* display: none; */
     /* position: absolute; */
     /* color: #000;
     margin: 20px; */
 }
 
+.info-modal {
+    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    color: #000;
+    z-index: 1;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    width: 50vw;
+    height: 50vh;
+    /* display: none; */
+    /* position: absolute; */
+    /* color: #000;
+    margin: 20px; */
+}
+
+.lowlight-modal {
+    /* display: none; */
+    background-color: rgba(0, 0, 0, 0.5);
+    background-color: #fff;
+    color: #000;
+    z-index: 1;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    width: 50vw;
+    height: 50vh;
+    /* position: absolute; */
+    /* color: #000;
+    margin: 20px; */
+}
+
+/* middle */
 .needs {
     width: 1400px;
     height: 900px;
@@ -47,6 +85,15 @@
     padding: 0px;
 }
 
+/* right */
+.right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* button shit */
 .today button.highlight, button.info, button.lowlight {
     padding: 12px 24px;
     font-size: 18px;
@@ -54,8 +101,8 @@
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #fff;
-    background-color: #787878;
+    color: #000000;
+    background-color: #fafafa;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -81,14 +128,12 @@ button.submit {
     transition: all 0.3s ease;
 }
 
-button.highlight:hover, button.lowlight:hover,
-button.info:hover, button.submit:hover {
+button.highlight:hover, button.lowlight:hover, button.info:hover, button.submit:hover {
     background-color: #12488e;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-button.highlight:active, button.lowlight:active,
-button.info:active, button.submit:active {
+button.highlight:active, button.lowlight:active, button.info:active, button.submit:active {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translateY(2px);
 }

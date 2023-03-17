@@ -8,11 +8,11 @@
   
   #profile-picture {
     position: absolute;
-    font-size: 162px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
+    font-size: 163px;
+    top: 29.5%;
+    left: 26%;
+    /* transform: translate(-50%, -50%); */
+    /* z-index: -1; */
   }
   
   /* Feed item info section */

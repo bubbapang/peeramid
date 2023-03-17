@@ -104,7 +104,7 @@ export default function Profile() {
           //         avg("love"), avg("esteem"),
           //         avg("knowledge"), avg("aesthetics"),
           //         avg("actualization"), avg("transcendance")],
-          data: [8, 9, 8, 8, 8, 9, 8, 6],
+          data: [7, 7, 8, 6, 3, 5, 8, 6],
           fill: true,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgb(75, 192, 192)',
