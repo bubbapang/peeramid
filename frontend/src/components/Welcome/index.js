@@ -13,6 +13,22 @@ export default function Welcome () {
   const history = useHistory();
   const currentUser = useSelector(state => state.session.user);
 
+ const handleDemo = (e) => {
+   e.preventDefault();
+   const demoCredentials = {
+     email: 'andre@user.io',
+     password: 'password',
+   };
+   dispatch(login(demoCredentials));
+
+   history.push('/feed');
+
+if (currentUser) {
+  history.push('/feed');
+}
+ };
+
+
 const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -58,7 +74,10 @@ const handleSubmit = async (e) => {
                   <button style={{textDecoration: "none"}} type="button" value="Signup">Signup</button>
                   </NavLink>
 
+                  {/* log in a demo user */}
+
                 </div>
+                  <button id="demo-button" type="button" value="Demo" onClick={handleDemo}> Demo </button>
 
               </form>
             </div>

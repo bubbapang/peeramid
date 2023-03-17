@@ -40,9 +40,13 @@ export default function Pin() {
         <div className="pins">
             {console.log(pins)}
             {
-                pins.map((object, idx) =>
-                    <PinItem key={idx} suggestion={object} />
-                )
+                // pins.map((object, idx) =>
+                //     <PinItem key={idx} suggestion={object} />
+                // )
+                Object.values(pins).map((object, idx) =>
+    <PinItem key={idx} suggestion={object} />
+)
+
 
             }
 

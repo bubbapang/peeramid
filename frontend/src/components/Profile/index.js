@@ -156,7 +156,7 @@ export default function Profile() {
 
   const allRatings = useSelector(state => state.ratings)
 
-  console.log('profile', ratings)
+  // console.log('profile', ratings)
 
   const handleFollow = (e) => {
     e.preventDefault();

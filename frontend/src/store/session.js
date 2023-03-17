@@ -110,6 +110,7 @@ export const searchUsers = (searchTerm) => async (dispatch) => {
   const nullErrors = null;
 
     export const sessionErrorsReducer = (state = nullErrors, action) => {
+    const newState = {...state}
     switch(action.type) {
         case RECEIVE_SESSION_ERRORS:
           return action.errors;
