@@ -5,7 +5,6 @@ import { searchUsers } from '../../store/session';
 // import SearchResults from './SearchResults';
 import './Navigation.css';
 import SearchBar from './SearchBar';
-import { useDispatch } from 'react-redux';
 import { logout } from '../../store/session';
 
 export default function Navigation() {

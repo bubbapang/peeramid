@@ -38,7 +38,7 @@ const handleSubmit = async (e) => {
               <h1 id='title'>Peeramid</h1>
 
               <div className='fas fa-user-circle fa-6x'/>
-              <h2>{currentUser}</h2>
+              <h2>user</h2>
 
               <form onSubmit={handleSubmit}>
 
