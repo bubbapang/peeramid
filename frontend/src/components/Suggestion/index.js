@@ -3,14 +3,27 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllPublicSuggestions } from '../../store/suggestions';
 import SuggestionItem from './SuggestionItem';
 import './Suggestion.css';
+import './Sidebar.css';
 
 export default function Suggestion() {
   const user = useSelector((state) => state.session.user);
   const suggestions = useSelector((state) => state.suggestions);
+  const [suggestionsVersion, setSuggestionsVersion] = useState(0);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const handleSuggestionCreated = () => {
+      dispatch(fetchAllPublicSuggestions());
+    };
+  
+    window.addEventListener('suggestionCreated', handleSuggestionCreated);
+  
+    // Fetch suggestions initially
     dispatch(fetchAllPublicSuggestions());
+  
+    return () => {
+      window.removeEventListener('suggestionCreated', handleSuggestionCreated);
+    };
   }, [dispatch]);
 
   const categories = [

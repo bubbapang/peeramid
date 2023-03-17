@@ -56,13 +56,11 @@
   }
   
   .lowlight:hover {
-    cursor: pointer;
     background-color: rgb(83, 74, 74);
     border: rgb(100, 89, 89) solid 2px;
   }
   
   .highlight:hover {
-    cursor: pointer;
     background-color: rgb(124, 152, 177);
     border: rgb(103, 126, 146) solid 2px;
   }
@@ -96,3 +94,18 @@
     cursor: pointer;
   }
   
+  #suggestion {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    height: 300px;
+  }
+  
+  #label {
+    color: black;
+  }
+
+ 

@@ -1,4 +1,6 @@
 import jwtFetch from "./jwt";
+import { addUserPin } from "./session";
+import { useSelector } from "react-redux";
 import { receiveSuggestions } from "./suggestions";
 export const RECEIVE_PINS = `pins/RECEIVE_PINS`;
 export const RECEIVE_PIN = `pins/RECEIVE_PIN`;
@@ -39,15 +41,22 @@ export const fetchPins = (user) => async (dispatch) => {
 }
 
 export const createPin = (suggestionId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestionId}/pins`);
-
+    const response = await jwtFetch(`/api/suggestions/${suggestionId}/pin`, {
+        method: "POST"
+        // headers: {"Content-type": "application/json"},
+        // body: JSON.stringify(suggestionId)
+    });
     if (response.ok) {
+        const userId = useSelector(state => state.session.user._id);
         dispatch(receivePin(suggestionId));
+        dispatch(addUserPin(suggestionId, userId)); 
     }
 }
 
 export const deletePin = (suggestionId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestionId}/pins`);
+    const response = await jwtFetch(`/api/suggestions/${suggestionId}/pin`, {
+        method: "DELETE"
+    });
 
     if (response.ok) {
         dispatch(removePin(suggestionId));
@@ -61,6 +70,13 @@ const pinsReducer = (oldState={}, action) => {
     switch(action.type) {
         case RECEIVE_PINS:
             return action.suggestions;
+        case RECEIVE_PIN:
+        nextState[action.suggestionId] = { ...nextState[action.suggestionId], pinned: true };
+        return nextState;
+
+        case REMOVE_PIN:
+            console.log(action)
+            return action.suggestionId;
         default:
             return oldState
     }

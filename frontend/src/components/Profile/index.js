@@ -5,6 +5,7 @@ import { getCurrentUser } from '../../store/session'
 import { fetchUserRatings } from '../../store/ratings';
 import { getRatings } from '../../store/ratings';
 import Pin from './Pin';
+import FeedItem from '../Feed/FeedItem';
 import './Profile.css';
 
 export default function Profile() {
@@ -151,7 +152,16 @@ export default function Profile() {
   
   }, [ratings]);
 
-  console.log(ratings)
+  // console.log(ratings)
+
+  const allRatings = useSelector(state => state.ratings)
+
+  console.log('profile', ratings)
+
+  const handleFollow = (e) => {
+    e.preventDefault();
+    console.log('followed')
+  }
 
   return (
     <div className="profile-page">
@@ -178,6 +188,12 @@ export default function Profile() {
           <div className="bio-layer">
             <p>{bio}</p>
           </div>
+          {/* add logout button on the left and a follow button on the right */}
+          <div className="buttons-layer">
+            {finalUser._id !== currentUser._id && (
+                <button className="follow-button" onClick={handleFollow}>Follow</button>
+            )}
+          </div>
         </div>
       </div>
       <div className="bottom">
@@ -188,8 +204,12 @@ export default function Profile() {
               <Pin />
             </div>
           </div>
-          <div className="line-chart-container">
-            <Line data={lineData} options={lineOptions} />
+          <div className="line-chart-container"><Line data={lineData} options={lineOptions} /></div>
+          <div className="ratings">
+            {/* <h1>Ratings</h1> */}
+            {ratings.map((rating, idx) => (
+              <FeedItem key={idx} rating={rating} idx={idx} />
+            ))}
           </div>
         </div>
       </div>

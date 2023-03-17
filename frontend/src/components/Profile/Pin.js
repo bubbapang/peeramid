@@ -32,15 +32,14 @@ export default function Pin() {
         { body: 'You should eat less meat' },
     ]
 
-
     if (!pins || Object.values(pins).length === 0) {
         return null;
     }
 
     return (
         <div className="pins">
+            {console.log(pins)}
             {
-
                 pins.map((object, idx) =>
                     <PinItem key={idx} suggestion={object} />
                 )

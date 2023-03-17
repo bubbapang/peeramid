@@ -1,8 +1,25 @@
 import { useRef, useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import './FeedItem.css';
+import { useDispatch } from 'react-redux';
+import { createSuggestion } from '../../store/suggestions';
 
-  function FormDrawer({ onClose, visible, closing, rating }) {
+  function FormDrawer({ onClose, visible, closing, rating, clickedLabel }) {
+    const dispatch = useDispatch();
+    const submitSuggestionForm = (e) => {
+      e.preventDefault();
+      const newSuggestion = {
+        suggestion: document.getElementById('suggestion').value,
+        label: clickedLabel,
+
+      }
+
+      dispatch(createSuggestion(newSuggestion));
+      const suggestionCreatedEvent = new CustomEvent('suggestionCreated');
+      window.dispatchEvent(suggestionCreatedEvent);
+      
+    }
+
     return (
       <div className={`form-drawer${visible ? ' visible' : ''}${closing ? ' closing' : ''}`}>
         <button className="close-button" onClick={onClose}>
@@ -15,8 +32,11 @@ import './FeedItem.css';
             {/* input text box and label to send a suggestion */}
             <div className="form-drawer-input">
                 <label htmlFor="suggestion">Suggestion</label>
+                <button> You are submitting a suggestion based on the user's: <span id="label">{clickedLabel} </span> </button>
+                <br></br>
+                <br></br>
                 <input type="text" id="suggestion" name="suggestion" placeholder="Enter a suggestion" />
-                <button className="form-drawer-button">Send</button>
+                <button className="form-drawer-button" onClick={submitSuggestionForm}>Send</button>
             </div>
         </div>  
         
@@ -30,7 +50,7 @@ import './FeedItem.css';
     const [formDrawerClosing, setFormDrawerClosing] = useState(false);
     const chartRef = useRef(null);
     const [formDrawerVisible, setFormDrawerVisible] = useState(false);
-  
+    const [clickedLabel, setClickedLabel] = useState(null);
     const [activeDiv, setActiveDiv] = useState(null);
 
   // const toggleFormDrawer = (divName) => {
@@ -38,15 +58,17 @@ import './FeedItem.css';
   //   setFormDrawerVisible(divName !== activeDiv);
   // };
 
-    const toggleFormDrawer = (divName) => {
-      if (divName !== activeDiv) {
-        setActiveDiv(divName);
-        setFormDrawerVisible(true);
-      } else {
-        setActiveDiv(null);
-        setFormDrawerVisible(false);
-      }
-    };
+  const toggleFormDrawer = (clickedLabelText) => {
+    if (clickedLabelText !== activeDiv) {
+      setActiveDiv(clickedLabelText);
+      setFormDrawerVisible(true);
+      setClickedLabel(clickedLabelText);
+    } else {
+      setActiveDiv(null);
+      setFormDrawerVisible(false);
+      setClickedLabel(null);
+    }
+  };
     
     const handleOutsideClick = (e) => {
       if (formDrawerVisible && !e.target.closest('.form-drawer') && !e.target.closest('.highlight') && !e.target.closest('.lowlight')) {
@@ -78,6 +100,20 @@ import './FeedItem.css';
         datasets: [{ label: '', data: scores, fill: true, backgroundColor: chartColors, borderColor: chartColors }],
       },
       options: {
+        onHover: (event, chartElement) => {
+          if (chartElement[0]) {
+            chartCanvas.style.cursor = 'pointer';
+          } else {
+            chartCanvas.style.cursor = 'default';
+          }
+        },
+        onClick: (event, elements) => {
+          if (elements.length > 0) {
+            const clickedElementIndex = elements[0].index;
+            const clickedLabelText = chartConfig.data.labels[clickedElementIndex];
+            toggleFormDrawer(clickedLabelText);
+          }
+        },
         cutout: '55%',
         plugins: {
           legend: { display: false },
@@ -97,8 +133,11 @@ import './FeedItem.css';
       {/* Feed item info section */}
       <div className="feed-item-info">
         <h1>{rating.user.username}</h1>
+        {/* <h2>{clickedLabel}</h2> */}
         <i id="profile-picture" className="fas fa-user-circle"></i>
-        <canvas className="chart" id={`chart-${idx}`}></canvas>
+        <canvas className="chart" id={`chart-${idx}`}>
+        </canvas>
+        {/* <div className='fas fa-user-circle fa-6x'/> */}
 
 
       </div>
@@ -108,7 +147,7 @@ import './FeedItem.css';
         {/* Highlight section */}
         <div
           className="highlight"
-          onClick={() => toggleFormDrawer('highlight')}
+          // onClick={() => toggleFormDrawer('highlight')}
         ><>
           <h3>{rating.user.username}'s highlight today was: </h3>
           {rating.highlights}</>
@@ -117,7 +156,7 @@ import './FeedItem.css';
         {/* Lowlight section */}
         <div
           className="lowlight"
-          onClick={() => toggleFormDrawer('lowlight')}
+          // onClick={() => toggleFormDrawer('lowlight')}
         >
           {
             rating.lowlights
@@ -129,7 +168,7 @@ import './FeedItem.css';
       </div>
 
       {/* Form Drawer section */}
-      {/* <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} rating={rating} /> */}
+      <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} rating={rating} clickedLabel={clickedLabel} />
     </div>
   );
 }
