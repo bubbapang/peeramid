@@ -4,20 +4,22 @@ import './FeedItem.css';
 import { useDispatch } from 'react-redux';
 import { createSuggestion } from '../../store/suggestions';
 
-  function FormDrawer({ onClose, visible, closing, rating={}, clickedLabel }) {
+  function FormDrawer({ onClose, visible, closing, rating, clickedLabel }) {
     const dispatch = useDispatch();
     const submitSuggestionForm = (e) => {
       e.preventDefault();
       const newSuggestion = {
-        suggestion: document.getElementById('suggestion').value,
-        ratingId: rating.id,
-        label: clickedLabel,
+        body: document.getElementById('suggestion_body').value,
+        dayRating: rating._id,
+        categoryTag: clickedLabel,
       }
 
-      dispatch(createSuggestion(newSuggestion, rating.id));
+      dispatch(createSuggestion(newSuggestion, rating._id));
       const suggestionCreatedEvent = new CustomEvent('suggestionCreated');
       window.dispatchEvent(suggestionCreatedEvent);
     }
+
+    
 
     return (
       <div className={`form-drawer${visible ? ' visible' : ''}${closing ? ' closing' : ''}`}>
@@ -34,7 +36,7 @@ import { createSuggestion } from '../../store/suggestions';
                 <button> You are submitting a suggestion based on the user's: <span id="label">{clickedLabel} </span> </button>
                 <br></br>
                 <br></br>
-                <input type="text" id="suggestion" name="suggestion" placeholder="Enter a suggestion" />
+                <input type="text" id="suggestion_body" name="suggestion" placeholder="Enter a suggestion" />
                 <button className="form-drawer-button" onClick={submitSuggestionForm}>Send</button>
             </div>
         </div>  
