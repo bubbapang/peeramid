@@ -11,21 +11,24 @@
 }
 
 .suggestion-list {
-  display: flex;
   /* flex: 1; */
   /* max-width: 85vw;
   max-width: 100%; */
   /* gap: 20px; */
+  /* flex-wrap: wrap; */
+  /* margin-top: 120px; */
+  display: flex;
   justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-top: 120px;
+  align-items: flex-start;
+  flex-direction: column;
   background-color: #9DBFB2;
   overflow-y: auto;
   padding-right: 10px;
   border-radius: 5px;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
-  height: fit-content;
+  height: 100%;
+  width: 70%;
 }
 
 .suggestion-list::-webkit-scrollbar {
@@ -36,4 +39,38 @@
 .suggestion-list::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 1px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  /* padding: 5px; */
+  height: 100%;
+  width: 30%; /* Change to 30% to take up 30% of the screen width */
+  align-items: center;
+  gap: 8px;
+  margin-top: 23px;
+  background-color: #42465c; /* Add a background color */
+}
+
+.sidebar-button {
+  display: block;
+  background: transparent;
+  text-align: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  /* width: fit-content; */
+  height: 65px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px;
+  transition: background-color 0.3s; /* Add transition for smooth hover effect */
+}
+
+.sidebar-button:hover {
+  background-color: #575c78;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle box-shadow on hover */
 }
