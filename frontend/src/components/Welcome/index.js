@@ -10,52 +10,45 @@ export default function Welcome() {
   const dispatch = useDispatch();
   const history = useHistory();
   const currentUser = useSelector((state) => state.session.user);
-  const errors = useSelector((state) => state.session.errors);
 
- const handleDemo = (e) => {
-   e.preventDefault();
-   const demoCredentials = {
-     email: 'andre@user.io',
-     password: 'password',
-   };
-   dispatch(login(demoCredentials));
+  const handleDemo = (e) => {
+    e.preventDefault();
+    const demoCredentials = {
+      email: 'andre@user.io',
+      password: 'password',
+    };
+    dispatch(login(demoCredentials));
+  };
 
-   history.push('/feed');
-
-if (currentUser) {
-  history.push('/feed');
-}
- };
-
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const userCredentials = {
       email,
       password,
     };
-
+  
     try {
       await dispatch(login(userCredentials));
-      if (currentUser) {
-        history.push('/feed');
-      }
     } catch (error) {
       window.alert(error.message);
     }
   };
+  
+
+  if (currentUser) {
+    history.push('/feed');
+  }
 
   return (
-    <>
-      <div className="background">
-        <div className="welcome-modal">
-          <div className="welcome-form">
-            <h1 id="title">Peeramid</h1>
+    <div className="background">
+      <div className="welcome-modal">
+        <div className="welcome-form">
+          <h1 id="title">Peeramid</h1>
+          <div className="fas fa-user-circle fa-6x" />
 
-            <div className="fas fa-user-circle fa-6x" />
-
-            <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
+            <div className='login-box'>
+              </div>
               <label>
                 Email:
                 <input
@@ -65,37 +58,28 @@ const handleSubmit = async (e) => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </label>
-
-                <div className='welcome-buttons'>
-                  <input type="submit" value="Login" />
-                  <NavLink to="/signup">
-                  <button style={{textDecoration: "none"}} type="button" value="Signup">Signup</button>
-                  </NavLink>
-
-                  {/* log in a demo user */}
-
-                </div>
-                  <button id="demo-button" type="button" value="Demo" onClick={handleDemo}> Demo </button>
-
-              </form>
-            </div>
-
-            <div className='welcome-image' />
-
+              <label>
+                Password:
+                <input
+                  type="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
               <div className="welcome-buttons">
-                <input type="submit" value="Login" />
-                <NavLink to="/signup">
-                  <button style={{ textDecoration: 'none' }} type="button" value="Signup">
-                    Signup
-                  </button>
-                </NavLink>
-              </div>
-            </form>
-          </div>
-
-          <div className="welcome-image" />
+              <button>Login</button>
+              <NavLink to="/signup">
+                <button >Signup</button>
+              </NavLink>
+              <button onClick={handleDemo}>
+                Demo
+              </button>
+            </div>
+          </form>
         </div>
+        <div className="welcome-image" />
       </div>
-    </>
+    </div>
   );
 }
