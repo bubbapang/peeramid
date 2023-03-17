@@ -261,7 +261,7 @@ router.get('/:id/ratings', async(req, res, next) => {
 
   try {
       const ratings = await Rating.find({ user: visitedUser._id})
-                                  .populate("user", "_id")
+                                  .populate("user", "_id username")
       if (!ratings) {
           return res.status(404).json({message: 'Rating not found'})
       }
