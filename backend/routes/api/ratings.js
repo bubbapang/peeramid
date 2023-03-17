@@ -60,7 +60,7 @@ router.get('/following', requireUser, async(req, res, next) => {
     const followingUserIds = currentUser.following
     try {
         const ratings = await Rating.find({ user: { $in: followingUserIds}})
-                                    .populate("user", "_id")
+                                    .populate("user", "_id username")
         if (!ratings) {
             return res.status(404).json({message: 'Rating not found'})
         }
