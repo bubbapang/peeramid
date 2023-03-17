@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
-import Need from './Need';
+import { useHistory } from 'react-router-dom';
 import { createRating } from '../../store/ratings';
+import Need from './Need';
 import './Rating.css';
 
 export default function Rating() {
@@ -50,13 +51,32 @@ export default function Rating() {
     const colorsOfNeeds = ["#f94144", "#f3722c", "#f8961e", "#f9c74f", "#90be6d", "#43aa8b", "#4d908e", "#577590"];
     const widthsOfNeeds = [500, 600, 700, 800, 900, 1000, 1100, 1200];
 
+    const [highlight, setHighlight] = useState(false);
+    const [info, setInfo] = useState(false);
+    const [lowlight, setLowlight] = useState(false);
+
+    const handleHighlightClick = () => {
+        setHighlight(!highlight);
+        setInfo(false);
+        setLowlight(false);
+        // console.log(highlight)
+    };
+    
     const handleInfoClick = () => {
-        // const infoModal = document.getElementById("infoModal");
-        // const needs = document.getElementsById("needs");
-        // infoModal.style.display = "none";
-        // needs.style.display = "none";
+        setInfo(!info);
+        setHighlight(false);
+        setLowlight(false);
+        // console.log(info)
+    };
+    
+    const handleLowlightClick = () => {
+        setLowlight(!lowlight);
+        setHighlight(false);
+        setInfo(false);
+        // console.log(lowlight)
     };
 
+    const history = useHistory();
     const handleSubmit = (e) => {
         e.preventDefault();
         const newRating = {
@@ -74,29 +94,45 @@ export default function Rating() {
             alert("Please rate all needs before submitting.");
         } else {
             dispatch(createRating(newRating));
+            history.push("/profile");
         }
     };
 
     return (
         <div className='today'>
             <div className='left-side'>
-                <button className="highlight">Highlight</button>
-                <button className="info" id="infoButton" onClick={handleInfoClick}>Info</button>
-                {/* Add the Lowlight button */}
-                <button className="lowlight">Lowlight</button>
+                <button className="highlight" onClick={handleHighlightClick}>Highlight</button>
+                <button className="info" onClick={handleInfoClick}>Info</button>
+                <button className="lowlight" onClick={handleLowlightClick}>Lowlight</button>
             </div>
-            <div className="modal">
-                <div className="modal-content">
-                    <h3>Maslow's extended hierarchy of needs builds upon his initial five-tier model, 
-                        which includes physiological, safety, love/belonging, esteem, and self-actualization needs. 
-                        In the extended version, Maslow added three more levels: cognitive, aesthetic, and transcendence. 
-                        Cognitive needs relate to knowledge and understanding, while aesthetic needs encompass beauty and order. 
-                        Transcendence needs, the highest level, involve helping others achieve self-actualization. 
-                        The extended hierarchy offers a more comprehensive view of human motivation, emphasizing the pursuit of knowledge, 
-                        appreciation of beauty, and the desire to help others grow.
-                    </h3>
+            {highlight && (
+                <div className="highlight-modal">
+                    <div className="modal-content">
+                        <h3>highlight</h3>
+                    </div>
                 </div>
-            </div>
+            )}
+            {info && (
+                <div className="info-modal">
+                    <div className="modal-content">
+                        <h3>Maslow's extended hierarchy of needs builds upon his initial five-tier model, 
+                            which includes physiological, safety, love/belonging, esteem, and self-actualization needs. 
+                            In the extended version, Maslow added three more levels: cognitive, aesthetic, and transcendence. 
+                            Cognitive needs relate to knowledge and understanding, while aesthetic needs encompass beauty and order. 
+                            Transcendence needs, the highest level, involve helping others achieve self-actualization. 
+                            The extended hierarchy offers a more comprehensive view of human motivation, emphasizing the pursuit of knowledge, 
+                            appreciation of beauty, and the desire to help others grow.
+                        </h3>
+                    </div>
+                </div>
+            )}
+            {lowlight && (
+                <div className="lowlight-modal">
+                    <div className="modal-content">
+                        <h3>lowlight</h3>
+                    </div>
+                </div>
+            )}
             <div className='needs' id='needs'>
                     {namesOfNeeds.map((name, idx) => {
                         const color = colorsOfNeeds[idx];

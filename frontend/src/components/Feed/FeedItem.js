@@ -132,7 +132,7 @@ import { createSuggestion } from '../../store/suggestions';
       {/* Feed item info section */}
       <div className="feed-item-info">
         <h1>{rating.user.username}</h1>
-        <i id="profile-picture" className="fas fa-user-circle"></i>
+        <i id="profile-picture" className="fas fa-user-circle"/>
         <canvas className="chart" id={`chart-${idx}`}>
         </canvas>
         {/* <div className='fas fa-user-circle fa-6x'/> */}
