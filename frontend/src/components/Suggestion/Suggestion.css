@@ -68,6 +68,7 @@
   color: white;
   padding: 10px;
   transition: background-color 0.3s; /* Add transition for smooth hover effect */
+  font-size: 1.5rem;
 }
 
 .sidebar-button:hover {
