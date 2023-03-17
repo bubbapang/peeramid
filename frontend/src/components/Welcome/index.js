@@ -12,8 +12,24 @@ export default function Welcome() {
   const currentUser = useSelector((state) => state.session.user);
   const errors = useSelector((state) => state.session.errors);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleDemo = (e) => {
+   e.preventDefault();
+   const demoCredentials = {
+     email: 'andre@user.io',
+     password: 'password',
+   };
+   dispatch(login(demoCredentials));
+
+   history.push('/feed');
+
+if (currentUser) {
+  history.push('/feed');
+}
+ };
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
     const userCredentials = {
       email,
@@ -50,15 +66,21 @@ export default function Welcome() {
                 />
               </label>
 
-              <label>
-                Password:
-                <input
-                  type="text"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </label>
+                <div className='welcome-buttons'>
+                  <input type="submit" value="Login" />
+                  <NavLink to="/signup">
+                  <button style={{textDecoration: "none"}} type="button" value="Signup">Signup</button>
+                  </NavLink>
+
+                  {/* log in a demo user */}
+
+                </div>
+                  <button id="demo-button" type="button" value="Demo" onClick={handleDemo}> Demo </button>
+
+              </form>
+            </div>
+
+            <div className='welcome-image' />
 
               <div className="welcome-buttons">
                 <input type="submit" value="Login" />

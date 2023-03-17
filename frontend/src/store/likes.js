@@ -38,7 +38,7 @@ export const fetchLikes = (userId) => async (dispatch) => {
 }
 
 export const createLike = (suggestionId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestionId}/likes`);
+    const response = await jwtFetch(`/api/suggestions/${suggestionId}/like`);
 
     if (response.ok) {
         dispatch(receiveLike(suggestionId));
@@ -46,7 +46,7 @@ export const createLike = (suggestionId) => async (dispatch) => {
 }
 
 export const deleteLike = (suggestionId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestionId}/likes`);
+    const response = await jwtFetch(`/api/suggestions/${suggestionId}/like`);
 
     if (response.ok) {
         dispatch(removeLike(suggestionId));

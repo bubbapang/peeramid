@@ -13,10 +13,11 @@ export const receivePins = (suggestions) => {
     }
 }
 
-export const receivePin = (suggestionId) => {
+export const receivePin = (suggestionId, userId) => {
     return {
         type: RECEIVE_PIN,
-        suggestionId
+        suggestionId,
+        userId
     }
 }
 
@@ -24,6 +25,7 @@ export const removePin = (suggestionId) => {
     return {
         type: REMOVE_PIN,
         suggestionId
+        
     }
 }
 
@@ -40,16 +42,16 @@ export const fetchPins = (user) => async (dispatch) => {
     }
 }
 
-export const createPin = (suggestionId) => async (dispatch) => {
+export const createPin = (suggestionId, userId) => async (dispatch) => {
     const response = await jwtFetch(`/api/suggestions/${suggestionId}/pin`, {
         method: "POST"
         // headers: {"Content-type": "application/json"},
         // body: JSON.stringify(suggestionId)
     });
     if (response.ok) {
-        const userId = useSelector(state => state.session.user._id);
-        dispatch(receivePin(suggestionId));
-        dispatch(addUserPin(suggestionId, userId)); 
+        // const userId = useSelector(state => state.session.user._id);
+        dispatch(receivePin(suggestionId, userId));
+        // dispatch(addUserPin(suggestionId, userId)); 
     }
 }
 
@@ -63,6 +65,8 @@ export const deletePin = (suggestionId) => async (dispatch) => {
     }
 }
 
+
+
 const pinsReducer = (oldState={}, action) => {
 
     const nextState = {...oldState}
@@ -71,12 +75,15 @@ const pinsReducer = (oldState={}, action) => {
         case RECEIVE_PINS:
             return action.suggestions;
         case RECEIVE_PIN:
-        nextState[action.suggestionId] = { ...nextState[action.suggestionId], pinned: true };
-        return nextState;
-
+            const { suggestionId, userId } = action;
+            nextState[userId] = nextState[userId] || { pins: [] };
+            nextState[userId].pins.push(suggestionId);
+            return nextState;
         case REMOVE_PIN:
-            console.log(action)
-            return action.suggestionId;
+            console.log(nextState)
+            delete nextState[action.suggestionId]
+            // delete nextState.session.user.pins
+            return nextState;
         default:
             return oldState
     }

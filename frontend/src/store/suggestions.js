@@ -6,24 +6,24 @@ export const RECEIVE_SUGGESTION = `suggestions/RECEIVE_SUGGESTION`;
 export const REMOVE_SUGGESTION = `suggestions/REMOVE_SUGGESTION`;
 
 export const receiveSuggestions = (suggestions) => {
-    return {
+    return ({
         type: RECEIVE_SUGGESTIONS,
         suggestions
-    }
+    })
 }
 
 export const receiveSuggestion = (suggestion) => {
-    return {
+    return ({
         type: RECEIVE_SUGGESTION,
         suggestion
-    }
+    })
 }
 
 export const removeSuggestion = (suggestionId) => {
-    return {
+    return ({
         type: REMOVE_SUGGESTION,
         suggestionId
-    }
+    })
 }
 
 export const getAllSuggestions = (store) => {
@@ -85,7 +85,7 @@ export const createSuggestion = (suggestion, ratingId) => async (dispatch) => {
 
 export const updateSuggestion = (suggestion) => async (dispatch) => {
     const response = await jwtFetch(`/api/suggestions/${suggestion.id}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(suggestion)
     });
@@ -114,12 +114,20 @@ const suggestionsReducer = (oldState = initialState, action) => {
         case RECEIVE_SUGGESTIONS:
             return action.suggestions
         case RECEIVE_SUGGESTION:
-            return oldState;
+            nextState[action.suggestion.id] = action.suggestion;
+            return nextState;
         case REMOVE_SUGGESTION:
-            return oldState;
+            const suggestionId = action.suggestionId;
+            delete nextState[action.suggestionId];
+            return nextState;
         // case RECEIVE_PIN:
-        //     console.log(nextState)
-        //     return;
+        //     let suggestions = {}
+        //     Object.values(nextState).forEach(suggestion => {
+        //         suggestions[suggestions._id] = suggestion
+        //     })
+        //     console.log(suggestions)
+        //     // suggestions[action.suggestionId] = 
+        //     return nextState;
         default:
             return oldState;
     }
