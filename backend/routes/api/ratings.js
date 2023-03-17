@@ -43,7 +43,7 @@ router.get('/public', async (req, res, next ) => {
     const publicUserIds = publicUsers.map((user) => user._id )
     try {
         const ratings = await Rating.find({ user: { $in: publicUserIds }})
-                                    .populate("user", "_id")
+                                    .populate("user", "_id username")
         if (!ratings) {
             return res.status(404).json({message: 'Rating not found'});
         }

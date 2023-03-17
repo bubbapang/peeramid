@@ -3,6 +3,7 @@ import jwtFetch from './jwt';
 const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
 const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
 const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
+export const RECEIVE_SEARCH_RESULTS = 'users/RECEIVE_SEARCH_RESULTS';
 export const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
 
 // Dispatch receiveCurrentUser when a user logs in.
@@ -27,6 +28,12 @@ export const clearSessionErrors = () => ({
   type: CLEAR_SESSION_ERRORS
 });
 
+export const receiveSearchResults = (results) => {
+  return {
+    type: RECEIVE_SEARCH_RESULTS,
+    results,
+  };
+};
 export const signup = user => startSession(user, 'api/users/register');
 export const login = user => startSession(user, 'api/users/login');
 
@@ -62,12 +69,25 @@ const startSession = (userInfo, route) => async dispatch => {
     user: undefined
   };
   
+export const searchUsers = (searchTerm) => async (dispatch) => {
+
+    const response = await fetch(`/api/users/search?q=${searchTerm}`);
+
+    if (response.ok) {
+      const searchResults = await response.json();
+      dispatch(receiveSearchResults(searchResults));
+    }
+
+  
+};
   const sessionReducer = (state = initialState, action) => {
     switch (action.type) {
       case RECEIVE_CURRENT_USER:
         return { user: action.currentUser };
       case RECEIVE_USER_LOGOUT:
         return initialState;
+      case RECEIVE_SEARCH_RESULTS:
+        return {...state, searchResults: action.results }
       default:
         return state;
     }

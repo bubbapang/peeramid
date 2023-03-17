@@ -1,40 +1,39 @@
 .suggestion-page {
-    display: flex;
-    height: 100vh;
-    width: 100%;
-    background-color: #42465c;
-    box-sizing: border-box;
-    overflow-x: hidden
-  }
-  
-  .suggestion-list {
-    display: flex;
-    max-width: 85vw;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-    margin-top: 60px;
-    background-color: #9DBFB2;
-    overflow-y: auto; /* Add this line to enable vertical scrolling */
-    padding-right: 10px; /* Add this line to make room for the scrollbar */
-    border-radius: 5px;
-  }
-  
-  /* Add custom scrollbar styles */
-  .suggestion-list::-webkit-scrollbar {
-    width: 8px;
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  
-  .suggestion-list::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 1px;
-  }
-  
-  /* Hide scrollbar for Firefox, IE, and Edge */
-  .suggestion-list {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #42465c;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
 
-  
-  
+.suggestion-list {
+  display: flex;
+  /* flex: 1; */
+  /* max-width: 85vw;
+  max-width: 100%; */
+  /* gap: 20px; */
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 120px;
+  background-color: #9DBFB2;
+  overflow-y: auto;
+  padding-right: 10px;
+  border-radius: 5px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  height: fit-content;
+}
+
+.suggestion-list::-webkit-scrollbar {
+  width: 8px;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 1px;
+}

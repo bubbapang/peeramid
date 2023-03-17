@@ -4,8 +4,8 @@ import { Line, Radar } from 'react-chartjs-2';
 import { getCurrentUser } from '../../store/session'
 import { fetchUserRatings } from '../../store/ratings';
 import { getRatings } from '../../store/ratings';
-import './Profile.css';
 import Pin from './Pin';
+import './Profile.css';
 
 export default function Profile() {
 
@@ -32,15 +32,18 @@ export default function Profile() {
   };
   const finalUser = currentUser ? currentUser : dummyUser;
   const ratings = useSelector(getRatings);
-  ratings ||= {};
+  // ratings ||= {};
 
   useEffect(() => {
     if (currentUser) {
       dispatch(fetchUserRatings(currentUser._id))
     }
+
+    
   }, [dispatch, currentUser])
 
   useEffect(() => {
+    // if (ratings.length === 0) { return; }
     const needColors = {
       Transcendence: "#577590",
       Actualization: "#4d908e",
@@ -82,11 +85,24 @@ export default function Profile() {
       },
     };
 
+    const avg = (idx) => {
+      let sum = 0;
+      ratings.forEach(rating => {
+        sum += rating[idx]
+      })
+      console.log(ratings, idx)
+      return  sum / ratings.length;
+    }
+
     const radarChartData = {
       labels: ['Physiology', 'Safety', 'Love', 'Esteem', 'Cognition', 'Aesthetics', 'Actualization', 'Transcendence'],
       datasets: [
         {
           label: 'Average over time',
+          // data: [avg("physiological"), avg("safety"),
+          //         avg("love"), avg("esteem"),
+          //         avg("knowledge"), avg("aesthetics"),
+          //         avg("actualization"), avg("transcendance")],
           data: [8, 9, 8, 8, 8, 9, 8, 6],
           fill: true,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -133,8 +149,10 @@ export default function Profile() {
     setRadarData(radarChartData);
     setRadarOptions(radarChartOptions);
   
-  }, []);
-  
+  }, [ratings]);
+
+  console.log(ratings)
+
   return (
     <div className="profile-page">
       <div className="top">

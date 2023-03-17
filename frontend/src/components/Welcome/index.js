@@ -2,15 +2,16 @@ import React from 'react';
 import './Welcome.css';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import { login, clearSessionErrors } from '../../store/session';
-
 
 export default function Welcome () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const history = useHistory();
+  const currentUser = useSelector(state => state.session.user);
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -36,8 +37,8 @@ const handleSubmit = async (e) => {
 
               <h1 id='title'>Peeramid</h1>
 
-              <div className='profile-pic'/>
-              <h2>Abraham Maslow</h2>
+              <div className='fas fa-user-circle fa-6x'/>
+              <h2>{currentUser}</h2>
 
               <form onSubmit={handleSubmit}>
 

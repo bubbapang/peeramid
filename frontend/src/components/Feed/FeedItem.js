@@ -2,14 +2,14 @@ import { useRef, useEffect, useState } from 'react';
 import Chart from 'chart.js/auto';
 import './FeedItem.css';
 
-  function FormDrawer({ onClose, visible, closing, post }) {
+  function FormDrawer({ onClose, visible, closing, rating }) {
     return (
       <div className={`form-drawer${visible ? ' visible' : ''}${closing ? ' closing' : ''}`}>
         <button className="close-button" onClick={onClose}>
           Close
         </button>
 
-        <h2>{post.user.username}</h2>
+        <h2>{rating.user.username}</h2>
         {/* Your form content goes here */}
         <div className="form-drawer-content">
             {/* input text box and label to send a suggestion */}
@@ -23,9 +23,8 @@ import './FeedItem.css';
       </div>
     );
   }
-  
 
-  export default function FeedItem({ post }) {
+  export default function FeedItem({ rating, idx }) {
     const [showFormDrawer, setShowFormDrawer] = useState(true);
 
     const [formDrawerClosing, setFormDrawerClosing] = useState(false);
@@ -38,7 +37,6 @@ import './FeedItem.css';
   //   setActiveDiv(divName === activeDiv ? null : divName);
   //   setFormDrawerVisible(divName !== activeDiv);
   // };
-
 
     const toggleFormDrawer = (divName) => {
       if (divName !== activeDiv) {
@@ -69,14 +67,14 @@ import './FeedItem.css';
 
   useEffect(() => {
     if (chartRef.current) chartRef.current.destroy();
-    const chartCanvas = document.getElementById(`chart-${post.user.id}`);
-    const scores = Object.values(post.ratings);
+    const chartCanvas = document.getElementById(`chart-${idx}`);
+    const scores = [rating.physiological, rating.safety, rating.love, rating.esteem, rating.knowledge, rating.aesthetics, rating.actualization, rating.transcendance];
     const chartColors = backgroundColors.slice(0, scores.length);
 
     const chartConfig = {
       type: 'doughnut',
       data: {
-        labels: ["Physiology", "Safety", "Love", "Esteem", "Cognition", "Self-actualization", "Self-transcendence", "Self-acceptance"],
+        labels: ["Physiology", "Safety", "Love", "Esteem", "Cognition", "Aesthetics", "Actualization", "Transcendence"],
         datasets: [{ label: '', data: scores, fill: true, backgroundColor: chartColors, borderColor: chartColors }],
       },
       options: {
@@ -92,15 +90,17 @@ import './FeedItem.css';
       },
     };
     chartRef.current = new Chart(chartCanvas, chartConfig);
-  }, [post.user.id, post.ratings]);
+  }, [rating,chartRef]);
 
   return (
     <div className="feed-item-container">
       {/* Feed item info section */}
       <div className="feed-item-info">
-        <h1>{post.user.username}</h1>
+        <h1>{rating.user.username}</h1>
         <i id="profile-picture" className="fas fa-user-circle"></i>
-        <canvas className="chart" id={`chart-${post.user.id}`}></canvas>
+        <canvas className="chart" id={`chart-${idx}`}></canvas>
+
+
       </div>
 
       {/* Lights container section */}
@@ -109,8 +109,9 @@ import './FeedItem.css';
         <div
           className="highlight"
           onClick={() => toggleFormDrawer('highlight')}
-        >
-          <h3>{post.user.username}'s highlight today was:</h3>
+        ><>
+          <h3>{rating.user.username}'s highlight today was: </h3>
+          {rating.highlights}</>
         </div>
 
         {/* Lowlight section */}
@@ -119,15 +120,16 @@ import './FeedItem.css';
           onClick={() => toggleFormDrawer('lowlight')}
         >
           {
-            post.user.lowlight
-              ? <h3>{post.user.username}'s lowlight today was:</h3>
-              : <h3>{post.user.username} had no lowlight today.</h3>
+            rating.lowlights
+              ? <><h3>{rating.user.username}'s lowlight today was:</h3>
+              {rating.lowlights}</>
+              : <h3>{rating.user.username} had no lowlight today.</h3>
           }
         </div>
       </div>
 
       {/* Form Drawer section */}
-      <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} post={post} />
+      {/* <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} rating={rating} /> */}
     </div>
   );
 }
