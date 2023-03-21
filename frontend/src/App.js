@@ -16,6 +16,7 @@ import Feed from './components/Feed';
 import Suggestion from './components/Suggestion';
 import Rating from './components/Rating';
 import Signup from './components/Welcome/SignupForm';
+import AboutUs from './components/AboutUs';
 // import RatingShow from './components/Profile/RatingShow';
 
 
@@ -40,7 +41,6 @@ function App() {
           <Home />
         </Route>
 
-
         <Route exact path="/feed">
           <Navigation />
           <Feed />
@@ -62,6 +62,7 @@ function App() {
         </Route>
 
       </Switch>
+      {/* <AboutUs /> */}
     </>
   );
 }

@@ -207,9 +207,12 @@ export default function Profile() {
           <div className="line-chart-container"><Line data={lineData} options={lineOptions} /></div>
           <div className="ratings">
             {/* <h1>Ratings</h1> */}
-            {ratings.map((rating, idx) => (
+            {
+            ratings.map((rating, idx) => (
               <FeedItem key={idx} rating={rating} idx={idx} />
-            ))}
+            ))
+            
+            }
           </div>
         </div>
       </div>
