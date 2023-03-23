@@ -19,6 +19,7 @@ export default function Pin() {
         }
     }, [dispatch, user])
 
+
     const pinnedSuggestions = [
         { body: 'You should transcend more' },
         { body: 'I worked out last week, it helped me!' },
@@ -33,6 +34,7 @@ export default function Pin() {
     ]
 
     
+
     if (!pins || Object.values(pins).length === 0) {
         return (
             <div className="pins">

@@ -13,10 +13,10 @@ export const receivePins = (suggestions) => {
     }
 }
 
-export const receivePin = (suggestionId, userId) => {
+export const receivePin = (suggestion, userId) => {
     return {
         type: RECEIVE_PIN,
-        suggestionId,
+        suggestion,
         userId
     }
 }
@@ -30,7 +30,8 @@ export const removePin = (suggestionId) => {
 }
 
 export const getPins = (userId) => (store) => {
-    return store.users && store.users[userId] ? store.users[userId].pins : []
+    // return store.users && store.users[userId] ? store.users[userId].pins : []
+    return store.session.user ? store.session.user.pins : []
 }
 
 export const fetchPins = (user) => async (dispatch) => {
@@ -42,15 +43,15 @@ export const fetchPins = (user) => async (dispatch) => {
     }
 }
 
-export const createPin = (suggestionId, userId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestionId}/pin`, {
+export const createPin = (suggestion, userId) => async (dispatch) => {
+    const response = await jwtFetch(`/api/suggestions/${suggestion._id}/pin`, {
         method: "POST"
         // headers: {"Content-type": "application/json"},
         // body: JSON.stringify(suggestionId)
     });
     if (response.ok) {
         // const userId = useSelector(state => state.session.user._id);
-        dispatch(receivePin(suggestionId, userId));
+        dispatch(receivePin(suggestion, userId));
         // dispatch(addUserPin(suggestionId, userId)); 
     }
 }
@@ -69,21 +70,24 @@ export const deletePin = (suggestionId) => async (dispatch) => {
 
 const pinsReducer = (oldState={}, action) => {
 
-    const nextState = {...oldState}
+    let newState = {...oldState}
 
     switch(action.type) {
         case RECEIVE_PINS:
-            return action.suggestions;
+            action.suggestions.forEach(sugg => {
+                newState[sugg._id] = sugg;
+            });
+            return newState;
         case RECEIVE_PIN:
-            const { suggestionId, userId } = action;
-            nextState[userId] = nextState[userId] || { pins: [] };
-            nextState[userId].pins.push(suggestionId);
-            return nextState;
+            const { suggestion, userId } = action;
+            // newState[userId] = newState[userId] || { pins: [] };
+            // newState[userId].pins.push(suggestionId);
+            newState[suggestion._id] = suggestion;
+            return newState;
         case REMOVE_PIN:
-            console.log(nextState)
-            delete nextState[action.suggestionId]
-            // delete nextState.session.user.pins
-            return nextState;
+            delete newState[action.suggestionId]
+            // delete newState.session.user.pins
+            return newState;
         default:
             return oldState
     }
