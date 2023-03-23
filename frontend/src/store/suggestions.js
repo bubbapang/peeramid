@@ -85,7 +85,6 @@ export const createSuggestion = (suggestion, ratingId) => async (dispatch) => {
 }
 
 export const updateSuggestion = (suggestion) => async (dispatch) => {
-    console.log(suggestion);
     const response = await jwtFetch(`/api/suggestions/${suggestion.id}`, {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},

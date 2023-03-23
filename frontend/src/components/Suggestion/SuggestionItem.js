@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './SuggestionItem.css';
 import { createLike, deleteLike } from '../../store/likes'
-import { createPin, deletePin } from '../../store/pins';
+import { createPin, deletePin, fetchPins } from '../../store/pins';
 import { updateSuggestion } from '../../store/suggestions';
 import { deleteSuggestion } from '../../store/suggestions';
 
@@ -17,11 +17,11 @@ const categoryEmojiMap = {
   Physiology: '💪',
 };
 
-export default function SuggestionItem({ suggestion }) {
+export default function SuggestionItem({ suggestion, pinIds }) {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const currentUser = useSelector(state => state.session.user);
-  
+
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
@@ -47,7 +47,7 @@ export default function SuggestionItem({ suggestion }) {
   
 
   const likeDisplay = currentUser && currentUser.likes.includes(suggestion._id) ? "Liked" : "Like";
-  const pinDisplay = currentUser && currentUser.pins.includes(suggestion._id) ? "Pinned" : "Pin";
+  const [pinDisplay, setPinDisplay] = useState(pinIds.includes(suggestion._id) ? "Pinned" : "Pin")
 
   const likeClick = () => {
     dispatch(createLike(suggestion._id))
@@ -57,10 +57,12 @@ export default function SuggestionItem({ suggestion }) {
   };
 
   const pinClick = () => {
-    dispatch(createPin(suggestion._id))
+    dispatch(createPin(suggestion, currentUser._id))
+    setPinDisplay("Pinned");
   };
   const unpinClick = () => {
-    dispatch(deletePin(suggestion._id))
+    dispatch(deletePin(suggestion._id, currentUser._id))
+    setPinDisplay("Pin");
   }
 
   return (
