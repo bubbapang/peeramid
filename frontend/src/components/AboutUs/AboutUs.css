@@ -1,0 +1,61 @@
+.about-us {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    margin: 0 auto;
+    height: 100%;
+    width: fit-content;
+    background-color: #f5f5f5;
+  }
+  
+  .team-members {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    justify-items: center;
+  }
+  
+  .adam,
+  .jasmine,
+  .madhur,
+  .andre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    border-radius: 8px;
+    text-align: center;
+    margin: 5%;
+  }
+  
+  .adam img,
+  .jasmine img,
+  .madhur img,
+  .andre img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  .adam h2,
+    .jasmine h2,
+    .madhur h2,
+    .andre h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    }
+
+    .about-us h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    }

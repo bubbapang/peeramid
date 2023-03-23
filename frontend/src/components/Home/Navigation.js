@@ -6,10 +6,17 @@ import { searchUsers } from '../../store/session';
 import './Navigation.css';
 import SearchBar from './SearchBar';
 import { logout } from '../../store/session';
+import { useState } from 'react';
+import AboutUs from '../AboutUs';
 
 export default function Navigation() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalToggle = () => {
+    setIsModalOpen(!isModalOpen);
+  };
 
   const handleLogout = (e) => {
     e.preventDefault()
@@ -28,13 +35,6 @@ export default function Navigation() {
     console.log('Search term:', searchTerm);
   };
 
-  // const users = [
-  //   'JohnDoe',
-  //   'JaneSmith',
-  //   'User123',
-  //   'ExampleUser',
-  //   // ... other user names
-  // ];
 
   return (
     <div className="nav-bar-container">
@@ -46,6 +46,15 @@ export default function Navigation() {
         </div>
         <SearchBar onSearch={handleSearch}  />
       </div>
+      <button onClick={handleModalToggle}>About Us</button>   
+      {isModalOpen && (
+  <div className="modal">
+    <div className="modal-content">
+      <button onClick={handleModalToggle} className="close-modal">X</button>
+      <AboutUs />
+    </div>
+  </div>
+)}
       <div className='feed-suggestions'>
         <button onClick={() => handleButtonClick('Feed')}>Feed</button>
         <button onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
