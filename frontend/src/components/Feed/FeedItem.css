@@ -107,5 +107,56 @@
   #label {
     color: black;
   }
-
- 
+  .success-banner {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    z-index: 1000;
+    border-radius: 0 0 5px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 80%;
+  }
+  
+  .close-success-banner {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    margin-left: 15px;
+  }
+  .loading-bar-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.3);
+    overflow: hidden;
+  }
+  
+  .loading-bar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    background-color: white;
+    animation: loadingBar 4s linear forwards;
+  }
+  
+  @keyframes loadingBar {
+    0% {
+      width: 100%;
+    }
+    100% {
+      width: 0;
+    }
+  }
+  

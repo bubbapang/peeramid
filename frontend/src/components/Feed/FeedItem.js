@@ -4,48 +4,53 @@ import './FeedItem.css';
 import { useDispatch } from 'react-redux';
 import { createSuggestion } from '../../store/suggestions';
 
-  function FormDrawer({ onClose, visible, closing, rating, clickedLabel }) {
-    const dispatch = useDispatch();
-    const submitSuggestionForm = (e) => {
-      e.preventDefault();
-      const newSuggestion = {
-        body: document.getElementById('suggestion_body').value,
-        dayRating: rating._id,
-        categoryTag: clickedLabel,
-      }
+function FormDrawer({ onClose, visible, closing, rating, clickedLabel, onSuccess }) {
+  const dispatch = useDispatch();
 
-      dispatch(createSuggestion(newSuggestion, rating._id));
-      const suggestionCreatedEvent = new CustomEvent('suggestionCreated');
-      window.dispatchEvent(suggestionCreatedEvent);
-
-      onClose();
+  const submitSuggestionForm = async (e) => {
+    e.preventDefault();
+    const newSuggestion = {
+      body: document.getElementById('suggestion_body').value,
+      dayRating: rating._id,
+      categoryTag: clickedLabel,
     }
 
-    
+    await dispatch(createSuggestion(newSuggestion, rating._id));
+    const suggestionCreatedEvent = new CustomEvent('suggestionCreated');
+    window.dispatchEvent(suggestionCreatedEvent);
 
-    return (
-      <div className={`form-drawer${visible ? ' visible' : ''}${closing ? ' closing' : ''}`}>
-        <button className="close-button" onClick={onClose}>
-          Close
-        </button>
+    onSuccess();
 
-        <h2>{rating.user.username}</h2>
-        {/* Your form content goes here */}
-        <div className="form-drawer-content">
-            {/* input text box and label to send a suggestion */}
-            <div className="form-drawer-input">
-                <label htmlFor="suggestion">Suggestion</label>
-                <button> You are submitting a suggestion based on the user's: <span id="label">{clickedLabel} </span> </button>
-                <br></br>
-                <br></br>
-                <input type="text" id="suggestion_body" name="suggestion" placeholder="Enter a suggestion" />
-                <button className="form-drawer-button" onClick={submitSuggestionForm}>Send</button>
-            </div>
-        </div>  
-        
-      </div>
-    );
+    onClose();
   }
+
+
+  return (
+    <div className={`form-drawer${visible ? ' visible' : ''}${closing ? ' closing' : ''}`}>
+  
+
+      <button className="close-button" onClick={onClose}>
+        Close
+      </button>
+
+      <h2>{rating.user.username}</h2>
+      {/* Your form content goes here */}
+      <div className="form-drawer-content">
+          {/* input text box and label to send a suggestion */}
+          <div className="form-drawer-input">
+              <label htmlFor="suggestion">Suggestion</label>
+              <button> You are submitting a suggestion based on the user's: <span id="label">{clickedLabel} </span> </button>
+              <br></br>
+              <br></br>
+              <input type="text" id="suggestion_body" name="suggestion" placeholder="Enter a suggestion" />
+              <button className="form-drawer-button" onClick={submitSuggestionForm}>Send</button>
+          </div>
+      </div>  
+
+    </div>
+  );
+}
+
 
   export default function FeedItem({ rating, idx }) {
     const [showFormDrawer, setShowFormDrawer] = useState(true);
@@ -55,11 +60,15 @@ import { createSuggestion } from '../../store/suggestions';
     const [formDrawerVisible, setFormDrawerVisible] = useState(false);
     const [clickedLabel, setClickedLabel] = useState(null);
     const [activeDiv, setActiveDiv] = useState(null);
+    const [showSuccessBanner, setShowSuccessBanner] = useState(false);
 
-  // const toggleFormDrawer = (divName) => {
-  //   setActiveDiv(divName === activeDiv ? null : divName);
-  //   setFormDrawerVisible(divName !== activeDiv);
-  // };
+  const handleSuccess = () => {
+    setShowSuccessBanner(true);
+    setTimeout(() => {
+      setShowSuccessBanner(false);
+    }, 4000);
+  };
+
 
   const toggleFormDrawer = (clickedLabelText) => {
     if (clickedLabelText !== activeDiv) {
@@ -133,6 +142,18 @@ import { createSuggestion } from '../../store/suggestions';
 
   return (
     <div className="feed-item-container">
+
+    {showSuccessBanner && (
+        <div className="success-banner">
+          <p>Your suggestion has been submitted successfully! </p> &nbsp; &nbsp; 
+          <br></br>
+          <button className="close-success-banner" onClick={() => setShowSuccessBanner(false)}>×</button>
+          <div className="loading-bar-container">
+            <div className="loading-bar"></div>
+          </div>
+        </div>
+      )}
+
       {/* Feed item info section */}
       <div className="feed-item-info">
         <h1>{rating.user.username}</h1>
@@ -174,7 +195,7 @@ import { createSuggestion } from '../../store/suggestions';
       </div>
 
       {/* Form Drawer section */}
-      <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} rating={rating} clickedLabel={clickedLabel} />
+      <FormDrawer onClose={() => setFormDrawerVisible(false)} visible={formDrawerVisible} rating={rating} clickedLabel={clickedLabel} onSuccess={handleSuccess} />
     </div>
   );
 }
