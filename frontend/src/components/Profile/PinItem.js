@@ -4,16 +4,16 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { createLike, deleteLike } from "../../store/likes";
-import { createPin, deletePin } from "../../store/pins";
+import { getPins, createPin, deletePin } from "../../store/pins";
 
 export default function PinItem({suggestion}) {
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.session.user);
     const [isVisible, setIsVisible] = useState(true);
-    // const likeDisplay = currentUser && currentUser.likes.includes(suggestion._id) ? "Liked" : "Like";
-    // const pinDisplay = currentUser && currentUser.pins.includes(suggestion._id) ? "Pinned" : "Pin";  
-const likeDisplay = currentUser?.likes?.includes(suggestion._id) ? "Liked" : "Like";
-const pinDisplay = currentUser?.pins?.includes(suggestion._id) ? "Pinned" : "Pin";
+    const pinIds = useSelector(getPins(currentUser._id));
+
+    const likeDisplay = currentUser?.likes?.includes(suggestion._id) ? "Liked" : "Like";
+    const pinDisplay = "Pinned";
 
     const likeClick = () => {
         dispatch(createLike(suggestion._id))
@@ -27,7 +27,6 @@ const pinDisplay = currentUser?.pins?.includes(suggestion._id) ? "Pinned" : "Pin
     };
     const unpinClick = () => {
     dispatch(deletePin(suggestion._id ))
-    setIsVisible(false)
     }
 
     return (

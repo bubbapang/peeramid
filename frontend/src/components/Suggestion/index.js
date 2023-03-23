@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllPublicSuggestions } from '../../store/suggestions';
+import { getPins, fetchPins } from '../../store/pins';
 import SuggestionItem from './SuggestionItem';
 import './Suggestion.css';
 import './Sidebar.css';
@@ -10,13 +11,17 @@ export default function Suggestion() {
   const suggestions = useSelector((state) => state.suggestions);
   // const [suggestionsVersion, setSuggestionsVersion] = useState(0);
   const dispatch = useDispatch();
+  const pinIds = useSelector(getPins(user._id));
+
+  useEffect(() => {
+    dispatch(fetchPins(user))
+  }, [dispatch, user])
 
  // make a useEffect that listens for changes in the suggestions in the state
 //  const [suggestions, setSuggestions] = useState([]);
-
  useEffect(() => {
    // Perform any side effects you need when the suggestions state changes.
-   console.log('suggestions state changed:', suggestions);
+  //  console.log('suggestions state changed:', suggestions);
  }, [suggestions]);
 
   useEffect(() => {
@@ -81,7 +86,7 @@ export default function Suggestion() {
       </div>
       <div className="suggestion-list">
         {Object.values(filteredSuggestions).map((suggestion, idx) => (
-          <SuggestionItem key={idx} suggestion={suggestion} />
+          <SuggestionItem key={idx} suggestion={suggestion} pinIds={pinIds}/>
         ))}
       </div>
     </div>

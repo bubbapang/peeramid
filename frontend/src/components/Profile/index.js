@@ -55,8 +55,25 @@ export default function Profile() {
       Safety: "#f3722c",
       Physiology: "#f94144",
     };
-    const months = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+    const months = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
     const datasets = [];
+    const ratingsByMonth = {};
+    ratings.forEach(rating => {
+      const timestamp = Date.parse(rating.createdAt);
+      const date = new Date(timestamp)
+      const datestr = date.getMonth() + ' ' + date.getFullYear();
+      ratingsByMonth[datestr] = ratingsByMonth[datestr] || [];
+      ratingsByMonth[datestr].push(rating);
+    })
+    console.log(ratingsByMonth)
+
+    const monthlyAvg = (idx) => {
+      let sum = 0;
+      ratingsByMonth.forEach(rating => {
+        sum += rating[idx]
+      })
+      return  sum / ratings.length;
+    }
 
     for (const [need, color] of Object.entries(needColors)) {
       datasets.push({
@@ -86,12 +103,11 @@ export default function Profile() {
       },
     };
 
-    const avg = (idx) => {
+    const totalAvg = (idx) => {
       let sum = 0;
       ratings.forEach(rating => {
         sum += rating[idx]
       })
-      console.log(ratings, idx)
       return  sum / ratings.length;
     }
 
@@ -100,11 +116,11 @@ export default function Profile() {
       datasets: [
         {
           label: 'Average over time',
-          // data: [avg("physiological"), avg("safety"),
-          //         avg("love"), avg("esteem"),
-          //         avg("knowledge"), avg("aesthetics"),
-          //         avg("actualization"), avg("transcendance")],
-          data: [7, 7, 8, 6, 3, 5, 8, 6],
+          data: [totalAvg("physiological"), totalAvg("safety"),
+                  totalAvg("love"), totalAvg("esteem"),
+                  totalAvg("knowledge"), totalAvg("aesthetics"),
+                  totalAvg("actualization"), totalAvg("transcendance")],
+          // data: [7, 7, 8, 6, 3, 5, 8, 6],
           fill: true,
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgb(75, 192, 192)',
@@ -152,11 +168,7 @@ export default function Profile() {
   
   }, [ratings]);
 
-  // console.log(ratings)
-
   const allRatings = useSelector(state => state.ratings)
-
-  // console.log('profile', ratings)
 
   const handleFollow = (e) => {
     e.preventDefault();
