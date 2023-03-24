@@ -56,30 +56,52 @@ export default function Profile() {
       Physiology: "#f94144",
     };
     const months = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
+    const needs = ["actualization",
+      "aesthetics",
+      "esteem",
+      "knowledge",
+      "love",
+      "physiological",
+      "safety",
+      "transcendance"]
+    const frontendNeeds = ["Actualization",
+      "Aesthetics",
+      "Esteem",
+      "Cognition",
+      "Love",
+      "Physiology",
+      "Safety",
+      "Transcendence"]
     const datasets = [];
     const ratingsByMonth = {};
     ratings.forEach(rating => {
+      const currentYear = new Date().getFullYear();
       const timestamp = Date.parse(rating.createdAt);
       const date = new Date(timestamp)
-      const datestr = date.getMonth() + ' ' + date.getFullYear();
-      ratingsByMonth[datestr] = ratingsByMonth[datestr] || [];
-      ratingsByMonth[datestr].push(rating);
+      if (currentYear === date.getFullYear()) {
+        const datestr = date.getMonth();
+        ratingsByMonth[datestr] = ratingsByMonth[datestr] || [];
+        ratingsByMonth[datestr].push(rating);
+      }
     })
-    console.log(ratingsByMonth)
-
-    const monthlyAvg = (idx) => {
+    const ratingAvgByNeed = {};
+    needs.forEach((need, idx) => {
       let sum = 0;
-      ratingsByMonth.forEach(rating => {
-        sum += rating[idx]
-      })
-      return  sum / ratings.length;
-    }
+      for (const [k, val] of Object.entries(ratingsByMonth)) {
+        val.forEach(elem => {
+          sum += elem[need]
+        })
+        ratingAvgByNeed[k] = ratingAvgByNeed[k] || {};
+        ratingAvgByNeed[k][frontendNeeds[idx]] = sum / val.length;
+        console.log(ratingsByMonth, ratingAvgByNeed)
+      }
+    })
 
     for (const [need, color] of Object.entries(needColors)) {
       datasets.push({
         label: need,
         borderColor: color,
-        data: months.map(() => Math.floor(Math.random() * 10 + 1)),
+        data: months.map(month => ratingAvgByNeed[month] ? ratingAvgByNeed[month][need] : null ),
         fill: false,
         tension: 0.1,
       });
