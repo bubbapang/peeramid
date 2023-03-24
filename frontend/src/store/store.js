@@ -1,20 +1,20 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import session from './session';
-import { logout } from './session';
+// import { logout } from './session';
 import ratings from './ratings';
 import pins from './pins'
 import suggestions from './suggestions';
-
+import session from './session';
+import errors from './errors';
 
 const rootReducer = combineReducers({
-  session,
   ratings,
   pins,
-  suggestions
+  suggestions,
+  
+  session,
+  errors
 });
-
-
 
 let enhancer;
 
