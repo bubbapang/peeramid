@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
-import { createRating } from '../../store/ratings';
+import { createRating, fetchUserRatings, getRatings, updateRating } from '../../store/ratings';
 import Need from './Need';
 import './Rating.css';
 
+
+const isSameDay = (timestamp) => {
+    const date1 = new Date(timestamp);
+    const date2 = new Date();
+    return  date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate();
+}
+
 export default function Rating() {
     const dispatch = useDispatch();
+    let currentUser = useSelector(state => state.session.user);
+    const ratings = useSelector(getRatings);
+    const [samedayRating] = ratings.filter(rating => isSameDay(rating.createdAt))
+
     const [transcendence, setTranscendence] = useState(null);
     const [actualization, setSelfActualization] = useState(null);
     const [aesthetics, setAesthetic] = useState(null);
@@ -15,6 +28,23 @@ export default function Rating() {
     const [love, setLove] = useState(null);
     const [safety, setSafety] = useState(null);
     const [physiology, setPhysiology] = useState(null);
+// console.log("hi", samedayRating)
+    useEffect(() => {
+        dispatch(fetchUserRatings(currentUser._id))
+    }, [dispatch, currentUser])
+
+    useEffect(() => {
+        if (samedayRating) {
+            setTranscendence(samedayRating.transcendance);
+            setSelfActualization(samedayRating.actualization);
+            setAesthetic(samedayRating.aesthetics);
+            setCognition(samedayRating.knowledge);
+            setEsteem(samedayRating.esteem);
+            setLove(samedayRating.love);
+            setSafety(samedayRating.safety);
+            setPhysiology(samedayRating.physiological);
+        }
+    }, [samedayRating])
 
     const handleRating = (name, rating) => {
         switch (name) {
@@ -48,6 +78,7 @@ export default function Rating() {
     };
 
     const namesOfNeeds = ["Transcendence", "Actualization", "Aesthetics", "Cognition", "Esteem", "Love", "Safety", "Physiology"];
+    let ratingsPreset = [transcendence, actualization, aesthetics, cognition, esteem, love, safety, physiology];
     const colorsOfNeeds = ["#f94144", "#f3722c", "#f8961e", "#f9c74f", "#90be6d", "#43aa8b", "#4d908e", "#577590"];
     const widthsOfNeeds = [500, 600, 700, 800, 900, 1000, 1100, 1200];
 
@@ -90,9 +121,32 @@ export default function Rating() {
             physiological: physiology,
         };
 
-        if (newRating.transcendance === null || newRating.actualization === null || newRating.aesthetics === null || newRating.knowledge === null || newRating.esteem === null || newRating.love === null || newRating.safety === null || newRating.physiological === null) {
+        if (newRating.transcendance === null
+            || newRating.actualization === null
+            || newRating.aesthetics === null
+            || newRating.knowledge === null
+            || newRating.esteem === null
+            || newRating.love === null
+            || newRating.safety === null
+            || newRating.physiological === null) {
             alert("Please rate all needs before submitting.");
+        } else if (newRating.transcendance === samedayRating.transcendance
+            && newRating.actualization === samedayRating.actualization
+            && newRating.aesthetics === samedayRating.aesthetics
+            && newRating.knowledge === samedayRating.knowledge
+            && newRating.esteem === samedayRating.esteem
+            && newRating.love === samedayRating.love
+            && newRating.safety === samedayRating.safety
+            && newRating.physiological === samedayRating.physiological
+        ) {
+            alert("Please change rating before updating")
+        } else if (samedayRating) {
+            newRating.id = samedayRating._id
+            console.log("UPDATE", newRating, samedayRating)
+            dispatch(updateRating(newRating));
+            history.push("/profile");
         } else {
+            console("SUBMIT")
             dispatch(createRating(newRating));
             history.push("/profile");
         }
@@ -137,12 +191,13 @@ export default function Rating() {
                     {namesOfNeeds.map((name, idx) => {
                         const color = colorsOfNeeds[idx];
                         const width = widthsOfNeeds[idx];
+                        const rating = ratingsPreset[idx];
                         return (
-                        <Need key={idx} name={name} color={color} width={width} onRatingChange={handleRating} />
+                        <Need key={idx} name={name} presetRating={rating} color={color} width={width} onRatingChange={handleRating} />
                         )
                     }, [])}
                 </div>
-            <button className='submit' onClick={handleSubmit}>Submit</button>
+            <button className='submit' onClick={handleSubmit}>{samedayRating ? "Update" : "Submit"}</button>
         </div>
     );
 }

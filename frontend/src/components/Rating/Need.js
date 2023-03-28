@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Need.css';
 
-export default function Need({ name, color, width, onRatingChange }) {
+export default function Need({ name, presetRating, color, width, onRatingChange }) {
     const style = {
         backgroundColor: color,
         width: width,
     };
-
+// console.log(presetRating)
     const buttonColors = ["#b76935","#a56336","#935e38","#815839","#6f523b","#5c4d3c","#4a473e","#38413f","#263c41","#143642"];
     const reversedButtonColors = buttonColors.reverse();
     const [hoveredButton, setHoveredButton] = useState(-1);
+    const [rating, setRating] = useState(presetRating);
 
-    const [rating, setRating] = useState("");
+    useEffect(() => {
+        setRating(presetRating)
+    }, [presetRating])
 
     const handleClick = (e) => {
         e.preventDefault();
