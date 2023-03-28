@@ -130,7 +130,8 @@ export default function Rating() {
             || newRating.safety === null
             || newRating.physiological === null) {
             alert("Please rate all needs before submitting.");
-        } else if (newRating.transcendance === samedayRating.transcendance
+        } else if (samedayRating
+            && newRating.transcendance === samedayRating.transcendance
             && newRating.actualization === samedayRating.actualization
             && newRating.aesthetics === samedayRating.aesthetics
             && newRating.knowledge === samedayRating.knowledge
@@ -142,11 +143,9 @@ export default function Rating() {
             alert("Please change rating before updating")
         } else if (samedayRating) {
             newRating.id = samedayRating._id
-            console.log("UPDATE", newRating, samedayRating)
             dispatch(updateRating(newRating));
             history.push("/profile");
         } else {
-            console("SUBMIT")
             dispatch(createRating(newRating));
             history.push("/profile");
         }
