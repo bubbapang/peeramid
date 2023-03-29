@@ -6,11 +6,13 @@ import pins from './pins'
 import suggestions from './suggestions';
 import session from './session';
 import errors from './errors';
+import likes from './likes'
 
 const rootReducer = combineReducers({
   ratings,
   pins,
   suggestions,
+  likes,
   
   session,
   errors
