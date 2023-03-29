@@ -111,7 +111,7 @@ export const deleteSuggestion = (suggestionId) => async (dispatch) => {
 
 let initialState = {};
 const suggestionsReducer = (oldState = initialState, action) => {
-    const nextState = {...oldState};
+    let nextState = {...oldState};
 
     switch (action.type) {
         case RECEIVE_SUGGESTIONS:
@@ -121,16 +121,13 @@ const suggestionsReducer = (oldState = initialState, action) => {
             return nextState;
         case REMOVE_SUGGESTION:
             const suggestionId = action.suggestionId;
-            delete nextState[action.suggestionId];
-            return nextState;
-        // case RECEIVE_PIN:
-        //     let suggestions = {}
-        //     Object.values(nextState).forEach(suggestion => {
-        //         suggestions[suggestions._id] = suggestion
-        //     })
-        //     console.log(suggestions)
-        //     // suggestions[action.suggestionId] = 
-        //     return nextState;
+            let newState = {};
+            Object.values(nextState).forEach(suggestion => {
+                newState[suggestion._id] = suggestion
+            });
+            
+            delete newState[suggestionId];
+            return Object.values(newState);
         default:
             return oldState;
     }
