@@ -64,11 +64,10 @@ export default function Suggestion() {
     { label: 'Physiology', emoji: '💪' },
   ];
 
-  const filteredSuggestions =
+const filteredSuggestions =
     filter === 'All Suggestions'
-      ? suggestions
-      : suggestions.filter((suggestion) => suggestion.categoryTag === filter);
-
+      ? Object.values(suggestions)
+      : Object.values(suggestions).filter((suggestion) => suggestion.categoryTag === filter);
 
   return (
     <div className="suggestion-page">
