@@ -44,23 +44,51 @@ export default function SuggestionItem({ suggestion, pinIds }) {
   }
   
 
-  const likeDisplay = currentUser && currentUser.likes.includes(suggestion._id) ? "Liked" : "Like";
-  const [pinDisplay, setPinDisplay] = useState(pinIds.includes(suggestion._id) ? "Pinned" : "Pin")
+  // const likeDisplay = currentUser && currentUser.likes.includes(suggestion._id) ? "Liked" : "Like";
+  // const [pinDisplay, setPinDisplay] = useState(pinIds.includes(suggestion._id) ? "Pinned" : "Pin")
+
+const [likeDisplay, setLikeDisplay] = useState("Like");
+const [pinDisplay, setPinDisplay] = useState("Pin");
+const [likeCount, setLikeCount] = useState(suggestion.likes.length);
+const [pinCount, setPinCount] = useState(suggestion.pins.length);
+
+useEffect(() => {
+  if (currentUser && currentUser.likes.includes(suggestion._id)) {
+    setLikeDisplay("Liked");
+  } else {
+    setLikeDisplay("Like");
+  }
+}, [currentUser, suggestion._id]);
+
+useEffect(() => {
+  if (pinIds.includes(suggestion._id)) {
+    setPinDisplay("Pinned");
+  } else {
+    setPinDisplay("Pin");
+  }
+}, [pinIds, suggestion._id]);
 
   const likeClick = () => {
-    dispatch(createLike(suggestion._id))
+    dispatch(createLike(suggestion, currentUser._id))
+      setLikeDisplay("Liked");
+      setLikeCount(likeCount + 1);
   };
   const unlikeClick = () => {
-    dispatch(deleteLike(suggestion._id))
+    dispatch(deleteLike(suggestion._id, currentUser._id))
+    setLikeDisplay("Like");
+    setLikeCount(likeCount - 1);
+
   };
 
   const pinClick = () => {
     dispatch(createPin(suggestion, currentUser._id))
     setPinDisplay("Pinned");
+    setPinCount(pinCount + 1);
   };
   const unpinClick = () => {
     dispatch(deletePin(suggestion._id, currentUser._id))
     setPinDisplay("Pin");
+    setPinCount(pinCount - 1);
   }
 
   return (
@@ -98,10 +126,10 @@ export default function SuggestionItem({ suggestion, pinIds }) {
             ) : (
               <>
                 <button onClick={likeDisplay === "Like" ? likeClick : unlikeClick}>
-                  <i className="fas fa-heart" /> {likeDisplay} ({suggestion.likes.length})
+                  <i className="fas fa-heart" /> {likeDisplay} ({likeCount})
                 </button>
                 <button onClick={pinDisplay === "Pin" ? pinClick : unpinClick}>
-                  <i className="fas fa-thumbtack" /> {pinDisplay} ({suggestion.pins.length})
+                  <i className="fas fa-thumbtack" /> {pinDisplay} ({pinCount})
                 </button>
                 {currentUser && currentUser._id === suggestion.user._id && (
                 <button onClick={toggleEditMode}>

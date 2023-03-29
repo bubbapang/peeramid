@@ -11,10 +11,11 @@ export const receiveLikes = (userId) => {
     }
 }
 
-export const receiveLike = (suggestionId) => {
+export const receiveLike = (suggestion, userId) => {
     return {
         type: RECEIVE_LIKE,
-        suggestionId
+        suggestion,
+        userId
     }
 }
 
@@ -33,22 +34,54 @@ export const fetchLikes = (userId) => async (dispatch) => {
     const response = await jwtFetch(`/api/users/${userId}/likes`);
 
     if (response.ok) {
+        const likes = await response.json()
         dispatch(receiveLikes(userId));
     }
 }
 
-export const createLike = (suggestionId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestionId}/like`);
+export const createLike = (suggestion, userId) => async (dispatch) => {
+    const response = await jwtFetch(`/api/suggestions/${suggestion._id}/like`,{
+    method: "POST"
+    })
 
     if (response.ok) {
-        dispatch(receiveLike(suggestionId));
+        dispatch(receiveLike(suggestion, userId));
     }
 }
 
 export const deleteLike = (suggestionId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestionId}/like`);
+    const response = await jwtFetch(`/api/suggestions/${suggestionId}/like`, {
+        method: 'DELETE'
+    });
 
     if (response.ok) {
         dispatch(removeLike(suggestionId));
     }
 }
+
+const likesReducer = (oldState={}, action) => {
+
+    let newState = {...oldState}
+
+    switch(action.type) {
+        case RECEIVE_LIKES:
+            action.suggestions.forEach(sugg => {
+                newState[sugg._id] = sugg;
+            });
+            return newState;
+        case RECEIVE_LIKE:
+            const { suggestion, userId } = action;
+            // newState[userId] = newState[userId] || { pins: [] };
+            // newState[userId].pins.push(suggestionId);
+            newState[suggestion._id] = suggestion;
+            return newState;
+        case REMOVE_LIKE:
+            delete newState[action.suggestionId]
+            // delete newState.session.user.pins
+            return newState;
+        default:
+            return oldState
+    }
+}
+
+export default likesReducer
