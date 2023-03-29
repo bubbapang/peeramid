@@ -32,16 +32,15 @@ export default function SuggestionItem({ suggestion, pinIds }) {
 
   }
 
-
-  //doesnt work
   const submitEdit = () => {
     const newSuggestion = {
+      id: suggestion._id,
       body: document.getElementById('update-suggestion-body').value,
       dayRating: suggestion.dayRating,
-      categoryTag: suggestion.label,
+      categoryTag: suggestion.categoryTag,
     }
-    
-    dispatch(updateSuggestion(suggestion._id, newSuggestion));
+    dispatch(updateSuggestion(newSuggestion));
+    suggestion.body = newSuggestion.body;
     toggleEditMode();
   }
   
