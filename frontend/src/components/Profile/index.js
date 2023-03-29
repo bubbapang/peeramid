@@ -84,16 +84,16 @@ export default function Profile() {
         ratingsByMonth[datestr].push(rating);
       }
     })
+
     const ratingAvgByNeed = {};
     needs.forEach((need, idx) => {
-      let sum = 0;
       for (const [k, val] of Object.entries(ratingsByMonth)) {
+        let sum = 0;
         val.forEach(elem => {
           sum += elem[need]
         })
         ratingAvgByNeed[k] = ratingAvgByNeed[k] || {};
         ratingAvgByNeed[k][frontendNeeds[idx]] = sum / val.length;
-        console.log(ratingsByMonth, ratingAvgByNeed)
       }
     })
 
