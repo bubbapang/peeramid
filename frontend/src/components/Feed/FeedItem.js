@@ -3,7 +3,7 @@ import Chart from "chart.js/auto";
 import "./FeedItem.css";
 import { useDispatch } from "react-redux";
 import { createSuggestion } from "../../store/suggestions";
-import { body } from "express-validator";
+// import { body } from "express-validator";
 
 function FormDrawer({
   onClose,
@@ -238,15 +238,19 @@ export default function FeedItem({ rating, idx }) {
           className="highlight"
           // onClick={() => toggleFormDrawer('highlight')}
         >
+        {rating.highlights ? (
           <>
             <h2>
-              {" "}
-              <span id="username"> {rating.user.username} 's </span> highlight
-              today was:{" "}
+              <span id="username"> {rating.user.username} 's </span> highlight today was:
             </h2>
             <br></br>
             <p> {rating.highlights} </p>
           </>
+        ) : (
+          <h2>
+            <span id="username"> {rating.user.username} </span> had no highlight today.
+          </h2>
+        )}
         </div>
 
         {/* Lowlight section */}

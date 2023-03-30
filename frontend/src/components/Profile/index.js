@@ -196,7 +196,7 @@ export default function Profile() {
     e.preventDefault();
     console.log('followed')
   }
-
+const sortedRatings = ratings.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   return (
     <div className="profile-page">
       <div className="top">
@@ -242,7 +242,7 @@ export default function Profile() {
           <div className="ratings">
             {/* <h1>Ratings</h1> */}
             {
-            ratings.map((rating, idx) => (
+            sortedRatings.map((rating, idx) => (
               <FeedItem key={idx} rating={rating} idx={idx} />
             ))
             
