@@ -79,7 +79,7 @@ const filteredSuggestions =
             title={button.label}
             onClick={() => setFilter(button.label)}
           >
-            {button.emoji} {button.label}
+            {button.emoji} <span>{button.label}</span>
           </button>
         ))}
       </div>

@@ -112,3 +112,26 @@ button:focus {
   padding: 5px;
   border-radius: 5px;
 }
+
+@media (max-width: 768px) {
+  .sugg-item {
+    flex-direction: column;
+  }
+
+  .buttons-parts {
+    flex-direction: row;
+    gap: 5px;
+    position: static;
+    transform: none;
+    margin-top: 10px;
+  }
+
+  .sugg-item-content {
+    padding: 5px;
+    height: auto;
+  }
+
+  .sugg-body {
+    width: 100%;
+  }
+}
