@@ -8,6 +8,7 @@ import SearchBar from './SearchBar';
 import { logout } from '../../store/session';
 import { useState } from 'react';
 import AboutUs from '../AboutUs';
+import { useEffect } from 'react';
 
 export default function Navigation() {
   const dispatch = useDispatch();
@@ -17,6 +18,25 @@ export default function Navigation() {
   const handleModalToggle = () => {
     setIsModalOpen(!isModalOpen);
   };
+
+  const handleBackgroundClick = (e) => {
+    if (e.target.classList.contains('modal-background')) {
+      setIsModalOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isModalOpen) {
+      document.addEventListener('click', handleBackgroundClick);
+    } else {
+      document.removeEventListener('click', handleBackgroundClick);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleBackgroundClick);
+    };
+  }, [isModalOpen]);
+
 
   const handleLogout = (e) => {
     e.preventDefault()
@@ -29,12 +49,15 @@ export default function Navigation() {
     history.push(`/${buttonName.toLowerCase()}`);
   };
 
+  
+
   const handleSearch = (searchTerm) => {
       dispatch(searchUsers(searchTerm));
     // Perform search here or navigate to the search results page
     console.log('Search term:', searchTerm);
   };
 
+  
 
   return (
     <div className="nav-bar-container">
@@ -48,13 +71,13 @@ export default function Navigation() {
       </div>
       <button className="about-us-icon" onClick={handleModalToggle}>About Us</button> 
       {isModalOpen && (
-  <div className="modal">
-    <div className="modal-content">
-      <button onClick={handleModalToggle} className="close-modal">X</button>
-      <AboutUs />
-    </div>
-  </div>
-)}
+        <div className="modal modal-background">
+          <div className="modal-content">
+            <button onClick={handleModalToggle} className="close-modal"> <p>X</p></button>
+            <AboutUs />
+          </div>
+        </div>
+      )}
       <div className='feed-suggestions'>
       <button className="feed-icon" onClick={() => handleButtonClick('Feed')}>Feed</button>
       <button className="suggestions-icon" onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>

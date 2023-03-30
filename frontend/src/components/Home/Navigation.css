@@ -162,6 +162,19 @@
     cursor: pointer;
   }
 
+  .modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+
   /* Add this media query at the end of the file */
 @media (max-width: 768px) {
   .nav-bar-container button.logout-icon,
@@ -195,5 +208,22 @@
 
   .search-input {
     width: 80%;
+  }
+
+  .close-modal p {
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    /* background-color: rgb(116, 116, 116); */
+    padding: 5px;
+    /* width: 15px; */
+    /* height: 50px; */
+    margin-top: 50px;
+    margin-right: 15px;
+    text-align: right;
+    border-radius: 50%;
+  }
+
+  .close-modal:hover {
+    background-color: rgb(255, 255, 255);
   }
 }
