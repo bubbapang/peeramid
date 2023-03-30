@@ -38,7 +38,7 @@ export default function Navigation() {
 
   return (
     <div className="nav-bar-container">
-      <button onClick={handleLogout}>Logout</button>
+      <button className="logout-icon" onClick={handleLogout}>Logout</button>
       <div className='profile-today-search'>
         <div className='profile-today'>
           <button className="profile-icon" onClick={() => handleButtonClick('Profile')}><i className="fas fa-user-circle fa-2x" /></button>
@@ -46,7 +46,7 @@ export default function Navigation() {
         </div>
         <SearchBar onSearch={handleSearch}  />
       </div>
-      <button onClick={handleModalToggle}>About Us</button>   
+      <button className="about-us-icon" onClick={handleModalToggle}>About Us</button> 
       {isModalOpen && (
   <div className="modal">
     <div className="modal-content">
@@ -56,8 +56,8 @@ export default function Navigation() {
   </div>
 )}
       <div className='feed-suggestions'>
-        <button onClick={() => handleButtonClick('Feed')}>Feed</button>
-        <button onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
+      <button className="feed-icon" onClick={() => handleButtonClick('Feed')}>Feed</button>
+      <button className="suggestions-icon" onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
       </div>
     </div>
   );

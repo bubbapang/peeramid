@@ -3,6 +3,7 @@ import Chart from "chart.js/auto";
 import "./FeedItem.css";
 import { useDispatch } from "react-redux";
 import { createSuggestion } from "../../store/suggestions";
+import { body } from "express-validator";
 
 function FormDrawer({
   onClose,
@@ -25,7 +26,7 @@ function FormDrawer({
     await dispatch(createSuggestion(newSuggestion, rating._id));
     const suggestionCreatedEvent = new CustomEvent("suggestionCreated");
     window.dispatchEvent(suggestionCreatedEvent);
-
+    
     onSuccess();
 
     onClose();
@@ -45,8 +46,7 @@ function FormDrawer({
       <div className="form-drawer-content">
         {/* input text box and label to send a suggestion */}
         <div className="form-drawer-input">
-          <label htmlFor="suggestion">Suggestion</label>
-          <button>
+          <button id="form-button">
             {" "}
             You are submitting a suggestion based on the user's:{" "}
             <span id="label">{clickedLabel} </span>{" "}
@@ -59,6 +59,8 @@ function FormDrawer({
             name="suggestion"
             placeholder="Enter a suggestion"
           />
+          <br></br>
+          <br></br>
           <button className="form-drawer-button" onClick={submitSuggestionForm}>
             Send
           </button>
