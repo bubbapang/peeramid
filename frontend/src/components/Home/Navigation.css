@@ -161,3 +161,39 @@
     font-weight: bold;
     cursor: pointer;
   }
+
+  /* Add this media query at the end of the file */
+@media (max-width: 768px) {
+  .nav-bar-container button.logout-icon,
+  .nav-bar-container button.about-us-icon,
+  .nav-bar-container button.feed-icon,
+  .nav-bar-container button.suggestions-icon {
+    font-size: 0;
+  }
+
+  .nav-bar-container button.logout-icon:before,
+  .nav-bar-container button.about-us-icon:before,
+  .nav-bar-container button.feed-icon:before,
+  .nav-bar-container button.suggestions-icon:before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 16px;
+    content: "\f2f5";
+  }
+
+  .nav-bar-container button.about-us-icon:before {
+    content: "\f129";
+  }
+
+  .nav-bar-container button.feed-icon:before {
+    content: "\f0c9";
+  }
+
+  .nav-bar-container button.suggestions-icon:before {
+    content: "\f1ea";
+  }
+
+  .search-input {
+    width: 80%;
+  }
+}

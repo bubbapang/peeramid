@@ -117,6 +117,7 @@
     align-items: center;
     justify-content: space-between;
     max-width: 80%;
+    z-index: 1000;
   }
   
   .close-success-banner {
@@ -168,4 +169,81 @@
       /* transform: translate(-50%, -50%); */
       z-index: -1;
     }
+
+  
     
+    /* Update the container's width and remove the fixed height */
+
+
+
+
+/* Add a media query for smaller screens */
+@media (max-width: 768px) {
+  .feed-item-container {
+    flex-direction: column;
+    align-items: center;
+    height: auto; /* Remove fixed height */
+  }
+
+  .feed-item-container {
+    display: flex;
+    margin-top: 40px;
+    justify-content: center;
+    width: 80%; /* Adjust width to allow space for margins */
+    max-width: 800px; /* Limit the maximum width */
+   
+  }
+
+  .feed-item-info {
+    width: 100%;
+    border-radius: 30px;
+  }
+
+  .lights-container {
+    width: 100%;
+    border-radius: 0 0 30px 30px;
+  }
+.form-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  z-index: 1000;
+  transform: translateX(100%);
+  opacity: 0;
+  box-sizing: border-box; /* Add box-sizing */
+  max-height: 100%; /* Add max-height */
+  overflow-y: auto; /* Add overflow-y */
+}
+
+#suggestion {
+  width: calc(100% - 20px); /* Update width */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
+  height: 300px;
+}
+
+  .form-drawer {
+    width: 90%;
+  }
+
+  #form-button {
+    flex-wrap: wrap;
+    width: 15%;
+  }
+
+  #form-drawer-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  
+}
