@@ -72,7 +72,7 @@ export default function Navigation() {
       <button className="about-us-icon" onClick={handleModalToggle}>About Us</button> 
       {isModalOpen && (
         <div className="modal modal-background">
-          <div className="modal-content">
+          <div className="about-modal-content">
             <button onClick={handleModalToggle} className="close-modal"> <p>X</p></button>
             <AboutUs />
           </div>
