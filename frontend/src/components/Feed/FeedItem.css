@@ -232,12 +232,11 @@
 }
 
   .form-drawer {
-    width: 90%;
+    width: 50%;
   }
 
   #form-button {
     flex-wrap: wrap;
-    width: 15%;
   }
 
   #form-drawer-button {
