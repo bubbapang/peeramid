@@ -108,10 +108,18 @@ const ratingsReducer = (oldState = initialState, action ) => {
         case RECEIVE_RATING:
             nextState[action.rating.id] = action.rating
             return nextState
+        // case REMOVE_RATING:
+        //     const ratingId = action.ratingId
+        //     delete nextState[ratingId]
+        //     return nextState
         case REMOVE_RATING:
-            const ratingId = action.ratingId
-            delete nextState[ratingId]
-            return nextState
+            const ratingId = action.ratingId;
+            let newState = {};
+            Object.values(nextState).forEach(rating => {
+                newState[rating._id] = rating
+            });
+            delete newState[ratingId];
+            return Object.values(newState);
         default: 
             return oldState;
     }

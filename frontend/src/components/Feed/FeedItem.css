@@ -246,3 +246,19 @@
 
   
 }
+
+.delete-rating-button {
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  top: 10px;
+  right: 10px;
+}
+
+.delete-rating-button:hover {
+  background-color: darkred;
+}

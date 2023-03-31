@@ -1,9 +1,9 @@
 import { useRef, useEffect, useState } from "react";
 import Chart from "chart.js/auto";
 import "./FeedItem.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createSuggestion } from "../../store/suggestions";
-import { body } from "express-validator";
+import { deleteRating } from "../../store/ratings";
 
 function FormDrawer({
   onClose,
@@ -78,6 +78,13 @@ export default function FeedItem({ rating, idx }) {
   const [clickedLabel, setClickedLabel] = useState(null);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.session.user)
+
+  const handleDeleteRating = () => {
+  dispatch(deleteRating(rating._id));
+};
+
 
   const handleSuccess = () => {
     setShowSuccessBanner(true);
@@ -229,6 +236,14 @@ export default function FeedItem({ rating, idx }) {
           <i id="profile-picture" className="fas fa-user-circle" />
           <canvas className="chart" id={`chart-${idx}`} />
         </div>
+        {currentUser._id === rating.user._id && (
+  <button className="delete-rating-button" onClick={handleDeleteRating}>
+    Delete
+  </button>
+)}
+        {/* <button className="delete-rating-button" onClick={handleDeleteRating}>
+          Delete
+      </button> */}
       </div>
 
       {/* Lights container section */}
