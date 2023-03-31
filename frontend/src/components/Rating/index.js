@@ -28,6 +28,9 @@ export default function Rating() {
     const [love, setLove] = useState(null);
     const [safety, setSafety] = useState(null);
     const [physiology, setPhysiology] = useState(null);
+    const [highlightValue, setHighlightValue] = useState('');
+    const [lowlightValue, setLowlightValue] = useState('');
+
 // console.log("hi", samedayRating)
     useEffect(() => {
         dispatch(fetchUserRatings(currentUser._id))
@@ -43,6 +46,9 @@ export default function Rating() {
             setLove(samedayRating.love);
             setSafety(samedayRating.safety);
             setPhysiology(samedayRating.physiological);
+            setHighlightValue(samedayRating.highlights);
+            setLowlightValue(samedayRating.lowlights);
+
         }
     }, [samedayRating])
 
@@ -88,23 +94,12 @@ export default function Rating() {
 
     const handleHighlightClick = () => {
         setHighlight(!highlight);
-        setInfo(false);
-        setLowlight(false);
-        // console.log(highlight)
     };
-    
     const handleInfoClick = () => {
         setInfo(!info);
-        setHighlight(false);
-        setLowlight(false);
-        // console.log(info)
     };
-    
     const handleLowlightClick = () => {
         setLowlight(!lowlight);
-        setHighlight(false);
-        setInfo(false);
-        // console.log(lowlight)
     };
 
     const history = useHistory();
@@ -119,6 +114,8 @@ export default function Rating() {
             love,
             safety,
             physiological: physiology,
+            highlights: highlightValue,
+            lowlights: lowlightValue,
         };
 
         if (newRating.transcendance === null
@@ -139,10 +136,14 @@ export default function Rating() {
             && newRating.love === samedayRating.love
             && newRating.safety === samedayRating.safety
             && newRating.physiological === samedayRating.physiological
+            && newRating.highlights === samedayRating.highlight
+            && newRating.lowlights === samedayRating.lowlights
         ) {
             alert("Please change rating before updating")
         } else if (samedayRating) {
             newRating.id = samedayRating._id
+            newRating.highlights = highlightValue;
+            newRating.lowlights = lowlightValue;
             dispatch(updateRating(newRating));
             history.push("/profile");
         } else {
@@ -151,6 +152,11 @@ export default function Rating() {
         }
     };
 
+//     const handleHighlightSubmit = () => {
+//     setHighlightValue(highlightValue)
+//     setHighlight(false);
+// };
+
     return (
         <div className='today'>
             <div className='left-side'>
@@ -158,15 +164,29 @@ export default function Rating() {
                 <button className="info" onClick={handleInfoClick}>Info</button>
                 <button className="lowlight" onClick={handleLowlightClick}>Lowlight</button>
             </div>
-            {highlight && (
+            {/* {highlight && (
                 <div className="highlight-modal">
                     <div className="modal-content">
                         <h3>highlight</h3>
                     </div>
                 </div>
+            )} */}
+            {highlight && (
+            <div className="modal">
+                <div className="modal-content">
+                    <h3>Highlight</h3>
+                    <textarea
+                        type="text"
+                        value={highlightValue}
+                        onChange={(e) => setHighlightValue(e.target.value)}
+                        style={{ width: '300px', height: '50px' }}
+                    />
+                    <button onClick={() => setHighlight(false)}>Submit</button>
+                </div>
+            </div>
             )}
             {info && (
-                <div className="info-modal">
+                <div className="modal">
                     <div className="modal-content">
                         <h3>Maslow's extended hierarchy of needs builds upon his initial five-tier model, 
                             which includes physiological, safety, love/belonging, esteem, and self-actualization needs. 
@@ -176,13 +196,21 @@ export default function Rating() {
                             The extended hierarchy offers a more comprehensive view of human motivation, emphasizing the pursuit of knowledge, 
                             appreciation of beauty, and the desire to help others grow.
                         </h3>
+                        <button onClick={() => setInfo(false)}>Close</button>
                     </div>
                 </div>
             )}
             {lowlight && (
-                <div className="lowlight-modal">
+                <div className="modal">
                     <div className="modal-content">
-                        <h3>lowlight</h3>
+                        <h3>Lowlight</h3>
+                        <textarea
+                        type="text"
+                        value={lowlightValue}
+                        onChange={(e) => setLowlightValue(e.target.value)}
+                        style={{ width: '300px', height: '50px' }}
+                    />
+                    <button onClick={() => setLowlight(false)}>Submit</button>
                     </div>
                 </div>
             )}

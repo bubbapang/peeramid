@@ -111,7 +111,7 @@ const ratingsReducer = (oldState = initialState, action ) => {
         case REMOVE_RATING:
             const ratingId = action.ratingId
             delete nextState[ratingId]
-            return nextState
+            return nextState;
         default: 
             return oldState;
     }
