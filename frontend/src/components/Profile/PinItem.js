@@ -36,6 +36,10 @@ const unpinClick = () => {
 dispatch(deletePin(suggestion._id));
 };
 
+useEffect(() => {
+    setLikeCount(suggestion.likes.length);
+}, [suggestion.likes.length]);
+
 return ((
     <div className="pin-item">
     <div className="profile-part">
