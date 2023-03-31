@@ -120,6 +120,7 @@ const ratingsReducer = (oldState = initialState, action ) => {
             });
             delete newState[ratingId];
             return Object.values(newState);
+
         default: 
             return oldState;
     }
