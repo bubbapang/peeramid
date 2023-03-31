@@ -181,7 +181,7 @@ export default function Rating() {
                         onChange={(e) => setHighlightValue(e.target.value)}
                         style={{ width: '300px', height: '50px' }}
                     />
-                    <button onClick={() => setHighlight(false)}>Submit</button>
+                    <button onClick={() => setHighlight(false)}>Ok</button>
                 </div>
             </div>
             )}
@@ -210,7 +210,7 @@ export default function Rating() {
                         onChange={(e) => setLowlightValue(e.target.value)}
                         style={{ width: '300px', height: '50px' }}
                     />
-                    <button onClick={() => setLowlight(false)}>Submit</button>
+                    <button onClick={() => setLowlight(false)}>Ok</button>
                     </div>
                 </div>
             )}
