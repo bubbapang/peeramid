@@ -23,14 +23,17 @@ function FormDrawer({
       dayRating: rating._id,
       categoryTag: clickedLabel,
     };
+    if (newSuggestion.body.length === 0) {
+      alert("Please enter a suggestion before submitting");
+    } else {
+      await dispatch(createSuggestion(newSuggestion, rating._id));
+      const suggestionCreatedEvent = new CustomEvent("suggestionCreated");
+      window.dispatchEvent(suggestionCreatedEvent);
+      
+      onSuccess();
 
-    await dispatch(createSuggestion(newSuggestion, rating._id));
-    const suggestionCreatedEvent = new CustomEvent("suggestionCreated");
-    window.dispatchEvent(suggestionCreatedEvent);
-    
-    onSuccess();
-
-    onClose();
+      onClose();
+    }
   };
 
   return (

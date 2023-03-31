@@ -29,6 +29,7 @@ export default function SuggestionItem({ suggestion, pinIds }) {
   const deleteSugg = () => {
     console.log('delete suggestion', suggestion._id);
     dispatch(deleteSuggestion(suggestion._id));
+    toggleEditMode();
   }
 
   const submitEdit = () => {
