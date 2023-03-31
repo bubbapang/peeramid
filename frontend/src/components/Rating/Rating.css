@@ -1,7 +1,7 @@
 /* whole page */
 .today {
     background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/ocean+painting.jpg");
-    background-size: 100vh;
+    background-size: 100%;
     background-position: center;
     overflow: hidden;
     width: 100%;
@@ -178,6 +178,7 @@ button.highlight:active, button.lowlight:active, button.info:active, button.subm
       padding: 0px;
       height: 92vh;
       overflow-y: hidden;
+      background-size: 100vh;
     }
   
     .container {
