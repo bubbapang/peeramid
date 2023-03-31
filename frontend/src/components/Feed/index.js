@@ -15,7 +15,7 @@ export default function Feed() {
   const [displayedRating, setDisplayedRating] = useState([]);
 
   const ratings = useSelector(getRatings);
-
+  const sortedRatings = ratings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchPublicRatings());
@@ -27,7 +27,7 @@ export default function Feed() {
   console.log('feeditem', ratings);
   return (
     <div ref={containerRef} className="feed-container">
-      {ratings.map((rating, idx) => (
+      {sortedRatings.map((rating, idx) => (
         <FeedItem key={idx} rating={rating} idx={idx} />
       ))}
     </div>
