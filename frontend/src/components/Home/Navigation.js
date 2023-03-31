@@ -9,7 +9,6 @@ import { logout } from '../../store/session';
 import { useState } from 'react';
 import AboutUs from '../AboutUs';
 import { useEffect } from 'react';
-import { clearRating } from '../../store/ratings';
 
 export default function Navigation() {
   const dispatch = useDispatch();
@@ -43,7 +42,6 @@ export default function Navigation() {
     e.preventDefault()
     dispatch(logout())
     // send back to '/'
-    dispatch(clearRating());
     history.push('/')
 }
 

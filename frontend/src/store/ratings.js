@@ -3,7 +3,6 @@ import jwtFetch from "./jwt";
 export const RECEIVE_RATINGS = `suggestions/RECEIVE_RATINGS`;
 export const RECEIVE_RATING = `suggestions/RECEIVE_RATING`;
 export const REMOVE_RATING = `suggestions/REMOVE_RATING`;
-export const CLEAR_RATINGS = 'suggestions/clear_ratings'
 
 export const receiveRatings = (ratings) => {
     return {
@@ -25,10 +24,6 @@ export const removeRating = (ratingId) => {
         ratingId
     }
 }
-
-export const clearRating = () => ({
-    type: CLEAR_RATINGS
-})
 
 export const getRatings = (store) => {
     return store.ratings ? Object.values(store.ratings) : [];
@@ -116,9 +111,7 @@ const ratingsReducer = (oldState = initialState, action ) => {
         case REMOVE_RATING:
             const ratingId = action.ratingId
             delete nextState[ratingId]
-            return nextState
-        case CLEAR_RATINGS:
-            return {}
+            return nextState;
         default: 
             return oldState;
     }

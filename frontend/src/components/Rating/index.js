@@ -94,23 +94,12 @@ export default function Rating() {
 
     const handleHighlightClick = () => {
         setHighlight(!highlight);
-        setInfo(false);
-        setLowlight(false);
-        // console.log(highlight)
     };
-    
     const handleInfoClick = () => {
         setInfo(!info);
-        setHighlight(false);
-        setLowlight(false);
-        // console.log(info)
     };
-    
     const handleLowlightClick = () => {
         setLowlight(!lowlight);
-        setHighlight(false);
-        setInfo(false);
-        // console.log(lowlight)
     };
 
     const history = useHistory();
@@ -183,20 +172,21 @@ export default function Rating() {
                 </div>
             )} */}
             {highlight && (
-            <div className="highlight-modal">
+            <div className="modal">
                 <div className="modal-content">
                     <h3>Highlight</h3>
-                    <input
+                    <textarea
                         type="text"
                         value={highlightValue}
                         onChange={(e) => setHighlightValue(e.target.value)}
+                        style={{ width: '300px', height: '50px' }}
                     />
                     <button onClick={() => setHighlight(false)}>Submit</button>
                 </div>
             </div>
             )}
             {info && (
-                <div className="info-modal">
+                <div className="modal">
                     <div className="modal-content">
                         <h3>Maslow's extended hierarchy of needs builds upon his initial five-tier model, 
                             which includes physiological, safety, love/belonging, esteem, and self-actualization needs. 
@@ -206,17 +196,19 @@ export default function Rating() {
                             The extended hierarchy offers a more comprehensive view of human motivation, emphasizing the pursuit of knowledge, 
                             appreciation of beauty, and the desire to help others grow.
                         </h3>
+                        <button onClick={() => setInfo(false)}>Close</button>
                     </div>
                 </div>
             )}
             {lowlight && (
-                <div className="lowlight-modal">
+                <div className="modal">
                     <div className="modal-content">
                         <h3>Lowlight</h3>
-                        <input
+                        <textarea
                         type="text"
                         value={lowlightValue}
                         onChange={(e) => setLowlightValue(e.target.value)}
+                        style={{ width: '300px', height: '50px' }}
                     />
                     <button onClick={() => setLowlight(false)}>Submit</button>
                     </div>
