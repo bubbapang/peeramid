@@ -4,6 +4,8 @@ import "./FeedItem.css";
 import { useDispatch, useSelector } from "react-redux";
 import { createSuggestion } from "../../store/suggestions";
 import { deleteRating } from "../../store/ratings";
+import { format } from "date-fns";
+
 
 
 function FormDrawer({
@@ -215,6 +217,11 @@ export default function FeedItem({ rating, idx }) {
     chartRef.current = new Chart(chartCanvas, chartConfig);
   }, [rating, chartRef]);
 
+  const formatDate = (timestamp) => {
+  return format(new Date(timestamp), "MMMM dd, yyyy");
+};
+
+
   return (
     <div className="feed-item-container">
       {showSuccessBanner && (
@@ -235,20 +242,16 @@ export default function FeedItem({ rating, idx }) {
 
       {/* Feed item info section */}
       <div className="feed-item-info">
-        <h1>{rating.user.username}</h1>
+        <h1 className="user-and-date" > {rating.user.username} - {formatDate(rating.createdAt)} </h1>
         <div className="canvas-wrapper">
           <i id="profile-picture" className="fas fa-user-circle" />
           <canvas className="chart" id={`chart-${idx}`} />
         </div>
         {currentUser._id === rating.user._id && (
-  <button className="delete-rating-button" onClick={handleDeleteRating}>
-    Delete
-  </button>
-)}
-        {/* <button className="delete-rating-button" onClick={handleDeleteRating}>
-          Delete
-      </button> */}
-      </div>
+      <button className="delete-rating-button" onClick={handleDeleteRating}>
+        Delete
+      </button>
+      )}</div>
 
       {/* Lights container section */}
       <div className="lights-container">
