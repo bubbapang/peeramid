@@ -7,6 +7,7 @@ import { getRatings } from '../../store/ratings';
 import Pin from './Pin';
 import FeedItem from '../Feed/FeedItem';
 import './Profile.css';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
 
@@ -250,15 +251,21 @@ const sortedRatings = ratings.slice().sort((a, b) => new Date(b.createdAt) - new
           </div>
           <div className="line-chart-container"><Line data={lineData} options={lineOptions} /></div>
           <div className="ratings">
-            {/* <h1>Ratings</h1> */}
-            {
-            sortedRatings.map((rating, idx) => (
+          <div className="ratings-list">
+            {ratings.length > 0 ?
+            (sortedRatings.map((rating, idx) => (
               <FeedItem key={idx} rating={rating} idx={idx} />
-            ))
-            
-            }
+            ))) :
+            (<div className='no-ratings'>
+              <h2 className='no-rating-heading'>No ratings yet!</h2>
+              <Link to='/rating' className='no-decor'>
+              <div className='no-rating-nav'>Click to add your first rating on Today's page</div>
+              </Link>
+            </div>
+            )}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
