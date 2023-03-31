@@ -3,7 +3,6 @@ import Chart from "chart.js/auto";
 import "./FeedItem.css";
 import { useDispatch } from "react-redux";
 import { createSuggestion } from "../../store/suggestions";
-import { body } from "express-validator";
 
 function FormDrawer({
   onClose,
