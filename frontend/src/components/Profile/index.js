@@ -45,15 +45,25 @@ export default function Profile() {
 
   useEffect(() => {
     // if (ratings.length === 0) { return; }
+    // const needColors = {
+    //   Transcendence: "#577590",
+    //   Actualization: "#4d908e",
+    //   Aesthetics: "#43aa8b",
+    //   Cognition: "#90be6d",
+    //   Esteem: "#f9c74f",
+    //   Love: "#f8961e",
+    //   Safety: "#f3722c",
+    //   Physiology: "#f94144",
+    // };
     const needColors = {
-      Transcendence: "#577590",
-      Actualization: "#4d908e",
-      Aesthetics: "#43aa8b",
-      Cognition: "#90be6d",
-      Esteem: "#f9c74f",
-      Love: "#f8961e",
-      Safety: "#f3722c",
-      Physiology: "#f94144",
+      Transcendence: "#f94144",
+      Actualization: "#f3722c",
+      Aesthetics: "#f8961e",
+      Cognition: "#f9c74f",
+      Esteem: "#90be6d",
+      Love: "#43aa8b",
+      Safety: "#4d908e",
+      Physiology: "#577590",
     };
     const months = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'];
     const needs = ["actualization",
@@ -168,13 +178,13 @@ export default function Profile() {
             stepSize: 1,
           },
           angleLines: {
-            color: "darkgreen",
+            color: ["#577590","#4D908E", "#43AA8B", "#90BE6D", "#F9C74F", "#F8961E", "#F3722C", "#F94144"],
           },
           grid: {
-            color: "darkgreen",
+            color: "darkgrey",
           },
           pointLabels: {
-            color: "darkgreen",
+            color: ["#577590","#4D908E", "#43AA8B", "#90BE6D", "#F9C74F", "#F8961E", "#F3722C", "#F94144"],
             font: {
               size: 17,
             },
