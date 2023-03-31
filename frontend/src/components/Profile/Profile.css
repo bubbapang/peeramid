@@ -40,7 +40,9 @@
   height: 4000px;
   position: relative;
   z-index: 1;
-  background-color: var(--primary-color);
+  /* background-color: var(--primary-color); */
+
+    background-color: #a8a1bc;
   /* margin-top: 70px; */
   /* min-height: 100vh; Adjust this value to fit your content */
 }
