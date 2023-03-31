@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from 'react-router-dom';
 import { createRating, fetchUserRatings, getRatings, updateRating } from '../../store/ratings';
@@ -31,7 +31,31 @@ export default function Rating() {
     const [highlightValue, setHighlightValue] = useState('');
     const [lowlightValue, setLowlightValue] = useState('');
 
+    const highlightRef = useRef();
+    const infoRef = useRef();
+    const lowlightRef = useRef();
+
 // console.log("hi", samedayRating)
+
+useEffect(() => {
+    const handleClickOutside = (event) => {
+        if (highlightRef.current && !highlightRef.current.contains(event.target)) {
+            setHighlight(false);
+        }
+        if (infoRef.current && !infoRef.current.contains(event.target)) {
+            setInfo(false);
+        }
+        if (lowlightRef.current && !lowlightRef.current.contains(event.target)) {
+            setLowlight(false);
+        }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+    };
+}, []);
+
     useEffect(() => {
         dispatch(fetchUserRatings(currentUser._id))
     }, [dispatch, currentUser])
@@ -173,7 +197,7 @@ export default function Rating() {
             )} */}
             {highlight && (
             <div className="modal">
-                <div className="modal-content">
+                <div className="modal-content" ref={highlightRef}>
                     <h3>Highlight</h3>
                     <textarea
                         type="text"
@@ -187,7 +211,7 @@ export default function Rating() {
             )}
             {info && (
                 <div className="modal">
-                    <div className="modal-content">
+                    <div className="modal-content" ref={infoRef}>
                         <h3>Maslow's extended Hierarchy of Needs builds upon his initial five-tier model, 
                             which includes:<br/><p></p>
                             &nbsp;&#x2022;<span className='phys'> physiology</span> - food, shelter, clothing, etc.<br/>
@@ -209,7 +233,7 @@ export default function Rating() {
             )}
             {lowlight && (
                 <div className="modal">
-                    <div className="modal-content">
+                    <div className="modal-content" ref={lowlightRef}>
                         <h3>Lowlight</h3>
                         <textarea
                         type="text"
