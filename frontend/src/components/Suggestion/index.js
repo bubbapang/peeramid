@@ -66,8 +66,8 @@ export default function Suggestion() {
 
 const filteredSuggestions =
     filter === 'All Suggestions'
-      ? Object.values(suggestions)
-      : Object.values(suggestions).filter((suggestion) => suggestion.categoryTag === filter);
+      ? Object.values(suggestions).reverse()
+      : Object.values(suggestions).filter((suggestion) => suggestion.categoryTag === filter).reverse();
 
   return (
     <div className="suggestion-page">
