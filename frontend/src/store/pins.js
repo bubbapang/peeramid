@@ -30,7 +30,6 @@ export const removePin = (suggestionId) => {
 }
 
 export const getPins = (userId) => (store) => {
-    // return store.users && store.users[userId] ? store.users[userId].pins : []
     return store.session.user ? store.session.user.pins : []
 }
 
