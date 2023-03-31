@@ -22,13 +22,17 @@ function FormDrawer({
       categoryTag: clickedLabel,
     };
 
-    await dispatch(createSuggestion(newSuggestion, rating._id));
-    const suggestionCreatedEvent = new CustomEvent("suggestionCreated");
-    window.dispatchEvent(suggestionCreatedEvent);
+    if (newSuggestion.body.length === 0) {
+      alert("Please enter suggestion before submitting.");
+    } else {
+      await dispatch(createSuggestion(newSuggestion, rating._id));
+      const suggestionCreatedEvent = new CustomEvent("suggestionCreated");
+      window.dispatchEvent(suggestionCreatedEvent);
 
-    onSuccess();
+      onSuccess();
 
-    onClose();
+      onClose();
+    } 
   };
 
   return (
