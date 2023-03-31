@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Line, Radar } from 'react-chartjs-2';
-import { getCurrentUser } from '../../store/session'
 import { fetchUserRatings } from '../../store/ratings';
 import { getRatings } from '../../store/ratings';
 import Pin from './Pin';
@@ -34,7 +33,6 @@ export default function Profile() {
   };
   const finalUser = currentUser ? currentUser : dummyUser;
   const ratings = useSelector(getRatings);
-  // ratings ||= {};
 
   useEffect(() => {
     if (currentUser) {
@@ -45,17 +43,6 @@ export default function Profile() {
   }, [dispatch, currentUser])
 
   useEffect(() => {
-    // if (ratings.length === 0) { return; }
-    // const needColors = {
-    //   Transcendence: "#577590",
-    //   Actualization: "#4d908e",
-    //   Aesthetics: "#43aa8b",
-    //   Cognition: "#90be6d",
-    //   Esteem: "#f9c74f",
-    //   Love: "#f8961e",
-    //   Safety: "#f3722c",
-    //   Physiology: "#f94144",
-    // };
     const needColors = {
       Transcendence: "#f94144",
       Actualization: "#f3722c",

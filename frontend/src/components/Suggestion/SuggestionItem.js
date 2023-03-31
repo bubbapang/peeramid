@@ -17,7 +17,7 @@ const categoryEmojiMap = {
   Physiology: '💪',
 };
 
-export default function SuggestionItem({ suggestion, pinIds }) {
+export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const currentUser = useSelector(state => state.session.user);
@@ -54,12 +54,13 @@ const [likeCount, setLikeCount] = useState(suggestion.likes.length);
 const [pinCount, setPinCount] = useState(suggestion.pins.length);
 
 useEffect(() => {
-  if (currentUser && currentUser.likes.includes(suggestion._id)) {
+  // if (currentUser && currentUser.likes.includes(suggestion._id)) {
+  if (likeIds.includes(suggestion._id)) {
     setLikeDisplay("Liked");
   } else {
     setLikeDisplay("Like");
   }
-}, [currentUser, suggestion._id]);
+}, [likeIds, suggestion._id]);
 
 useEffect(() => {
   if (pinIds.includes(suggestion._id)) {
