@@ -20,7 +20,15 @@ const categoryEmojiMap = {
 export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
+  const [showSuccessBanner, setShowSuccessBanner] = useState(false);
   const currentUser = useSelector(state => state.session.user);
+
+  const displaySuccessBanner = () => {
+    setShowSuccessBanner(true);
+    setTimeout(() => {
+      setShowSuccessBanner(false);
+    }, 3000);
+  };
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -42,6 +50,7 @@ export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
     dispatch(updateSuggestion(newSuggestion));
     suggestion.body = newSuggestion.body;
     toggleEditMode();
+    displaySuccessBanner();
   }
   
 
@@ -95,6 +104,15 @@ useEffect(() => {
 
   return (
     <div className="sugg-wrapper">
+       {showSuccessBanner && (
+        <div className="success-banner">
+          <span>Suggestion successfully updated!</span>
+          <button className="close-success-banner" onClick={() => setShowSuccessBanner(false)}>
+            &times;
+          </button>
+        </div>
+      )}
+      
       <div className="sugg-item">
         <div className="sugg-item-content">
           <div className="user-emoji-container">
