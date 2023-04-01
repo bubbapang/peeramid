@@ -78,6 +78,7 @@ export const logout = () => (dispatch) => {
 
 const initialState = {
 	user: undefined,
+	searchResults: [],
 };
 
 export const searchUsers = (searchTerm) => async (dispatch) => {

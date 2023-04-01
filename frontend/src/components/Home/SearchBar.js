@@ -1,41 +1,78 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { searchUsers } from '../../store/session';
-import './SearchBar.css';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { searchUsers } from "../../store/session";
+import { useHistory } from "react-router-dom";
+
+import "./SearchBar.css";
 
 export default function SearchBar({ onSearch }) {
-    const allSearchResults = useSelector(state => state.session.searchResults);
-    const dispatch = useDispatch();
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    const allSearchResults = useSelector(
+        (state) => state.session.searchResults || []
+    );    
 
-    const handleChange = (event) => {
-        setSearchTerm(event.target.value);
-        dispatch(searchUsers(event.target.value));
-        setIsDropdownVisible(true);
-    };
+    console.log(allSearchResults)
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-        onSearch(searchTerm);
+	const dispatch = useDispatch();
+    const history = useHistory();
+
+	const [searchTerm, setSearchTerm] = useState("");
+	const [searchResults, setSearchResults] = useState([]);
+	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+	useEffect(() => {
+        if (searchTerm === "") {
+            setSearchResults([]);
+            return;
         }
-    };
+		setSearchResults(allSearchResults);
+	}, [allSearchResults]);
+
+	const handleChange = (event) => {
+		setSearchTerm(event.target.value);
+        setIsDropdownVisible(true);
+        dispatch(searchUsers(event.target.value));
+	};
+
+	const handleKeyPress = (event) => {
+		if (event.key === "Enter") {
+            setSearchTerm("");
+            setIsDropdownVisible(false);
+            onSearch(searchTerm);
+        }
+	};
 
     const handleUserClick = (user) => {
-        setSearchTerm(user);
+        console.log(user)
+        setSearchTerm(user.firstName + " " + user.lastName);
         setIsDropdownVisible(false);
-        onSearch(user);
+        onSearch(user.firstName + " " + user.lastName);
+        history.push(`/profile/${user._id}`);
     };
+    
 
-    return (
-        <div className="search-container">
-            <input type="text" value={searchTerm} onChange={handleChange} onKeyPress={handleKeyPress} placeholder="Search..." className="search-input" />
-            {isDropdownVisible && searchResults.length > 0 && (
-                <div className="search-dropdown">
-                    {searchResults.map((user) => (<div key={user} className="search-result" onClick={() => handleUserClick(user)}>{user}</div>))}
-                </div>
-            )}
-        </div>
-    );
+	return (
+		<div className="search-container">
+			<input
+				type="text"
+				value={searchTerm}
+				onChange={handleChange}
+				onKeyPress={handleKeyPress}
+				placeholder="Search..."
+				className="search-input"
+			/>
+			{isDropdownVisible && (
+				<div className="search-dropdown">
+                    {searchResults.map((user) => (
+                        <div
+                            key={user._id}
+                            className="search-result"
+                            onClick={() => handleUserClick(user)}
+                        >
+                            {user.firstName} {user.lastName}
+                        </div>
+                    ))}
+				</div>
+			)}
+		</div>
+	);
 }

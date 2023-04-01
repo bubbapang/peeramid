@@ -1,229 +1,228 @@
 .nav-bar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 70px;
-    background-color: #3c3c3c;
-    border-bottom: 1px solid #2b2b2b;
-    position: relative;
-    z-index: 2;
-    position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: 70px;
+	background-color: #3c3c3c;
+	border-bottom: 1px solid #2b2b2b;
+	position: relative;
+	z-index: 2;
+	position: relative;
 }
 
 .profile-today-search {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 10px;
-    /* height: 100%; */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	gap: 10px;
+	/* height: 100%; */
 }
 
 .profile-today {
-    display: flex;
-    /* margin-right: 10px; */
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    /* margin-left: 20px; */
+	display: flex;
+	/* margin-right: 10px; */
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	/* margin-left: 20px; */
 }
 
 .nav-bar-container button {
-    font-weight: 600;
-    color: #ffffff;
-    cursor: pointer;
-    outline: none;
-    /* margin: 5px; */
-    padding: 5px 10px;
-    border: none;
-    background-color: transparent;
-    transition: background-color 0.3s ease;
-    border-radius: 10px;
-    height: 40px;
+	font-weight: 600;
+	color: #ffffff;
+	cursor: pointer;
+	outline: none;
+	/* margin: 5px; */
+	padding: 5px 10px;
+	border: none;
+	background-color: transparent;
+	transition: background-color 0.3s ease;
+	border-radius: 10px;
+	height: 40px;
 }
 
 .nav-bar-container .today {
-    background-color: rgb(59, 193, 59);
+	background-color: rgb(59, 193, 59);
 }
 
 .nav-bar-container button:hover {
-    background-color: #4e4e4e;
+	background-color: #4e4e4e;
 }
 
 .profile-icon img {
-    border-radius: 50%;
+	border-radius: 50%;
 }
 
 .search-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-grow: 1;
-    /* margin: 0 10px; */
-    height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-grow: 1;
+	/* margin: 0 10px; */
+	height: 100%;
 }
 
 .search-input {
-    width: 1000px;
-    /* min-height: 15%; */
-    height: 50%;
-    padding: 5px 10px;
-    border: 1px solid #757575;
-    border-radius: 10px;
-    outline: none;
+	width: 1000px;
+	/* min-height: 15%; */
+	height: 50%;
+	padding: 5px 10px;
+	border: 1px solid #757575;
+	border-radius: 10px;
+	outline: none;
+  position: relative;
 }
 
 .feed-suggestions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
 }
 
 .profile-dropdown {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 1;
-    width: 100px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  }
-  
-  .privacy-toggle {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-  }
-  
-  .toggle-switch {
-    display: inline-block;
-    width: 50px;
-    height: 25px;
-    background-color: #ccc;
-    border-radius: 25px;
-    position: relative;
-    transition: background-color 0.3s;
-  }
-  
-  .toggle-switch i {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: left 0.3s;
-  }
-  
-  .toggle-switch.public i {
-    left: 5px;
-  }
-  
-  .toggle-switch.private i {
-    left: 25px;
-  }
-  
-  .toggle-switch.private {
-    background-color: #4caf50;
-  }
+	position: absolute;
+	background-color: white;
+	border: 1px solid #ccc;
+	padding: 10px;
+	z-index: 1;
+	width: 100px;
+	border-radius: 5px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
 
-  
-  .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
-    max-width: fit-content;
-    max-height: 80%;
-    overflow-y: auto;
-  }
-  
-  .close-modal {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    border: none;
-    background-color: transparent;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-  }
+.privacy-toggle {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
 
-  .modal-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
+.toggle-switch {
+	display: inline-block;
+	width: 50px;
+	height: 25px;
+	background-color: #ccc;
+	border-radius: 25px;
+	position: relative;
+	transition: background-color 0.3s;
+}
 
-  /* Add this media query at the end of the file */
+.toggle-switch i {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	transition: left 0.3s;
+}
+
+.toggle-switch.public i {
+	left: 5px;
+}
+
+.toggle-switch.private i {
+	left: 25px;
+}
+
+.toggle-switch.private {
+	background-color: #4caf50;
+}
+
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+.modal-content {
+	background-color: white;
+	padding: 20px;
+	border-radius: 8px;
+	width: 80%;
+	max-width: fit-content;
+	max-height: 80%;
+	overflow-y: auto;
+}
+
+.close-modal {
+	position: absolute;
+	top: 5px;
+	right: 10px;
+	border: none;
+	background-color: transparent;
+	font-size: 24px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.modal-background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Add this media query at the end of the file */
 @media (max-width: 768px) {
-  .nav-bar-container button.logout-icon,
-  .nav-bar-container button.about-us-icon,
-  .nav-bar-container button.feed-icon,
-  .nav-bar-container button.suggestions-icon {
-    font-size: 0;
-  }
+	.nav-bar-container button.logout-icon,
+	.nav-bar-container button.about-us-icon,
+	.nav-bar-container button.feed-icon,
+	.nav-bar-container button.suggestions-icon {
+		font-size: 0;
+	}
 
-  .nav-bar-container button.logout-icon:before,
-  .nav-bar-container button.about-us-icon:before,
-  .nav-bar-container button.feed-icon:before,
-  .nav-bar-container button.suggestions-icon:before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 16px;
-    content: "\f2f5";
-  }
+	.nav-bar-container button.logout-icon:before,
+	.nav-bar-container button.about-us-icon:before,
+	.nav-bar-container button.feed-icon:before,
+	.nav-bar-container button.suggestions-icon:before {
+		font-family: "Font Awesome 5 Free";
+		font-weight: 900;
+		font-size: 16px;
+		content: "\f2f5";
+	}
 
-  .nav-bar-container button.about-us-icon:before {
-    content: "\f129";
-  }
+	.nav-bar-container button.about-us-icon:before {
+		content: "\f129";
+	}
 
-  .nav-bar-container button.feed-icon:before {
-    content: "\f0c9";
-  }
+	.nav-bar-container button.feed-icon:before {
+		content: "\f0c9";
+	}
 
-  .nav-bar-container button.suggestions-icon:before {
-    content: "\f1ea";
-  }
+	.nav-bar-container button.suggestions-icon:before {
+		content: "\f1ea";
+	}
 
-  .search-input {
-    width: 80%;
-  }
+	.search-input {
+		width: 80%;
+	}
 
-  .close-modal p {
-    font-size: 20px;
-    color: rgb(0, 0, 0);
-    /* background-color: rgb(116, 116, 116); */
-    padding: 5px;
-    /* width: 15px; */
-    /* height: 50px; */
-    margin-top: 50px;
-    margin-right: 15px;
-    text-align: right;
-    border-radius: 50%;
-  }
+	.close-modal p {
+		font-size: 20px;
+		color: rgb(0, 0, 0);
+		/* background-color: rgb(116, 116, 116); */
+		padding: 5px;
+		/* width: 15px; */
+		/* height: 50px; */
+		margin-top: 50px;
+		margin-right: 15px;
+		text-align: right;
+		border-radius: 50%;
+	}
 
-  .close-modal:hover {
-    background-color: rgb(255, 255, 255);
-  }
+	.close-modal:hover {
+		background-color: rgb(255, 255, 255);
+	}
 }
