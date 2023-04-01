@@ -21,7 +21,16 @@ export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
+  const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] = useState(false);
   const currentUser = useSelector(state => state.session.user);
+
+  const displayDeleteSuccessBanner = () => {
+    setShowDeleteSuccessBanner(true);
+    setTimeout(() => {
+      setShowDeleteSuccessBanner(false);
+    }, 3000);
+  };
+
 
   const displaySuccessBanner = () => {
     setShowSuccessBanner(true);
@@ -38,6 +47,7 @@ export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
     console.log('delete suggestion', suggestion._id);
     dispatch(deleteSuggestion(suggestion._id));
     toggleEditMode();
+    displayDeleteSuccessBanner();
   }
 
   const submitEdit = () => {
@@ -112,7 +122,16 @@ useEffect(() => {
           </button>
         </div>
       )}
-      
+
+  {showDeleteSuccessBanner && (
+        <div className="success-banner">
+          <span>Suggestion successfully deleted!!</span>
+          <button className="close-success-banner" onClick={() => setShowDeleteSuccessBanner(false)}>
+            &times;
+          </button>
+        </div>
+      )}
+
       <div className="sugg-item">
         <div className="sugg-item-content">
           <div className="user-emoji-container">
