@@ -1,55 +1,57 @@
+// import dependencies
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { searchUsers } from "../../store/session";
 import { useHistory } from "react-router-dom";
-
 import "./SearchBar.css";
 
+// making the search bar component
 export default function SearchBar({ onSearch }) {
-    const allSearchResults = useSelector(
-        (state) => state.session.searchResults || []
-    );    
+	// getting the search results from the store
+	const allSearchResults = useSelector(
+		(state) => state.session.searchResults || []
+	);
 
-    console.log(allSearchResults)
-
+	// getting the dispatch function from the store and the history object from react-router-dom
 	const dispatch = useDispatch();
-    const history = useHistory();
+	const history = useHistory();
 
+	// setting up the state variables
 	const [searchTerm, setSearchTerm] = useState("");
-	const [searchResults, setSearchResults] = useState([]);
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
+	// using the useEffect hook to dispatch the searchUsers action creator
 	useEffect(() => {
-        if (searchTerm === "") {
-            setSearchResults([]);
-            return;
-        }
-		setSearchResults(allSearchResults);
-	}, [allSearchResults]);
+		if (searchTerm !== "") {
+			dispatch(searchUsers(searchTerm));
+		}
+	}, [searchTerm, dispatch]);
 
+	// handling the change in the input field
 	const handleChange = (event) => {
 		setSearchTerm(event.target.value);
-        setIsDropdownVisible(true);
-        dispatch(searchUsers(event.target.value));
+		setIsDropdownVisible(true);
 	};
 
+	// handling the key press in the input field
 	const handleKeyPress = (event) => {
 		if (event.key === "Enter") {
-            setSearchTerm("");
-            setIsDropdownVisible(false);
-            onSearch(searchTerm);
-        }
+			setSearchTerm("");
+			onSearch(searchTerm);
+			setIsDropdownVisible(false);
+		}
 	};
 
-    const handleUserClick = (user) => {
-        console.log(user)
-        setSearchTerm(user.firstName + " " + user.lastName);
-        setIsDropdownVisible(false);
-        onSearch(user.firstName + " " + user.lastName);
-        history.push(`/profile/${user._id}`);
-    };
-    
+	// handling the click on the search result
+	const handleUserClick = (user) => {
+		console.log(user);
+		setSearchTerm(user.firstName + " " + user.lastName);
+		onSearch(user.firstName + " " + user.lastName);
+		setIsDropdownVisible(false);
+		history.push(`/profile/${user._id}`);
+	};
 
+	// rendering the search bar
 	return (
 		<div className="search-container">
 			<input
@@ -62,15 +64,15 @@ export default function SearchBar({ onSearch }) {
 			/>
 			{isDropdownVisible && (
 				<div className="search-dropdown">
-                    {searchResults.map((user) => (
-                        <div
-                            key={user._id}
-                            className="search-result"
-                            onClick={() => handleUserClick(user)}
-                        >
-                            {user.firstName} {user.lastName}
-                        </div>
-                    ))}
+					{allSearchResults.map((user) => (
+						<div
+							key={user._id}
+							className="search-result"
+							onClick={() => handleUserClick(user)}
+						>
+							{user.firstName} {user.lastName}
+						</div>
+					))}
 				</div>
 			)}
 		</div>

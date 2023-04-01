@@ -9,15 +9,12 @@ import { getCurrentUser } from "./store/session";
 
 // import components
 import Welcome from "./components/Welcome";
-// import Rating from './components/Rating';
 import Home from "./components/Home";
 import Navigation from "./components/Home/Navigation";
 import Feed from "./components/Feed";
 import Suggestion from "./components/Suggestion";
 import Rating from "./components/Rating";
 import Signup from "./components/Welcome/SignupForm";
-import AboutUs from "./components/AboutUs";
-// import RatingShow from './components/Profile/RatingShow';
 
 function App() {
 	const [loaded, setLoaded] = useState(false);
@@ -41,9 +38,9 @@ function App() {
 						<Home />
 					</Route>
 
-          {/* <Route exact path="/profile/:userId">
-            <Home user={}/>
-          </Route> */}
+					{/* <Route exact path="/profile/:userId">
+						<Home user={}/>
+					</Route> */}
 
 					<Route exact path="/feed">
 						<Navigation />
