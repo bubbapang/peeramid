@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { signup, clearSessionErrors } from '../../store/session';
 import './Welcome.css';
+import { Link } from 'react-router-dom';
 
 export default function Signup() {
 const [firstName, setFirstName] = useState('');
@@ -12,6 +13,7 @@ const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const dispatch = useDispatch();
 const history = useHistory();
+
 
 const handleSubmit = async (e) => {
 e.preventDefault();
@@ -92,6 +94,7 @@ return (
             <div className="welcome-buttons">
             <input type="submit" value="Signup" />
             </div>
+            <h1>Already have an account? <Link to='/'> Login </Link></h1>
         </form>
         </div>
 
