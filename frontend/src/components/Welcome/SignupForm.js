@@ -6,13 +6,23 @@ import "./Welcome.css";
 import { Link } from "react-router-dom";
 
 export default function Signup() {
-	const [firstName, setFirstName] = useState("");
-	const [lastName, setLastName] = useState("");
-	const [username, setUsername] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const dispatch = useDispatch();
-	const history = useHistory();
+
+const [firstName, setFirstName] = useState('');
+const [lastName, setLastName] = useState('');
+const [username, setUsername] = useState('');
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+const dispatch = useDispatch();
+const history = useHistory();
+const [errorMessage, setErrorMessage] = useState('');
+
+const displayErrorBanner = () => {
+    setErrorMessage('Please fill out all the fields.');
+    setTimeout(() => {
+        setErrorMessage('');
+        }
+    , 5000);
+};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -25,33 +35,58 @@ export default function Signup() {
 			password,
 		};
 
-		const success = await dispatch(signup(userCredentials));
+
+if (!firstName || !lastName || !username || !email || !password) {
+    // If any field is not filled out, set the error message and return
+    displayErrorBanner();
+    return;
+  }
+
+const userCredentials = {
+    firstName,
+    lastName,
+    username,
+    email,
+    password,
+};
 
 		if (success) {
 			history.push("/feed");
 		}
 	};
 
-	return (
-		<>
-			<div className="background">
-				<div className="welcome-modal">
-					<div className="welcome-form">
-						<h1 id="title">Peeramid</h1>
 
-						<form onSubmit={handleSubmit}>
-							<label>
-								First Name:
-								<input
-									type="text"
-									name="firstName"
-									value={firstName}
-									onChange={(e) =>
-										setFirstName(e.target.value)
-									}
-								/>
-							</label>
+if (success) {
+    history.push('/feed');
+}
 
+
+};
+
+return (
+<>
+    <div className="background">
+    <div className="welcome-modal">
+        <div className="welcome-form">
+        <h1 id="title">Peeramid</h1>
+
+        <form onSubmit={handleSubmit}>
+        {errorMessage && (
+          <div className="banner error-banner">
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
+            <label>
+            First Name:
+            <input
+                type="text"
+                name="firstName"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+            />
+            </label>
+            
 							<label>
 								Last Name:
 								<input
