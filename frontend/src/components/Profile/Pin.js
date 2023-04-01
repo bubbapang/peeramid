@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import './Pin.css';
 import { fetchPins } from '../../store/pins';
 import { fetchLikes } from '../../store/likes';
+import { Link } from 'react-router-dom';
+
 
 export default function Pin() {
 
@@ -23,7 +25,7 @@ export default function Pin() {
     if (!pins || Object.values(pins).length === 0) {
         return (
             <div className="pins">
-                <h1 id="pin-banner">Head to the suggestions page to add suggestion</h1>
+                <h1 id="pin-banner">Head to the&nbsp; <Link to='/suggestions'> <span id="sugg-prof-button"> <em>suggestions</em> </span> </Link>&nbsp;page to add suggestion</h1>
             </div>
         );
     }
@@ -31,7 +33,7 @@ export default function Pin() {
         <div className="pins">
             {
                 !pins ? (
-                    <h1 id="pin-banner">Head to the suggestions page to pin a suggestion</h1>
+                    <h1 id="pin-banner">Head to the  <Link to='/suggesitons'> suggestions </Link> page to pin a suggestion</h1>
                 ) : (
                     Object.values(pins).map((object, idx) =>
                         <PinItem key={idx} suggestion={object} likeIds={Object.keys(likes)}/>

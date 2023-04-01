@@ -46,3 +46,15 @@
     align-items: center;
   }
   
+
+  #sugg-prof-button {
+    background-color: #555;
+    padding: 5px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+  }
+
+  #sugg-prof-button:hover {
+    background-color: #777;
+  }
