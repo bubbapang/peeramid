@@ -88,12 +88,20 @@ export default function FeedItem({ rating, idx }) {
   const [clickedLabel, setClickedLabel] = useState(null);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
+  const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] = useState(false);
+
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user)
 
   const handleDeleteRating = () => {
-  dispatch(deleteRating(rating._id));
-};
+    dispatch(deleteRating(rating._id));
+    setShowDeleteSuccessBanner(true);
+    setTimeout(() => {
+      setShowDeleteSuccessBanner(false);
+    }, 4000);
+  };
+  
+
 
 
   const handleSuccess = () => {
@@ -243,6 +251,23 @@ export default function FeedItem({ rating, idx }) {
           </div>
         </div>
       )}
+
+  {showDeleteSuccessBanner && (
+    <div className="delete-success-banner" style={{ backgroundColor: "red" }}>
+      <p>Your rating has been deleted successfully! </p> &nbsp; &nbsp;
+      <br></br>
+      <button
+        className="close-delete-success-banner"
+        onClick={() => setShowDeleteSuccessBanner(false)}
+      >
+        ×
+      </button>
+      <div className="loading-bar-container">
+        <div className="loading-bar"></div>
+      </div>
+    </div>
+  )}
+
 
       {/* Feed item info section */}
       <div className="feed-item-info">
