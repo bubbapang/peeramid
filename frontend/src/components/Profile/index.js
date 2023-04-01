@@ -7,6 +7,7 @@ import { getRatings } from "../../store/ratings";
 import Pin from "./Pin";
 import FeedItem from "../Feed/FeedItem";
 import "./Profile.css";
+import { Link } from "react-router-dom";
 
 
 // start of Profile component
@@ -25,16 +26,6 @@ export default function Profile() {
 
   const dispatch = useDispatch();
   const [bio, setBio] = useState('this is my bio');
-  const [lineData, setLineData] = useState({
-    labels: [],
-    datasets: [],
-  });
-  const [radarData, setRadarData] = useState({
-    labels: [],
-    datasets: [],
-  });
-  const [lineOptions, setLineOptions] = useState({});
-  const [radarOptions, setRadarOptions] = useState({});
   let currentUser = useSelector(state => state.session.user);
   const dummyUser = {
     firstName: 'Dummy',
