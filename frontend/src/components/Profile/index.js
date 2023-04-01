@@ -1,14 +1,27 @@
-import { useEffect, useState } from 'react';
+// importing dependencies
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Line, Radar } from 'react-chartjs-2';
-import { fetchUserRatings } from '../../store/ratings';
-import { getRatings } from '../../store/ratings';
-import Pin from './Pin';
-import FeedItem from '../Feed/FeedItem';
-import './Profile.css';
-import { Link } from 'react-router-dom';
+import { Line, Radar } from "react-chartjs-2";
+import { fetchUserRatings } from "../../store/ratings";
+import { getRatings } from "../../store/ratings";
+import Pin from "./Pin";
+import FeedItem from "../Feed/FeedItem";
+import "./Profile.css";
 
+
+// start of Profile component
 export default function Profile() {
+	// set up state
+	const [lineData, setLineData] = useState({
+		labels: [],
+		datasets: [],
+	});
+	const [radarData, setRadarData] = useState({
+		labels: [],
+		datasets: [],
+	});
+	const [lineOptions, setLineOptions] = useState({});
+	const [radarOptions, setRadarOptions] = useState({});
 
   const dispatch = useDispatch();
   const [bio, setBio] = useState('this is my bio');

@@ -1,64 +1,59 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { searchUsers } from '../../store/session';
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { searchUsers } from "../../store/session";
 // import SearchResults from './SearchResults';
-import './Navigation.css';
-import SearchBar from './SearchBar';
-import { logout } from '../../store/session';
-import { useState } from 'react';
-import AboutUs from '../AboutUs';
-import { useEffect } from 'react';
+import "./Navigation.css";
+import SearchBar from "./SearchBar";
+import { logout } from "../../store/session";
+import { useState } from "react";
+import AboutUs from "../AboutUs";
+import { useEffect } from "react";
 
 export default function Navigation() {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+	const dispatch = useDispatch();
+	const history = useHistory();
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleModalToggle = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+	const handleModalToggle = () => {
+		setIsModalOpen(!isModalOpen);
+	};
 
-  const handleBackgroundClick = (e) => {
-    if (e.target.classList.contains('modal-background')) {
-      setIsModalOpen(false);
-    }
-  };
+	const handleBackgroundClick = (e) => {
+		if (e.target.classList.contains("modal-background")) {
+			setIsModalOpen(false);
+		}
+	};
 
-  useEffect(() => {
-    if (isModalOpen) {
-      document.addEventListener('click', handleBackgroundClick);
-    } else {
-      document.removeEventListener('click', handleBackgroundClick);
-    }
+	useEffect(() => {
+		if (isModalOpen) {
+			document.addEventListener("click", handleBackgroundClick);
+		} else {
+			document.removeEventListener("click", handleBackgroundClick);
+		}
 
-    return () => {
-      document.removeEventListener('click', handleBackgroundClick);
-    };
-  }, [isModalOpen]);
+		return () => {
+			document.removeEventListener("click", handleBackgroundClick);
+		};
+	}, [isModalOpen]);
 
+	const handleLogout = (e) => {
+		e.preventDefault();
+		dispatch(logout());
+		// send back to '/'
+		history.push("/");
+	};
 
-  const handleLogout = (e) => {
-    e.preventDefault()
-    dispatch(logout())
-    // send back to '/'
-    history.push('/')
-}
+	const handleButtonClick = (buttonName) => {
+		history.push(`/${buttonName.toLowerCase()}`);
+	};
 
-  const handleButtonClick = (buttonName) => {
-    history.push(`/${buttonName.toLowerCase()}`);
-  };
-
+	const handleSearch = (searchTerm) => {
+		dispatch(searchUsers(searchTerm));
+		// Perform search here or navigate to the search results page
+		console.log("Search term:", searchTerm);
+	};
   
-
-  const handleSearch = (searchTerm) => {
-      dispatch(searchUsers(searchTerm));
-    // Perform search here or navigate to the search results page
-    console.log('Search term:', searchTerm);
-  };
-
-  
-
   return (
     <div className="nav-bar-container">
       <button className="logout-icon" onClick={handleLogout}>Logout</button>
