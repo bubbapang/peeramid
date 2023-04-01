@@ -4,6 +4,8 @@ import "./FeedItem.css";
 import { useDispatch, useSelector } from "react-redux";
 import { createSuggestion } from "../../store/suggestions";
 import { deleteRating } from "../../store/ratings";
+import { format } from "date-fns";
+
 
 
 function FormDrawer({
@@ -15,26 +17,27 @@ function FormDrawer({
   onSuccess,
 }) {
   const dispatch = useDispatch();
+  const [suggestionBody, setSuggestionBody] = useState('');
 
-  const submitSuggestionForm = async (e) => {
-    e.preventDefault();
-    const newSuggestion = {
-      body: document.getElementById("suggestion_body").value,
-      dayRating: rating._id,
-      categoryTag: clickedLabel,
-    };
-    if (newSuggestion.body.length === 0) {
-      alert("Please enter a suggestion before submitting");
-    } else {
-      await dispatch(createSuggestion(newSuggestion, rating._id));
-      const suggestionCreatedEvent = new CustomEvent("suggestionCreated");
-      window.dispatchEvent(suggestionCreatedEvent);
-      
-      onSuccess();
-
-      onClose();
-    }
+const submitSuggestionForm = async (e) => {
+  e.preventDefault();
+  const newSuggestion = {
+    body: suggestionBody,
+    dayRating: rating._id,
+    categoryTag: clickedLabel,
   };
+  if (newSuggestion.body.length === 0) {
+    alert("Please enter a suggestion before submitting");
+  } else {
+    await dispatch(createSuggestion(newSuggestion, rating._id));
+    const suggestionCreatedEvent = new CustomEvent("suggestionCreated");
+    window.dispatchEvent(suggestionCreatedEvent);
+
+    onSuccess();
+
+    onClose();
+  }
+};
 
   return (
     <div
@@ -62,7 +65,10 @@ function FormDrawer({
             id="suggestion_body"
             name="suggestion"
             placeholder="Enter a suggestion"
-          />
+            value={suggestionBody}
+            onChange={(e) => setSuggestionBody(e.target.value)}
+        />
+
           <br></br>
           <br></br>
           <button className="form-drawer-button" onClick={submitSuggestionForm}>
@@ -82,12 +88,20 @@ export default function FeedItem({ rating, idx }) {
   const [clickedLabel, setClickedLabel] = useState(null);
   const [activeDiv, setActiveDiv] = useState(null);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
+  const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] = useState(false);
+
   const dispatch = useDispatch();
   const currentUser = useSelector(state => state.session.user)
 
   const handleDeleteRating = () => {
-  dispatch(deleteRating(rating._id));
-};
+    dispatch(deleteRating(rating._id));
+    setShowDeleteSuccessBanner(true);
+    setTimeout(() => {
+      setShowDeleteSuccessBanner(false);
+    }, 4000);
+  };
+  
+
 
 
   const handleSuccess = () => {
@@ -215,6 +229,11 @@ export default function FeedItem({ rating, idx }) {
     chartRef.current = new Chart(chartCanvas, chartConfig);
   }, [rating, chartRef]);
 
+  const formatDate = (timestamp) => {
+  return format(new Date(timestamp), "MMMM dd, yyyy");
+};
+
+
   return (
     <div className="feed-item-container">
       {showSuccessBanner && (
@@ -233,22 +252,35 @@ export default function FeedItem({ rating, idx }) {
         </div>
       )}
 
+  {showDeleteSuccessBanner && (
+    <div className="delete-success-banner" style={{ backgroundColor: "red" }}>
+      <p>Your rating has been deleted successfully! </p> &nbsp; &nbsp;
+      <br></br>
+      <button
+        className="close-delete-success-banner"
+        onClick={() => setShowDeleteSuccessBanner(false)}
+      >
+        ×
+      </button>
+      <div className="loading-bar-container">
+        <div className="loading-bar"></div>
+      </div>
+    </div>
+  )}
+
+
       {/* Feed item info section */}
       <div className="feed-item-info">
-        <h1>{rating.user.username}</h1>
+        <h1 className="user-and-date" > {rating.user.username} - {formatDate(rating.createdAt)} </h1>
         <div className="canvas-wrapper">
           <i id="profile-picture" className="fas fa-user-circle" />
           <canvas className="chart" id={`chart-${idx}`} />
         </div>
         {currentUser._id === rating.user._id && (
-  <button className="delete-rating-button" onClick={handleDeleteRating}>
-    Delete
-  </button>
-)}
-        {/* <button className="delete-rating-button" onClick={handleDeleteRating}>
-          Delete
-      </button> */}
-      </div>
+      <button className="delete-rating-button" onClick={handleDeleteRating}>
+        Delete
+      </button>
+      )}</div>
 
       {/* Lights container section */}
       <div className="lights-container">

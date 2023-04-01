@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAllPublicSuggestions } from '../../store/suggestions';
 import { getPins, fetchPins } from '../../store/pins';
+import { fetchLikes } from '../../store/likes';
 import SuggestionItem from './SuggestionItem';
 import './Suggestion.css';
 import './Sidebar.css';
@@ -9,12 +10,14 @@ import './Sidebar.css';
 export default function Suggestion() {
   const user = useSelector((state) => state.session.user);
   const suggestions = useSelector((state) => state.suggestions);
-  // const [suggestionsVersion, setSuggestionsVersion] = useState(0);
   const dispatch = useDispatch();
-  const pinIds = useSelector(getPins(user._id));
+  // const pinIds = useSelector(getPins(user._id));
+  const pinIds = Object.keys(useSelector(state => state.pins));
+  const likeIds = Object.keys(useSelector(state => state.likes));
 
   useEffect(() => {
     dispatch(fetchPins(user))
+    dispatch(fetchLikes(user._id))
   }, [dispatch, user])
 
  // make a useEffect that listens for changes in the suggestions in the state
@@ -66,8 +69,8 @@ export default function Suggestion() {
 
 const filteredSuggestions =
     filter === 'All Suggestions'
-      ? Object.values(suggestions)
-      : Object.values(suggestions).filter((suggestion) => suggestion.categoryTag === filter);
+      ? Object.values(suggestions).reverse()
+      : Object.values(suggestions).filter((suggestion) => suggestion.categoryTag === filter).reverse();
 
   return (
     <div className="suggestion-page">
@@ -85,7 +88,7 @@ const filteredSuggestions =
       </div>
       <div className="suggestion-list">
         {Object.values(filteredSuggestions).map((suggestion, idx) => (
-          <SuggestionItem key={idx} suggestion={suggestion} pinIds={pinIds}/>
+          <SuggestionItem key={idx} suggestion={suggestion} pinIds={pinIds} likeIds={likeIds}/>
         ))}
       </div>
     </div>

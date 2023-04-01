@@ -4,10 +4,10 @@ export const RECEIVE_LIKES = `likes/RECEIVE_LIKES`;
 export const RECEIVE_LIKE = `likes/RECEIVE_LIKE`;
 export const REMOVE_LIKE = `likes/REMOVE_LIKE`;
 
-export const receiveLikes = (userId) => {
+export const receiveLikes = (suggestions) => {
     return {
         type: RECEIVE_LIKES,
-        userId
+        suggestions
     }
 }
 
@@ -35,7 +35,8 @@ export const fetchLikes = (userId) => async (dispatch) => {
 
     if (response.ok) {
         const likes = await response.json()
-        dispatch(receiveLikes(userId));
+        console.log(likes)
+        dispatch(receiveLikes(likes));
     }
 }
 
@@ -65,6 +66,7 @@ const likesReducer = (oldState={}, action) => {
 
     switch(action.type) {
         case RECEIVE_LIKES:
+            console.log(action)
             action.suggestions.forEach(sugg => {
                 newState[sugg._id] = sugg;
             });

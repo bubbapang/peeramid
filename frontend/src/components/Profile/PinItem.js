@@ -1,21 +1,24 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import "./PinItem.css";
 import { useSelector, useDispatch } from "react-redux";
 import { createLike, deleteLike } from "../../store/likes";
-import { getPins, createPin, deletePin } from "../../store/pins";
+import { getPins, deletePin } from "../../store/pins";
 
-export default function PinItem({ suggestion }) {
+export default function PinItem({ suggestion, likeIds }) {
 const dispatch = useDispatch();
 const currentUser = useSelector((state) => state.session.user);
-const [isVisible, setIsVisible] = useState(true);
-const pinIds = useSelector(getPins(currentUser._id));
 const [likeCount, setLikeCount] = useState(suggestion.likes.length);
 const [pinCount, setPinCount] = useState(suggestion.pins.length);
 
 const [likeDisplay, setLikeDisplay] = useState(
-currentUser?.likes?.includes(suggestion._id) ? "Liked" : "Like"
+    likeIds.includes(suggestion._id) ? "Liked" : "Like"
 );
-const pinDisplay = "Unpin";
+
+useEffect(() => {
+    setLikeDisplay(likeIds.includes(suggestion._id) ? "Liked" : "Like")
+    // setLikeCount(suggestion.likes.length)
+}, [likeIds])
 
 const likeClick = () => {
 dispatch(createLike(suggestion, currentUser._id));
@@ -29,17 +32,15 @@ setLikeDisplay("Like");
 setLikeCount(likeCount - 1);
 };
 
-const pinClick = () => {
-dispatch(createPin(suggestion, currentUser._id));
-};
-
 const unpinClick = () => {
 dispatch(deletePin(suggestion._id));
-setIsVisible(false);
 };
 
-return (
-isVisible && (
+useEffect(() => {
+    setLikeCount(suggestion.likes.length);
+}, [suggestion.likes.length]);
+
+return ((
     <div className="pin-item">
     <div className="profile-part">
         <i className="fas fa-user-circle fa-2x" />
@@ -52,8 +53,8 @@ isVisible && (
         <button onClick={likeDisplay === "Like" ? likeClick : unlikeClick}>
         <i className="fas fa-heart" /> {likeDisplay}({likeCount})
         </button>
-        <button onClick={pinDisplay === "Pin" ? pinClick : unpinClick}>
-        <i className="fas fa-thumbtack" /> {pinDisplay}
+        <button onClick={unpinClick}>
+        <i className="fas fa-thumbtack" /> Unpin
         </button>
     </div>
     </div>
