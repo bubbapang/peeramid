@@ -13,10 +13,25 @@ const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
 const dispatch = useDispatch();
 const history = useHistory();
+const [errorMessage, setErrorMessage] = useState('');
+
+const displayErrorBanner = () => {
+    setErrorMessage('Please fill out all the fields.');
+    setTimeout(() => {
+        setErrorMessage('');
+        }
+    , 5000);
+};
 
 
 const handleSubmit = async (e) => {
 e.preventDefault();
+
+if (!firstName || !lastName || !username || !email || !password) {
+    // If any field is not filled out, set the error message and return
+    displayErrorBanner();
+    return;
+  }
 
 const userCredentials = {
     firstName,
@@ -31,6 +46,8 @@ const success = await dispatch(signup(userCredentials));
 if (success) {
     history.push('/feed');
 }
+
+
 };
 
 return (
@@ -41,6 +58,12 @@ return (
         <h1 id="title">Peeramid</h1>
 
         <form onSubmit={handleSubmit}>
+        {errorMessage && (
+          <div className="banner error-banner">
+            <span>{errorMessage}</span>
+          </div>
+        )}
+
             <label>
             First Name:
             <input
