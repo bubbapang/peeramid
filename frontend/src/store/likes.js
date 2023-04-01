@@ -5,85 +5,88 @@ export const RECEIVE_LIKE = `likes/RECEIVE_LIKE`;
 export const REMOVE_LIKE = `likes/REMOVE_LIKE`;
 
 export const receiveLikes = (suggestions) => {
-    return {
-        type: RECEIVE_LIKES,
-        suggestions
-    }
-}
+	return {
+		type: RECEIVE_LIKES,
+		suggestions,
+	};
+};
 
 export const receiveLike = (suggestion, userId) => {
-    return {
-        type: RECEIVE_LIKE,
-        suggestion,
-        userId
-    }
-}
+	return {
+		type: RECEIVE_LIKE,
+		suggestion,
+		userId,
+	};
+};
 
 export const removeLike = (suggestionId) => {
-    return {
-        type: REMOVE_LIKE,
-        suggestionId
-    }
-}
+	return {
+		type: REMOVE_LIKE,
+		suggestionId,
+	};
+};
 
 export const getLikes = (userId) => (store) => {
-    return store.users[userId] ? store.users[userId].likes : []
-}
+	return store.users[userId] ? store.users[userId].likes : [];
+};
 
 export const fetchLikes = (userId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/users/${userId}/likes`);
+	const response = await jwtFetch(`/api/users/${userId}/likes`);
 
-    if (response.ok) {
-        const likes = await response.json()
-        console.log(likes)
-        dispatch(receiveLikes(likes));
-    }
-}
+	if (response.ok) {
+		const likes = await response.json();
+		console.log(likes);
+		dispatch(receiveLikes(likes));
+	}
+};
 
 export const createLike = (suggestion, userId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestion._id}/like`,{
-    method: "POST"
-    })
+	const response = await jwtFetch(`/api/suggestions/${suggestion._id}/like`, {
+		method: "POST",
+	});
 
-    if (response.ok) {
-        dispatch(receiveLike(suggestion, userId));
-    }
-}
+	if (response.ok) {
+		dispatch(receiveLike(suggestion, userId));
+	}
+};
 
 export const deleteLike = (suggestionId) => async (dispatch) => {
-    const response = await jwtFetch(`/api/suggestions/${suggestionId}/like`, {
-        method: 'DELETE'
-    });
+	const response = await jwtFetch(`/api/suggestions/${suggestionId}/like`, {
+		method: "DELETE",
+	});
 
-    if (response.ok) {
-        dispatch(removeLike(suggestionId));
-    }
-}
+	if (response.ok) {
+		dispatch(removeLike(suggestionId));
+	}
+};
 
-const likesReducer = (oldState={}, action) => {
+const likesReducer = (oldState = {}, action) => {
+	let newState = { ...oldState };
 
-    let newState = {...oldState}
+	switch (action.type) {
+		case RECEIVE_LIKES:
+			console.log(action);
+			action.suggestions.forEach((sugg) => {
+				newState[sugg._id] = sugg;
+			});
+			return newState;
 
-    switch(action.type) {
-        case RECEIVE_LIKES:
-            console.log(action)
-            action.suggestions.forEach(sugg => {
-                newState[sugg._id] = sugg;
-            });
-            return newState;
-        case RECEIVE_LIKE:
-            const { suggestion, userId } = action;
-            // newState[userId] = newState[userId] || { pins: [] };
-            // newState[userId].pins.push(suggestionId);
-            newState[suggestion._id] = suggestion;
-            return newState;
-        case REMOVE_LIKE:
-            delete newState[action.suggestionId]
-            // delete newState.session.user.pins
-            return newState;
-        default:
-            return oldState
-    }
-}
+		case RECEIVE_LIKE:
+			// newState[userId] = newState[userId] || { pins: [] };
+			// newState[userId].pins.push(suggestionId);
 
-export default likesReducer
+			const { suggestion } = action;
+			newState[suggestion._id] = suggestion;
+			return newState;
+
+		case REMOVE_LIKE:
+			delete newState[action.suggestionId];
+			// delete newState.session.user.pins
+			return newState;
+
+		default:
+			return oldState;
+	}
+};
+
+export default likesReducer;

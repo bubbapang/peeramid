@@ -3,12 +3,12 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { searchUsers } from "../../store/session";
 // import SearchResults from './SearchResults';
-import "./Navigation.css";
 import SearchBar from "./SearchBar";
 import { logout } from "../../store/session";
 import { useState } from "react";
 import AboutUs from "../AboutUs";
 import { useEffect } from "react";
+import "./Navigation.css";
 
 export default function Navigation() {
 	const dispatch = useDispatch();
@@ -53,30 +53,60 @@ export default function Navigation() {
 		// Perform search here or navigate to the search results page
 		console.log("Search term:", searchTerm);
 	};
-  
-  return (
-    <div className="nav-bar-container">
-      <button className="logout-icon" onClick={handleLogout}>Logout</button>
-      <div className='profile-today-search'>
-        <div className='profile-today'>
-          <button className="profile-icon" onClick={() => handleButtonClick('Profile')}><i className="fas fa-user-circle fa-2x" /></button>
-          <button className="today" onClick={() => handleButtonClick('Rating')}>Today</button>
-        </div>
-        <SearchBar onSearch={handleSearch}  />
-      </div>
-      <button className="about-us-icon" onClick={handleModalToggle}>About Us</button> 
-      {isModalOpen && (
-        <div className="modal modal-background">
-          <div className="about-modal-content">
-            <button onClick={handleModalToggle} className="close-modal"> <p>X</p></button>
-            <AboutUs />
-          </div>
-        </div>
-      )}
-      <div className='feed-suggestions'>
-      <button className="feed-icon" onClick={() => handleButtonClick('Feed')}>Feed</button>
-      <button className="suggestions-icon" onClick={() => handleButtonClick('Suggestions')}>Suggestions</button>
-      </div>
-    </div>
-  );
+
+	return (
+		<div className="nav-bar-container">
+			<button className="logout-icon" onClick={handleLogout}>
+				Logout
+			</button>
+			<div className="profile-today-search">
+				<div className="profile-today">
+					<button
+						className="profile-icon"
+						onClick={() => handleButtonClick("Profile")}
+					>
+						<i className="fas fa-user-circle fa-2x" />
+					</button>
+					<button
+						className="today"
+						onClick={() => handleButtonClick("Rating")}
+					>
+						Today
+					</button>
+				</div>
+				<SearchBar onSearch={handleSearch} />
+			</div>
+			<button className="about-us-icon" onClick={handleModalToggle}>
+				About Us
+			</button>
+			{isModalOpen && (
+				<div className="modal modal-background">
+					<div className="about-modal-content">
+						<button
+							onClick={handleModalToggle}
+							className="close-modal"
+						>
+							{" "}
+							<p>X</p>
+						</button>
+						<AboutUs />
+					</div>
+				</div>
+			)}
+			<div className="feed-suggestions">
+				<button
+					className="feed-icon"
+					onClick={() => handleButtonClick("Feed")}
+				>
+					Feed
+				</button>
+				<button
+					className="suggestions-icon"
+					onClick={() => handleButtonClick("Suggestions")}
+				>
+					Suggestions
+				</button>
+			</div>
+		</div>
+	);
 }
