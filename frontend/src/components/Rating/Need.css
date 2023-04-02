@@ -1,4 +1,5 @@
 .container {
+	min-width:fit-content;
 	position: relative;
 	display: inline-block;
 	/* margin-top: 70px; */
@@ -46,7 +47,7 @@
 	justify-content: center;
 	align-items: center;
 	/* Replace padding: 0.5rem 1rem; with padding: 0.5vw 1vw; */
-	padding: 0.5vw 1vw;
+	padding: 0.5vw ;
 	height: 100%;
 	/* Replace font-size: 2rem; with font-size: 2vw; */
 	font-size: 2vw;
@@ -91,22 +92,7 @@
 	.buttons button {
 		padding: 0.25rem 0.5rem;
 		font-size: 1.5rem;
+		
 	}
 }
 
-@media (max-width: 1500) {
-	.need {
-		width: 100%;
-		height: 80px;
-		padding: 0 0.8rem;
-	}
-
-	.need h1 {
-		font-size: 1.8rem;
-	}
-
-	.buttons button {
-		padding: 0.4rem 0.8rem;
-		font-size: 1.8rem;
-	}
-}
