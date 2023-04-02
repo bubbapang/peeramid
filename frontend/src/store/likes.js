@@ -35,7 +35,6 @@ export const fetchLikes = (userId) => async (dispatch) => {
 
 	if (response.ok) {
 		const likes = await response.json();
-		console.log(likes);
 		dispatch(receiveLikes(likes));
 	}
 };
@@ -65,7 +64,6 @@ const likesReducer = (oldState = {}, action) => {
 
 	switch (action.type) {
 		case RECEIVE_LIKES:
-			console.log(action);
 			action.suggestions.forEach((sugg) => {
 				newState[sugg._id] = sugg;
 			});

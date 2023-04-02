@@ -1,12 +1,21 @@
 import jwtFetch from "./jwt";
 // import { RECEIVE_PIN } from "./pins";
 
+const SET_TARGET_USER = "session/SET_TARGET_USER";
 const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
 const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
 const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
+
 export const RECEIVE_SEARCH_RESULTS = "users/RECEIVE_SEARCH_RESULTS";
 export const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
 export const ADD_USER_PIN = "users/ADD_USER_PIN";
+
+// Dispatch setTargetUser to set the target user.
+// this is the only thunk action that we need to export because its frontend state management only, no backend shenanigans happening here
+export const setTargetUser = (targetUser) => ({
+	type: SET_TARGET_USER,
+	targetUser,
+});
 
 // Dispatch receiveCurrentUser when a user logs in.
 const receiveCurrentUser = (currentUser) => ({
@@ -76,22 +85,25 @@ export const logout = () => (dispatch) => {
 	dispatch(logoutUser());
 };
 
-const initialState = {
-	user: undefined,
-	searchResults: [],
-};
-
 export const searchUsers = (searchTerm) => async (dispatch) => {
 	const response = await fetch(`/api/users/search?q=${searchTerm}`);
-
+	
 	if (response.ok) {
 		const searchResults = await response.json();
 		dispatch(receiveSearchResults(searchResults));
 	}
 };
 
+const initialState = {
+	user: undefined,
+	targetUser: undefined,
+	searchResults: [],
+};
+
 const sessionReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case SET_TARGET_USER:
+			return { ...state, targetUser: action.targetUser };
 		case RECEIVE_CURRENT_USER:
 			return { user: action.currentUser };
 		case RECEIVE_USER_LOGOUT:

@@ -38,9 +38,9 @@ function App() {
 						<Home />
 					</Route>
 
-					{/* <Route exact path="/profile/:userId">
-						<Home user={}/>
-					</Route> */}
+					<Route exact path="/profile/:userId">
+						<Home />
+					</Route>
 
 					<Route exact path="/feed">
 						<Navigation />

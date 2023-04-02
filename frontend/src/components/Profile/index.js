@@ -1,10 +1,11 @@
 // importing dependencies
+import React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams, Link } from "react-router-dom";
 import { Line, Radar } from "react-chartjs-2";
-import { fetchUserRatings } from "../../store/ratings";
-import { getRatings } from "../../store/ratings";
-import { Link } from "react-router-dom";
+// import { searchUsers } from "../../store/session";
+import { fetchUserRatings, getRatings } from "../../store/ratings";
 import Pin from "./Pin";
 import FeedItem from "../Feed/FeedItem";
 import "./Profile.css";
@@ -26,20 +27,34 @@ export default function Profile() {
 	// set up dispatch
 	const dispatch = useDispatch();
 
-	// set up bio
-	// const [bio, setBio] = useState("this is my bio");
-
-	// set up user
+	// get current user and ratings from the store
 	let currentUser = useSelector((state) => state.session.user);
 
-	// i need a way to initialize the target user from the search bar
-		// :::
-		// maybe i can use the url user id and then fetch for that user
-		// and then set the currentUser to that user
-		// and then use that user to fetch that user's ratings
+	// get the target user id from the url
+	const targetUserId = useParams().userId;
+	const targetUser = useSelector((state) => state.session.targetUser);
 
-	// const targetUserId = window.location.href.split("/")[4];
-	// console.log("targetUserId", targetUserId);
+	// get the pertinent ratings from the store, be it the current user's or the target user's
+	const ratings = useSelector(getRatings);
+	// console.log("ratings", ratings);
+
+	// search for the target user by id
+	// useEffect(() => {
+	// 	if (targetUserId) {
+	// 		dispatch(searchUsers(targetUserId));
+	// 	}
+	// }, [dispatch, targetUserId]);
+
+	// fetch user ratings
+	useEffect(() => {
+		console.log("currentUser", currentUser);
+		console.log("targetUser", targetUser);
+		if (currentUser) {
+			dispatch(fetchUserRatings(currentUser._id));
+		} else if (targetUser) {
+			dispatch(fetchUserRatings(targetUserId));
+		}
+	}, [dispatch, currentUser, targetUser, targetUserId]);
 
 	// set up dummy user
 	const dummyUser = {
@@ -47,20 +62,14 @@ export default function Profile() {
 		lastName: "User",
 		username: "dummy_user",
 		email: "dummy@user.io",
-		followers: ["", "", ""],
-		following: ["", "", ""],
+		followers: [],
+		following: [],
 	};
-	const finalUser = currentUser ? currentUser : dummyUser;
+
+	// why are we defaulting to the dummy user's data?
+	const finalUser = targetUser || currentUser || dummyUser;
 
 	// set up ratings
-	const ratings = useSelector(getRatings);
-
-	// fetch user ratings
-	useEffect(() => {
-		if (currentUser) {
-			dispatch(fetchUserRatings(currentUser._id));
-		}
-	}, [dispatch, currentUser]);
 
 	// set up chart data
 	useEffect(() => {
@@ -273,18 +282,10 @@ export default function Profile() {
 		setRadarOptions(radarChartOptions);
 	}, [ratings]);
 
-	// const allRatings = useSelector((state) => state.ratings);
-
-	// setup for follow button
-	// const handleFollow = (e) => {
-	// 	e.preventDefault();
-	// 	console.log("followed");
-	// };
-
 	// setup sorted ratings
 	const sortedRatings = ratings
 		.slice()
-		.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+		.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // sorting by date to make the finaluser's ratings LIFO
 
 	// render
 	return (
@@ -297,19 +298,23 @@ export default function Profile() {
 					</div>
 					<div className="stats-layer">
 						<div className="stat-item">
-							<span className="stat-value">{ratings.length}</span>
+							<span className="stat-value">
+								{sortedRatings.length}
+							</span>
 							<span className="stat-label">Ratings</span>
 						</div>
 						<div className="stat-item">
 							<span className="stat-value">
-								{finalUser.followers.length}
+								{finalUser.followers?.length || 0}
 							</span>
+
 							<span className="stat-label">Followers</span>
 						</div>
 						<div className="stat-item">
 							<span className="stat-value">
-								{finalUser.following.length}
+								{finalUser.following?.length || 0}
 							</span>
+
 							<span className="stat-label">Following</span>
 						</div>
 					</div>
@@ -370,3 +375,5 @@ export default function Profile() {
 		</div>
 	);
 }
+
+// export default React.memo(Profile);

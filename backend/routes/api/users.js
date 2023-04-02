@@ -295,7 +295,7 @@ router.get("/:id/suggestions", requireUser, async (req, res, next) => {
 });
 
 // implemented seach query for users, here regex means regular expression helps in pattern matching, options helps in making the query case-insensitive
-// So, we find teh users by the options, and select the fields we need and return them
+// So, we find the users by the options, and select the fields we need and return them
 // SEARCH FOR USERS
 router.get("/search", async (req, res, next) => {
 	const searchQuery = req.query.q;
@@ -306,7 +306,7 @@ router.get("/search", async (req, res, next) => {
 				{ firstName: { $regex: searchQuery, $options: "i" } },
 				{ lastName: { $regex: searchQuery, $options: "i" } },
 			],
-		}).select("_id username firstName lastName");
+		})
 		res.json(users);
 	} catch (err) {
 		next(err);

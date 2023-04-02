@@ -26,7 +26,6 @@ export default function Feed() {
 		fetchData();
 	}, [dispatch]);
 
-	console.log("feeditem", ratings);
 	return (
 		<div ref={containerRef} className="feed-container">
 			{sortedRatings.map((rating, idx) => (
