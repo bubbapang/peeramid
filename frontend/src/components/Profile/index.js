@@ -47,27 +47,28 @@ export default function Profile() {
 
 	// fetch user ratings
 	useEffect(() => {
-		console.log("currentUser", currentUser);
-		console.log("targetUser", targetUser);
-		if (currentUser) {
-			dispatch(fetchUserRatings(currentUser._id));
-		} else if (targetUser) {
+		// console.log("currentUser", currentUser);
+		// console.log("targetUser", targetUser);
+		// console.log("ratings", ratings)
+		if (targetUser) {
 			dispatch(fetchUserRatings(targetUserId));
+		} else {
+			dispatch(fetchUserRatings(currentUser._id));
 		}
 	}, [dispatch, currentUser, targetUser, targetUserId]);
 
 	// set up dummy user
-	const dummyUser = {
-		firstName: "Dummy",
-		lastName: "User",
-		username: "dummy_user",
-		email: "dummy@user.io",
-		followers: [],
-		following: [],
-	};
+	// const dummyUser = {
+	// 	firstName: "Dummy",
+	// 	lastName: "User",
+	// 	username: "dummy_user",
+	// 	email: "dummy@user.io",
+	// 	followers: [],
+	// 	following: [],
+	// };
 
 	// why are we defaulting to the dummy user's data?
-	const finalUser = targetUser || currentUser || dummyUser;
+	const finalUser = targetUser || currentUser;
 
 	// set up ratings
 
