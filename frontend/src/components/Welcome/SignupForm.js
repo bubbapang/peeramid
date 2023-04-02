@@ -34,34 +34,21 @@ const displayErrorBanner = () => {
 			email,
 			password,
 		};
+		const success = await dispatch(signup(userCredentials));
 
-
+	
 if (!firstName || !lastName || !username || !email || !password) {
     // If any field is not filled out, set the error message and return
     displayErrorBanner();
     return;
   }
 
-const userCredentials = {
-    firstName,
-    lastName,
-    username,
-    email,
-    password,
-};
 
 		if (success) {
 			history.push("/feed");
 		}
 	};
 
-
-if (success) {
-    history.push('/feed');
-}
-
-
-};
 
 return (
 <>
@@ -148,4 +135,8 @@ return (
 			</div>
 		</>
 	);
-}
+
+};
+
+
+

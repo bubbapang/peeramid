@@ -204,6 +204,11 @@ button.highlight:active, button.lowlight:active, button.info:active, button.subm
     transform: translateY(2px);
 }
 
+.buttons {
+  width: 100%;
+}
+
+
 /* Add the following media query at the end of your Rating.css file */
 
 @media (max-width: 768px) {
