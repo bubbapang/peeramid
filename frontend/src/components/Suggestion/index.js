@@ -20,13 +20,6 @@ export default function Suggestion() {
 		dispatch(fetchLikes(user._id));
 	}, [dispatch, user]);
 
-	// make a useEffect that listens for changes in the suggestions in the state
-	//  const [suggestions, setSuggestions] = useState([]);
-	useEffect(() => {
-		// Perform any side effects you need when the suggestions state changes.
-		//  console.log('suggestions state changed:', suggestions);
-	}, [suggestions]);
-
 	useEffect(() => {
 		const handleSuggestionCreated = () => {
 			dispatch(fetchAllPublicSuggestions());

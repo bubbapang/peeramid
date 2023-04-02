@@ -65,14 +65,14 @@
 }
 
 .search-input {
-	width: 1000px;
+	width: 700px;
 	/* min-height: 15%; */
 	height: 50%;
 	padding: 5px 10px;
 	border: 1px solid #757575;
 	border-radius: 10px;
 	outline: none;
-  position: relative;
+	position: relative;
 }
 
 .feed-suggestions {

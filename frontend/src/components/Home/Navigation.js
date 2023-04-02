@@ -50,8 +50,6 @@ export default function Navigation() {
 
 	const handleSearch = (searchTerm) => {
 		dispatch(searchUsers(searchTerm));
-		// Perform search here or navigate to the search results page
-		console.log("Search term:", searchTerm);
 	};
 
 	return (

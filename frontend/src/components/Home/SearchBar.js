@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { searchUsers } from "../../store/session";
 import { useHistory } from "react-router-dom";
+import { setTargetUser } from "../../store/session";
 import "./SearchBar.css";
 
 // making the search bar component
@@ -30,7 +31,11 @@ export default function SearchBar({ onSearch }) {
 	// handling the change in the input field
 	const handleChange = (event) => {
 		setSearchTerm(event.target.value);
-		setIsDropdownVisible(true);
+		if (searchTerm === "") {
+			setIsDropdownVisible(false);
+		} else {
+			setIsDropdownVisible(true);
+		}
 	};
 
 	// handling the key press in the input field
@@ -44,10 +49,11 @@ export default function SearchBar({ onSearch }) {
 
 	// handling the click on the search result
 	const handleUserClick = (user) => {
-		console.log(user);
-		setSearchTerm(user.firstName + " " + user.lastName);
+		setSearchTerm("");
 		onSearch(user.firstName + " " + user.lastName);
 		setIsDropdownVisible(false);
+		dispatch(setTargetUser(user)); // Dispatch the setTargetUser action
+		console.log("just set the target user")
 		history.push(`/profile/${user._id}`);
 	};
 

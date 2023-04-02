@@ -51,7 +51,6 @@ export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
 	};
 
 	const deleteSugg = () => {
-		console.log("delete suggestion", suggestion._id);
 		dispatch(deleteSuggestion(suggestion._id));
 		toggleEditMode();
 		displayDeleteSuccessBanner();
