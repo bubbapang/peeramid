@@ -45,6 +45,8 @@ export default function Profile() {
 	// 	}
 	// }, [dispatch, targetUserId]);
 
+
+
 	// fetch user ratings
 	useEffect(() => {
 		// console.log("currentUser", currentUser);

@@ -65,10 +65,11 @@ export default function Suggestion() {
 
 	const filteredSuggestions =
 		filter === "All Suggestions"
-			? Object.values(suggestions).reverse()
+			? Object.values(suggestions)
+					.sort((a, b) => b.likes.length - a.likes.length)
 			: Object.values(suggestions)
 					.filter((suggestion) => suggestion.categoryTag === filter)
-					.reverse();
+					.sort((a, b) => b.likes.length - a.likes.length);
 
 	return (
 		<div className="suggestion-page">

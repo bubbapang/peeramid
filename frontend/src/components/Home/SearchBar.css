@@ -1,6 +1,6 @@
 .search-dropdown {
 	background-color: white;
-	border: 1px solid #ccc;
+	/* border: 1px solid #ccc; */
 	border-radius: 4px;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	top: 85%;
