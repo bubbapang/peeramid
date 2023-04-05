@@ -31,10 +31,11 @@ export default function SearchBar({ onSearch }) {
 	// handling the change in the input field
 	const handleChange = (event) => {
 		setSearchTerm(event.target.value);
+			setIsDropdownVisible(true);
 		if (searchTerm === "") {
 			setIsDropdownVisible(false);
-		} else {
 			setIsDropdownVisible(true);
+		} else {
 		}
 	};
 
@@ -53,9 +54,24 @@ export default function SearchBar({ onSearch }) {
 		onSearch(user.firstName + " " + user.lastName);
 		setIsDropdownVisible(false);
 		dispatch(setTargetUser(user)); // Dispatch the setTargetUser action
-		console.log("just set the target user")
+		console.log("just set the target user");
 		history.push(`/profile/${user._id}`);
 	};
+
+	// handling the click outside of the search bar
+	const handleClickOutside = (event) => {
+		if (event.target.className !== "search-input") {
+			setIsDropdownVisible(false);
+		}
+	};
+
+	// using the useEffect hook to add the event listener
+	useEffect(() => {
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, []);
 
 	// rendering the search bar
 	return (
@@ -67,6 +83,7 @@ export default function SearchBar({ onSearch }) {
 				onKeyPress={handleKeyPress}
 				placeholder="Search..."
 				className="search-input"
+				onClick={() => setIsDropdownVisible(true)}
 			/>
 			{isDropdownVisible && (
 				<div className="search-dropdown">
@@ -76,7 +93,7 @@ export default function SearchBar({ onSearch }) {
 							className="search-result"
 							onClick={() => handleUserClick(user)}
 						>
-							{user.firstName} {user.lastName}
+							{user.username} ({user.firstName} {user.lastName})
 						</div>
 					))}
 				</div>
