@@ -20,14 +20,14 @@ export default function PinItem({ suggestion, likeIds }) {
 		// setLikeCount(suggestion.likes.length)
 	}, [likeIds, suggestion._id]);
 
-	const likeClick = () => {
-		dispatch(createLike(suggestion, currentUser._id));
+	const likeClick = async () => {
+		await dispatch(createLike(suggestion, currentUser._id));
 		setLikeDisplay("Liked");
 		setLikeCount(likeCount + 1);
 	};
 
-	const unlikeClick = () => {
-		dispatch(deleteLike(suggestion._id));
+	const unlikeClick = async () => {
+		await dispatch(deleteLike(suggestion._id));
 		setLikeDisplay("Like");
 		setLikeCount(likeCount - 1);
 	};

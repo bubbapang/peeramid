@@ -34,7 +34,7 @@ export default function Pin() {
 							<em>suggestions</em>{" "}
 						</span>{" "}
 					</Link>
-					&nbsp;page to add suggestion
+					&nbsp;page to pin suggestion
 				</h1>
 			</div>
 		);

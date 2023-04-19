@@ -94,24 +94,24 @@ export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
 		}
 	}, [pinIds, suggestion._id]);
 
-	const likeClick = () => {
-		dispatch(createLike(suggestion, currentUser._id));
+	const likeClick = async () => {
+		await dispatch(createLike(suggestion, currentUser._id));
 		setLikeDisplay("Liked");
 		setLikeCount(likeCount + 1);
 	};
-	const unlikeClick = () => {
-		dispatch(deleteLike(suggestion._id, currentUser._id));
+	const unlikeClick = async () => {
+		await dispatch(deleteLike(suggestion._id, currentUser._id));
 		setLikeDisplay("Like");
 		setLikeCount(likeCount - 1);
 	};
 
-	const pinClick = () => {
-		dispatch(createPin(suggestion, currentUser._id));
+	const pinClick = async () => {
+		await dispatch(createPin(suggestion, currentUser._id));
 		setPinDisplay("Pinned");
 		setPinCount(pinCount + 1);
 	};
-	const unpinClick = () => {
-		dispatch(deletePin(suggestion._id, currentUser._id));
+	const unpinClick = async () => {
+		await dispatch(deletePin(suggestion._id, currentUser._id));
 		setPinDisplay("Pin");
 		setPinCount(pinCount - 1);
 	};
