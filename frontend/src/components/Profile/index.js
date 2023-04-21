@@ -36,41 +36,20 @@ export default function Profile() {
 
 	// get the pertinent ratings from the store, be it the current user's or the target user's
 	const ratings = useSelector(getRatings);
-	// console.log("ratings", ratings);
-
-	// search for the target user by id
-	// useEffect(() => {
-	// 	if (targetUserId) {
-	// 		dispatch(searchUsers(targetUserId));
-	// 	}
-	// }, [dispatch, targetUserId]);
-
-
 
 	// fetch user ratings
 	useEffect(() => {
 		// console.log("currentUser", currentUser);
 		// console.log("targetUser", targetUser);
 		// console.log("ratings", ratings)
-		if (targetUser) {
+		if (targetUserId) {
 			dispatch(fetchUserRatings(targetUserId));
 		} else {
 			dispatch(fetchUserRatings(currentUser._id));
 		}
-	}, [dispatch, currentUser, targetUser, targetUserId]);
+	}, [dispatch, currentUser, targetUserId]);
 
-	// set up dummy user
-	// const dummyUser = {
-	// 	firstName: "Dummy",
-	// 	lastName: "User",
-	// 	username: "dummy_user",
-	// 	email: "dummy@user.io",
-	// 	followers: [],
-	// 	following: [],
-	// };
-
-	// why are we defaulting to the dummy user's data?
-	const finalUser = targetUser || currentUser;
+	const finalUser = targetUserId ? targetUser : currentUser;
 
 	// set up ratings
 
@@ -342,7 +321,7 @@ export default function Profile() {
 					<div className="radar-chart-container">
 						<Radar data={radarData} options={radarOptions} />
 						<div className="suggestions">
-							<Pin />
+							<Pin pageUser={targetUserId ? targetUser : currentUser}/>
 						</div>
 					</div>
 					<div className="line-chart-container">
