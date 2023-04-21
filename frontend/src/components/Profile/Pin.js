@@ -9,9 +9,10 @@ import { fetchLikes } from "../../store/likes";
 import { Link } from "react-router-dom";
 
 // make the pin component
-export default function Pin() {
+export default function Pin({pageUser}) {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.session.user);
+	// const user = useSelector((state) => state.session.user);
+	const user = pageUser;
 	const pins = useSelector((state) => state.pins);
 	const likes = useSelector((state) => state.likes);
 

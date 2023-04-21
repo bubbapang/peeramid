@@ -2,6 +2,7 @@ import jwtFetch from "./jwt";
 // import { RECEIVE_PIN } from "./pins";
 
 const SET_TARGET_USER = "session/SET_TARGET_USER";
+const REMOVE_TARGET_USER = "session/REMOVE_TARGET_USER";
 const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
 const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
 const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
@@ -16,6 +17,10 @@ export const setTargetUser = (targetUser) => ({
 	type: SET_TARGET_USER,
 	targetUser,
 });
+
+export const removeTargetUser = () => ({
+	type: REMOVE_TARGET_USER
+})
 
 // Dispatch receiveCurrentUser when a user logs in.
 const receiveCurrentUser = (currentUser) => ({
