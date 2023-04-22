@@ -69,6 +69,13 @@ export const deletePin = (suggestionId) => async (dispatch) => {
 	}
 };
 
+export const deleteTargetUserPin = (suggestionId) => async (dispatch) => {
+	await jwtFetch(`/api/suggestions/${suggestionId}/pin`, {
+		method: "DELETE",
+	});
+
+};
+
 const pinsReducer = (oldState = {}, action) => {
 	let newState = { ...oldState };
 

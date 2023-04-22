@@ -68,6 +68,12 @@ export const getCurrentUser = () => async (dispatch) => {
 	return dispatch(receiveCurrentUser(user));
 };
 
+export const getTargetUser = (userId) => async(dispatch) => {
+	// const res = await jwtFetch(`/api/users/${userId}`)
+	// const user = await res.json();
+	// return dispatch(setTargetUser(user));
+}
+
 const startSession = (userInfo, route) => async (dispatch) => {
 	try {
 		const res = await jwtFetch(route, {
@@ -110,7 +116,7 @@ const sessionReducer = (state = initialState, action) => {
 		case SET_TARGET_USER:
 			return { ...state, targetUser: action.targetUser };
 		case RECEIVE_CURRENT_USER:
-			return { user: action.currentUser };
+			return { ...state, user: action.currentUser };
 		case RECEIVE_USER_LOGOUT:
 			return initialState;
 		case ADD_USER_PIN:

@@ -9,6 +9,7 @@ import { fetchUserRatings, getRatings } from "../../store/ratings";
 import Pin from "./Pin";
 import FeedItem from "../Feed/FeedItem";
 import "./Profile.css";
+import { getCurrentUser, getTargetUser } from "../../store/session";
 
 // start of Profile component
 export default function Profile() {
@@ -32,24 +33,33 @@ export default function Profile() {
 
 	// get the target user id from the url
 	const targetUserId = useParams().userId;
-	const targetUser = useSelector((state) => state.session.targetUser);
+	let targetUser = useSelector((state) => state.session.targetUser);
+	let pageUser = targetUserId ? targetUser : currentUser;
+	// console.log(pageUser, targetUser, currentUser)
 
 	// get the pertinent ratings from the store, be it the current user's or the target user's
 	const ratings = useSelector(getRatings);
+	// const pageId = window.location.pathname.substring(1).split('/')[1];
+	// console.log(pageId, targetUserId)
+	useEffect(() => {
+		dispatch(getCurrentUser())
+	}, [dispatch])
+	useEffect(() => {
+		// dispatch(getTargetUser())
+	}, [dispatch, targetUserId])
+
+	useEffect(() => {
+		pageUser = targetUserId ? targetUser : currentUser
+	}, [targetUser, currentUser])
 
 	// fetch user ratings
 	useEffect(() => {
-		// console.log("currentUser", currentUser);
-		// console.log("targetUser", targetUser);
-		// console.log("ratings", ratings)
 		if (targetUserId) {
 			dispatch(fetchUserRatings(targetUserId));
 		} else {
 			dispatch(fetchUserRatings(currentUser._id));
 		}
-	}, [dispatch, currentUser, targetUserId]);
-
-	const finalUser = targetUserId ? targetUser : currentUser;
+	}, [dispatch, targetUserId]);
 
 	// set up ratings
 
@@ -267,16 +277,16 @@ export default function Profile() {
 	// setup sorted ratings
 	const sortedRatings = ratings
 		.slice()
-		.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // sorting by date to make the finaluser's ratings LIFO
+		.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // sorting by date to make the pageUser's ratings LIFO
 
 	// render
-	return (
+	return !pageUser ? null : (
 		<div className="profile-page">
 			<div className="top">
 				<div className="info-box">
 					<i id="profile-icon" className="fas fa-user-circle"></i>
 					<div className="username-layer">
-						<h2 className="username">{finalUser.username}</h2>
+						<h2 className="username">{pageUser.username}</h2>
 					</div>
 					<div className="stats-layer">
 						<div className="stat-item">
@@ -287,14 +297,14 @@ export default function Profile() {
 						</div>
 						<div className="stat-item">
 							<span className="stat-value">
-								{finalUser.followers?.length || 0}
+								{pageUser.followers?.length || 0}
 							</span>
 
 							<span className="stat-label">Followers</span>
 						</div>
 						<div className="stat-item">
 							<span className="stat-value">
-								{finalUser.following?.length || 0}
+								{pageUser.following?.length || 0}
 							</span>
 
 							<span className="stat-label">Following</span>
@@ -305,7 +315,7 @@ export default function Profile() {
 					</div> */}
 					{/* add logout button on the left and a follow button on the right */}
 					{/* <div className="buttons-layer">
-						{finalUser._id !== currentUser._id && (
+						{pageUser._id !== currentUser._id && (
 							<button
 								className="follow-button"
 								onClick={handleFollow}
@@ -321,7 +331,7 @@ export default function Profile() {
 					<div className="radar-chart-container">
 						<Radar data={radarData} options={radarOptions} />
 						<div className="suggestions">
-							<Pin pageUser={targetUserId ? targetUser : currentUser}/>
+							<Pin pageUser={pageUser} sessionUser={currentUser}/>
 						</div>
 					</div>
 					<div className="line-chart-container">
