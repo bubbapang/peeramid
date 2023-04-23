@@ -1,468 +1,229 @@
+// IMPORTING DEPENDENCIES WE NEED //
+
+import { firstNames, lastNames, userNames, needs, mockHighlights, mockLowlights, mockSuggestions } from "./mockData.js";
+
+// import mongoose and check config/keys.js for mongoURI
 const mongoose = require("mongoose");
 const { mongoURI: db } = require("../config/keys.js");
+
+// import bcrypt
+const bcrypt = require("bcryptjs");
+
+// import models
 const User = require("../models/User");
 const Rating = require("../models/Rating");
 const Suggestion = require("../models/Suggestion");
-const bcrypt = require("bcryptjs");
+
+// import object id from mongoose types?
 const { ObjectId } = require("mongoose").Types;
 
-function generatePastDate(daysAgo) {
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// HELPER FUNCTIONS //
+
+// functions for dates
+// function generatePastDate(daysAgo) {
+// 	const date = new Date();
+// 	date.setDate(date.getDate() - daysAgo);
+// 	return date.toISOString();
+// }
+
+function getDate(dayOffset) {
 	const date = new Date();
-	date.setDate(date.getDate() - daysAgo);
-	return date.toISOString();
+	date.setDate(date.getDate() - dayOffset);
+	return date;
 }
 
-const user1Id = new ObjectId();
-const user2Id = new ObjectId();
-const user3Id = new ObjectId();
-const user4Id = new ObjectId();
-const user5Id = new ObjectId();
-const user6Id = new ObjectId();
-const user7Id = new ObjectId();
-const user8Id = new ObjectId();
-const user9Id = new ObjectId();
-const user10Id = new ObjectId();
-const demoUserId = new ObjectId();
-
-const rating4Id = new ObjectId();
-
+// init main arrays
 const users = [];
 const ratings = [];
 const suggestions = [];
 
-const highlightsArr = [
-	"Had a productive day at work.",
-	"Spent quality time with family.",
-	"Finished reading a great book.",
-	"Went for a long walk.",
-	"Completed a challenging workout.",
-	"Had an insightful conversation with a friend.",
-	"Made progress on a personal project.",
-	"Cooked a delicious meal.",
-	"Helped a friend with a problem.",
-	"Learned a new skill.",
-	"Received positive feedback at work.",
-	"Made a new connection.",
-	"Volunteered for a good cause.",
-	"Completed a home improvement project.",
-	"Took time for self-care.",
-	"Listened to an inspiring podcast.",
-	"Attended an interesting event.",
-	"Traveled to a new place.",
-	"Received a compliment.",
-	"Watched a fascinating documentary.",
-	"Achieved a personal goal.",
-	"Solved a complex problem.",
-	"Went on a fun outing with friends.",
-	"Made progress in learning a new language.",
-	"Enjoyed a beautiful sunset.",
-	"Wrote a thoughtful letter.",
-	"Had a breakthrough idea.",
-	"Tried a new recipe and loved it.",
-	"Received a thoughtful gift.",
-	"Made someone smile.",
-	"Felt a sense of accomplishment.",
-	"Reconnected with an old friend.",
-	"Took a relaxing bath.",
-	"Finished a creative project.",
-	"Got a promotion at work.",
-	"Went to a fun social event.",
-	"Played a new sport.",
-	"Watched a great movie.",
-	"Took a spontaneous trip.",
-	"Overcame a fear.",
-	"Completed a difficult task.",
-	"Meditated and felt at peace.",
-	"Had a memorable dream.",
-	"Discovered a new hobby.",
-	"Donated to a charity.",
-	"Went to a live performance.",
-	"Read an interesting article.",
-	"Enjoyed a fun game night.",
-	"Gave a successful presentation.",
-	"Felt inspired by someone's story.",
-	"Had a productive day at work.",
-	"Spent quality time with family.",
-	"Finished reading a great book.",
-	"Went for a long walk.",
-	"Completed a challenging workout.",
-	"Had an insightful conversation with a friend.",
-	"Made progress on a personal project.",
-	"Had a productive day at work.",
-	"Spent quality time with family.",
-	"Finished reading a great book.",
-	"Went for a long walk.",
-	"Completed a challenging workout.",
-	"Had an insightful conversation with a friend.",
-	"Made progress on a personal project.",
-	"Cooked a delicious meal.",
-	"Helped a friend with a problem.",
-	"Learned a new skill.",
-	"Received positive feedback at work.",
-	"Made a new connection.",
-	"Volunteered for a good cause.",
-	"Completed a home improvement project.",
-	"Took time for self-care.",
-	"Listened to an inspiring podcast.",
-];
+// mock data for 10 people
+// init user IDs array to store for relationships
+const IDs = [];
 
-const lowlightsArr = [
-	"Had a disagreement with a colleague.",
-	"Missed an important deadline.",
-	"Felt overwhelmed by tasks.",
-	"Struggled with time management.",
-	"Procrastinated on a project.",
-	"Skipped a workout session.",
-	"Had difficulty sleeping.",
-	"Had a disagreement with a colleague.",
-	"Missed an important deadline.",
-	"Felt overwhelmed by tasks.",
-	"Struggled with time management.",
-	"Procrastinated on a project.",
-	"Skipped a workout session.",
-	"Had difficulty sleeping.",
-	"Faced a challenging personal issue.",
-	"Dealt with a frustrating situation.",
-	"Lost track of time on social media.",
-	"Felt stressed about upcoming events.",
-	"Had trouble focusing on work.",
-	"Didn't stick to a healthy diet.",
-	"Missed an appointment.",
-	"Struggled with motivation.",
-	"Faced a setback on a personal goal.",
-	"Had a disagreement with a colleague.",
-	"Missed an important deadline.",
-	"Felt overwhelmed by tasks.",
-	"Struggled with time management.",
-	"Procrastinated on a project.",
-	"Skipped a workout session.",
-	"Had difficulty sleeping.",
-	"Faced a challenging personal issue.",
-	"Dealt with a frustrating situation.",
-	"Lost track of time on social media.",
-	"Felt stressed about upcoming events.",
-	"Had trouble focusing on work.",
-	"Didn't stick to a healthy diet.",
-	"Missed an appointment.",
-	"Struggled with motivation.",
-	"Faced a setback on a personal goal.",
-	"Encountered an unexpected obstacle.",
-	"Experienced a loss.",
-	"Got caught in bad weather.",
-	"Felt discouraged by a lack of progress.",
-	"Lost an important item.",
-	"Argued with a family member.",
-	"Had a disappointing experience.",
-	"Felt lonely or isolated.",
-	"Made a mistake at work.",
-	"Struggled to find a solution.",
-	"Felt unwell.",
-	"Received negative feedback.",
-	"Had a misunderstanding with someone.",
-	"Missed an opportunity.",
-	"Felt let down by someone.",
-	"Faced a financial challenge.",
-	"Experienced a delay or cancellation.",
-	"Had to cancel plans.",
-	"Struggled with a personal relationship.",
-	"Felt anxious or worried.",
-	"Encountered a technical issue.",
-	"Felt underappreciated.",
-];
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// LOOPS TO CREATE DATA, USING THE MOCK DATA //
 
-users.push(
-	new User({
-		_id: user1Id,
-		firstName: "Madhur",
-		lastName: "Luthra",
-		username: "mluthra01",
-		email: "madhur@user.io",
-		// pins: [suggestion1Id, suggestion2Id, suggestion3Id],
-		followers: [user2Id, user3Id, user4Id],
-		following: [user2Id, user3Id, user4Id],
-		hashedPassword: bcrypt.hashSync("starwars", 10),
-	}),
-	new User({
-		_id: user2Id,
-		firstName: "andre",
-		lastName: "hanna",
-		username: "andre01",
-		email: "andre@user.io",
-		// pins: [suggestion1Id, suggestion2Id, suggestion3Id],
-		followers: [user1Id, user3Id, user4Id],
-		following: [user1Id, user3Id, user4Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
-	new User({
-		_id: user3Id,
-		firstName: "adam",
-		lastName: "pen",
-		username: "adam01",
-		email: "adam@user.io",
-		public: false,
-		// pins: [suggestion1Id, suggestion2Id, suggestion3Id],
-		followers: [user2Id, user1Id, user4Id],
-		following: [user2Id, user1Id, user4Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
-	new User({
-		_id: user4Id,
-		firstName: "jasmine",
-		lastName: "kobata",
-		username: "jasmine01",
-		email: "jasmine@user.io",
-		followers: [user2Id, user3Id, user1Id],
-		following: [user2Id, user3Id, user1Id],
-		// likes: [suggestion1Id, suggestion2Id, suggestion3Id],
-		// pins: [suggestion1Id, suggestion2Id, suggestion3Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
-	new User({
-		_id: user5Id,
-		firstName: "chris",
-		lastName: "cheasty",
-		username: "chris01",
-		email: "chris@user.io",
-		followers: [user2Id, user3Id, user1Id],
-		following: [user2Id, user3Id, user1Id],
-		// likes: [suggestion1Id, suggestion2Id, suggestion3Id],
-		// pins: [suggestion1Id, suggestion2Id, suggestion3Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
-	new User({
-		_id: user6Id,
-		firstName: "james",
-		lastName: "james",
-		username: "james01",
-		email: "james01@user.io",
-		followers: [user2Id, user3Id, user1Id],
-		following: [user2Id, user3Id, user1Id],
-		// likes: [suggestion1Id, suggestion2Id, suggestion3Id],
-		// pins: [suggestion1Id, suggestion2Id, suggestion3Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
-	new User({
-		_id: user7Id,
-		firstName: "kenny",
-		lastName: "daCoolest",
-		username: "kenny01",
-		email: "kenny@user.io",
-		followers: [user2Id, user3Id, user1Id],
-		following: [user2Id, user3Id, user1Id],
-		// likes: [suggestion1Id, suggestion2Id, suggestion3Id],
-		// pins: [suggestion1Id, suggestion2Id, suggestion3Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
-	new User({
-		_id: user8Id,
-		firstName: "Mila",
-		lastName: "Smith",
-		username: "mila_smith",
-		email: "mila@user.io",
-		followers: [user4Id, user1Id, user3Id],
-		following: [user4Id, user1Id, user3Id],
-		// likes: [suggestion4Id, suggestion1Id, suggestion2Id],
-		// pins: [suggestion4Id, suggestion1Id, suggestion2Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
-	new User({
-		_id: user9Id,
-		firstName: "Tom",
-		lastName: "Johnson",
-		username: "tom_johnson",
-		email: "tom@user.io",
-		followers: [user6Id, user4Id, user1Id],
-		following: [user6Id, user4Id, user1Id],
-		// likes: [suggestion3Id, suggestion1Id, suggestion4Id],
-		// pins: [suggestion3Id, suggestion1Id, suggestion4Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
+// making users in a for loop
+// users need: _id, firstName, lastName, username, email, hashedPassword, followers, and following IDs
+for (let i = 0; i < 10; i++) {
+	const user = {
+		_id: new ObjectId(),
 
-	new User({
-		_id: user10Id,
-		firstName: "Sophie",
-		lastName: "Taylor",
-		username: "sophie_taylor",
-		email: "sophie@user.io",
-		followers: [user5Id, user3Id, user2Id],
-		following: [user5Id, user3Id, user2Id],
-		// likes: [suggestion2Id, suggestion4Id, suggestion1Id],
-		// pins: [suggestion2Id, suggestion4Id, suggestion1Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	}),
-	new User({
-		_id: demoUserId,
-		firstName: "Demo",
-		lastName: "User",
-		username: "demo-user",
-		email: "demo@user.io",
-		followers: [user5Id, user3Id, user2Id],
-		following: [user5Id, user3Id, user2Id],
-		hashedPassword: bcrypt.hashSync("password", 10),
-	})
-);
-const userIDs = [
-	user1Id,
-	user2Id,
-	user3Id,
-	user4Id,
-	user5Id,
-	user6Id,
-	user7Id,
-	user8Id,
-	user9Id,
-	user10Id,
-];
+		firstName: firstNames[i],
+		lastName: lastNames[i],
 
-const getDate = (dayOffset) => {
-	const date = new Date();
-	date.setDate(date.getDate() - dayOffset);
-	return date;
-};
+		username: userNames[i],
 
-userIDs.forEach((userId) => {
+		email: `${firstNames[i].toLowerCase()}@gmail.com`,
+		hashedPassword: bcrypt.hashSync("password", 10),
+
+		followers: [],
+		following: [],
+	};
+
+	// find a random number of followers and following IDs to put in the arrays
+	// choose between 1-10 followers and following for each user
+	const numFollowers = Math.floor(Math.random() * 10) + 1;
+	const numFollowing = Math.floor(Math.random() * 10) + 1;
+
+	// choose random IDs from IDs array
+	for (let j = 0; j < numFollowers; j++) {
+		const randomID = IDs[Math.floor(Math.random() * IDs.length)];
+		if (!user.followers.includes(randomID)) {
+			user.followers.push(randomID);
+		}
+	}
+	for (let j = 0; j < numFollowing; j++) {
+		const randomID = IDs[Math.floor(Math.random() * IDs.length)];
+		if (!user.following.includes(randomID)) {
+			user.following.push(randomID);
+		}
+	}
+
+	// push user to users array and userID to IDs array
+	users.push(user);
+	IDs.push(user._id);
+}
+
+// for each user id, create 5 ratings. this is for general users
+// for each user ID, create 2 suggestions objects
+IDs.forEach((ID, idx) => {
+	// for loop for ratings
 	for (let i = 0; i < 5; i++) {
+		// const randomNumber = Math.floor(Math.random() * 10) + 1
+
 		const ratingId = new ObjectId();
 		const rating = new Rating({
+			// init the rating ID and the user ID that its tied to
 			_id: ratingId,
-			transcendance: Math.floor(Math.random() * 10) + 1,
-			actualization: Math.floor(Math.random() * 10) + 1,
-			aesthetics: Math.floor(Math.random() * 10) + 1,
-			knowledge: Math.floor(Math.random() * 10) + 1,
-			esteem: Math.floor(Math.random() * 10) + 1,
-			love: Math.floor(Math.random() * 10) + 1,
-			safety: Math.floor(Math.random() * 10) + 1,
-			physiological: Math.floor(Math.random() * 10) + 1,
+			user: ID,
+
+			// choosing random highlights and lowlights
 			highlights:
-				highlightsArr[Math.floor(Math.random() * highlightsArr.length)],
+				mockHighlights[
+					Math.floor(Math.random() * mockHighlights.length)
+				],
 			lowlights:
-				lowlightsArr[Math.floor(Math.random() * lowlightsArr.length)],
-			user: userId,
+				mockLowlights[Math.floor(Math.random() * mockLowlights.length)],
+
+			// choosing random createdat and updatedat dates
 			createdAt: getDate(5 - i),
 			updatedAt: getDate(5 - i),
 		});
 
+		// for loop to create the 8 needs for each rating
+		needs.forEach((need) => {
+			rating[need] = Math.floor(Math.random() * 10) + 1;
+		});
+
+		// push the rating to the ratings array
 		ratings.push(rating);
 	}
-});
 
-const rating4 = new Rating({
-	_id: rating4Id,
-	transcendance: 10,
-	actualization: 6,
-	aesthetics: 9,
-	knowledge: 2,
-	esteem: 2,
-	love: 1,
-	safety: 3,
-	physiological: 4,
-	highlights: "great stuff",
-	lowlights: "yes sir",
-	user: user4Id,
-});
-const pastDate = generatePastDate(3);
-rating4.createdAt = pastDate;
-rating4.updatedAt = pastDate;
-
-ratings.push(rating4);
-
-for (let i = 0; i < 80; i++) {
-	const ratingId = new ObjectId();
-	const rating = new Rating({
-		_id: ratingId,
-		transcendance: Math.floor(Math.random() * 10) + 1,
-		actualization: Math.floor(Math.random() * 10) + 1,
-		aesthetics: Math.floor(Math.random() * 10),
-		knowledge: Math.floor(Math.random() * 10) + 1,
-		esteem: Math.floor(Math.random() * 10) + 1,
-		love: Math.floor(Math.random() * 10) + 1,
-		safety: Math.floor(Math.random() * 10),
-		physiological: Math.floor(Math.random() * 10),
-		highlights:
-			highlightsArr[Math.floor(Math.random() * highlightsArr.length)],
-		lowlights:
-			lowlightsArr[Math.floor(Math.random() * lowlightsArr.length)],
-		user: demoUserId,
-		createdAt: getDate(80 - i),
-		updatedAt: getDate(80 - i),
-	});
-
-	ratings.push(rating);
-}
-
-const suggestionsData = [
-	{
-		body: "To improve your sense of safety, try to surround yourself with positive and supportive people.",
-		categoryTag: "Safety",
-	},
-	{
-		body: "To increase your self-esteem, practice positive affirmations and focus on your accomplishments.",
-		categoryTag: "Esteem",
-	},
-	{
-		body: "To enhance your love and relationships, work on your communication skills and express your feelings openly.",
-		categoryTag: "Love",
-	},
-	{
-		body: "To boost your knowledge, try to read at least one book per month in various fields.",
-		categoryTag: "Knowledge",
-	},
-	{
-		body: "To improve your aesthetics, explore new forms of art and try to incorporate them into your daily life.",
-		categoryTag: "Aesthetics",
-	},
-	{
-		body: "To work on your actualization, set clear goals for yourself and regularly review your progress.",
-		categoryTag: "Actualization",
-	},
-	{
-		body: "To achieve transcendence, practice mindfulness and meditation to connect with your inner self.",
-		categoryTag: "Transcendence",
-	},
-	{
-		body: "For better physiological well-being, maintain a balanced diet and exercise regularly.",
-		categoryTag: "Physiological",
-	},
-];
-
-userIDs.forEach((userId, index) => {
+	// for loop for suggestions
 	for (let i = 0; i < 2; i++) {
+		// choosing a random suggestion from the mock suggestions array
 		const suggestionData =
-			suggestionsData[(index + i) % suggestionsData.length];
+			mockSuggestions[(idx + i) % mockSuggestions.length];
+
+		// init suggestion object
 		const suggestion = new Suggestion({
 			_id: new ObjectId(),
+			user: ID,
+
+			dayRating: ratings[idx]._id,
+
 			body: suggestionData.body,
 			categoryTag: suggestionData.categoryTag,
-			dayRating: ratings[index]._id,
-			pins: [user4Id],
-			likes: [user4Id],
-			user: userId,
+
+			pins: [demoID],
+			likes: [demoID],
 		});
 
 		suggestions.push(suggestion);
 	}
 });
 
-const demoUserPinnedSuggestions = [];
-for (let i = 0; i < 5; i++) {
-	const suggestionId = new ObjectId();
-	const suggestionData = suggestionsData[i % suggestionsData.length];
-	const suggestion = new Suggestion({
-		_id: suggestionId,
-		body: suggestionData.body,
-		categoryTag: suggestionData.categoryTag,
-		dayRating: ratings[i]._id,
-		pins: [demoUserId],
-		likes: [demoUserId],
-		user: demoUserId,
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DEMO USER THINGS //
+
+// demo user is messi. setting him as a variable
+const demoUser = users[8];
+const demoID = demoUser._id;
+
+// init demoPins array
+const demoPins = [];
+
+// create 80 ratings for the DEMO USER
+const numOfDemoUserRatings = 80;
+
+// for loop to create the number of ratings for the DEMO USER
+for (let i = 0; i < numOfDemoUserRatings; i++) {
+	// making a new rating id for each rating
+	const ratingId = new ObjectId();
+
+	// creating the rating object, to later be saved to the database
+	const rating = new Rating({
+		// rating id and user id that its tied to
+		_id: ratingId,
+		user: demoID,
+
+		// lights
+		highlights:
+			mockHighlights[Math.floor(Math.random() * mockHighlights.length)],
+		lowlights:
+			mockLowlights[Math.floor(Math.random() * mockLowlights.length)],
+
+		// timestamps
+		createdAt: getDate(numOfDemoUserRatings - i),
+		updatedAt: getDate(numOfDemoUserRatings - i),
 	});
 
-	demoUserPinnedSuggestions.push(suggestionId);
+	// for each need, create a random rating between 1 and 10 for the rating object
+	needs.forEach((need) => {
+		rating[need] = Math.floor(Math.random() * 10) + 1;
+	});
+
+	// push the rating object to the ratings array
+	ratings.push(rating);
+}
+
+// create 5 suggestions for the DEMO USER
+for (let i = 0; i < 5; i++) {
+	// init new suggestion ID
+	const suggestionId = new ObjectId();
+
+	// pick a suggestion from the mock suggestions array
+	const suggestionData = mockSuggestions[i % mockSuggestions.length];
+
+	// init new suggestion object for the DEMO USER
+	const suggestion = new Suggestion({
+		// init the suggestion ID, the author of said suggestion, and the rating its tied to
+		_id: suggestionId,
+		user: demoID,
+		dayRating: ratings[i]._id,
+
+		// the body and need of the suggestion
+		// if the dayrating is taken into account, then we dont need to keep track of the category tag
+		body: suggestionData.body,
+		categoryTag: suggestionData.categoryTag,
+
+		pins: [demoID],
+		likes: [demoID],
+	});
+
+	// adding the demo user's suggestions to the general suggestions array
 	suggestions.push(suggestion);
+	demoPins.push(suggestionId);
 }
 
 // Update the demo user's pins
-users.find((user) => user._id === demoUserId).pins = demoUserPinnedSuggestions;
+users.find((user) => user._id === demoID).pins = demoPins;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// SEEDING THE DATABASE //
 
 mongoose
 	.connect(db, { useNewUrlParser: true })

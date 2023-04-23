@@ -7,9 +7,11 @@ import {
 	getRatings,
 	updateRating,
 } from "../../store/ratings";
+import { setRatedToday } from "../../store/session";
 import Need from "./Need";
 import "./Rating.css";
 
+// returns true if the timestamp is from the same day as the current date
 const isSameDay = (timestamp) => {
 	const date1 = new Date(timestamp);
 	const date2 = new Date();
@@ -27,6 +29,8 @@ export default function Rating() {
 	const [samedayRating] = ratings.filter((rating) =>
 		isSameDay(rating.createdAt)
 	);
+
+	const [showModal, setShowModal] = useState(false);
 
 	const [transcendence, setTranscendence] = useState(null);
 	const [actualization, setSelfActualization] = useState(null);
@@ -154,15 +158,15 @@ export default function Rating() {
 	const [info, setInfo] = useState(false);
 	const [lowlight, setLowlight] = useState(false);
 
-	const handleHighlightClick = () => {
-		setHighlight(!highlight);
-	};
+	// const handleHighlightClick = () => {
+	// 	setHighlight(!highlight);
+	// };
 	const handleInfoClick = () => {
 		setInfo(!info);
 	};
-	const handleLowlightClick = () => {
-		setLowlight(!lowlight);
-	};
+	// const handleLowlightClick = () => {
+	// 	setLowlight(!lowlight);
+	// };
 
 	const history = useHistory();
 	const handleSubmit = (e) => {
@@ -210,9 +214,11 @@ export default function Rating() {
 			newRating.highlights = highlightValue;
 			newRating.lowlights = lowlightValue;
 			dispatch(updateRating(newRating));
+			dispatch(setRatedToday(true));
 			history.push("/profile");
 		} else {
 			dispatch(createRating(newRating));
+			dispatch(setRatedToday(false));
 			history.push("/profile");
 		}
 	};
@@ -222,18 +228,33 @@ export default function Rating() {
 	//     setHighlight(false);
 	// };
 
+	const handleNeedHover = (name) => {
+		setShowModal(true);
+	};
+
+	const handleNeedLeave = () => {
+		setShowModal(false);
+	};
+
 	return (
 		<div className="today">
 			<div className="left-side">
-				<button className="highlight" onClick={handleHighlightClick}>
+			{showModal && (
+				<div className="need-modal">
+				<div className="need-modal-content">
+					<h3>Need Name</h3>
+				</div>
+				</div>
+			)}
+				{/* <button className="highlight" onClick={handleHighlightClick}>
 					Highlight
-				</button>
+				</button> */}
 				<button className="info" onClick={handleInfoClick}>
 					Info
 				</button>
-				<button className="lowlight" onClick={handleLowlightClick}>
+				{/* <button className="lowlight" onClick={handleLowlightClick}>
 					Lowlight
-				</button>
+				</button> */}
 			</div>
 			{/* {highlight && (
                 <div className="highlight-modal">
@@ -333,12 +354,14 @@ export default function Rating() {
 					const rating = ratingsPreset[idx];
 					return (
 						<Need
-							key={idx}
-							name={name}
-							presetRating={rating}
-							color={color}
-							width={width}
-							onRatingChange={handleRating}
+						key={idx}
+						name={name}
+						presetRating={rating}
+						color={color}
+						width={width}
+						onRatingChange={handleRating}
+						onNeedHover={handleNeedHover}
+						onNeedLeave={handleNeedLeave}
 						/>
 					);
 				}, [])}

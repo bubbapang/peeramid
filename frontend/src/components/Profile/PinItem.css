@@ -41,7 +41,6 @@ button {
     color: #4d908e;
     border: none;
     padding: 6px 12px;
-    border-radius: 5px;
     font-size: 14px;
     cursor: pointer;
     transition: all var(--transition-duration);

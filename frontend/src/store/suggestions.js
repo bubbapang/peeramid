@@ -1,9 +1,10 @@
+// import jwt
 import jwtFetch from "./jwt";
-// import { RECEIVE_PIN } from "./pins";
 
-export const RECEIVE_SUGGESTIONS = `suggestions/RECEIVE_SUGGESTIONS`;
-export const RECEIVE_SUGGESTION = `suggestions/RECEIVE_SUGGESTION`;
-export const REMOVE_SUGGESTION = `suggestions/REMOVE_SUGGESTION`;
+// export constants
+const RECEIVE_SUGGESTIONS = `suggestions/RECEIVE_SUGGESTIONS`;
+const RECEIVE_SUGGESTION = `suggestions/RECEIVE_SUGGESTION`;
+const REMOVE_SUGGESTION = `suggestions/REMOVE_SUGGESTION`;
 
 export const receiveSuggestions = (suggestions) => {
 	return {

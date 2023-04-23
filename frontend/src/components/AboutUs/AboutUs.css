@@ -1,169 +1,169 @@
 :root {
-  --primary-color: #1a1a1a;
-  --secondary-color: #f5f5f5;
-  --accent-color: #0D47A1;
-  --border-radius: 8px;
-  --font: 'Roboto', sans-serif;
+	--primary-color: #1a1a1a;
+	--secondary-color: #f5f5f5;
+	--accent-color: #0d47a1;
+	/* --border-radius: 8px; */
+	--font: "Roboto", sans-serif;
 }
 
 .about-us {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /* padding: 0 20px; */
-  /* margin: 0 auto; */
-  height: 100%;
-  width: 100%;
-  /* background-color: var(--secondary-color); */
-  font-family: var(--font);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	/* padding: 0 20px; */
+	/* margin: 0 auto; */
+	height: 100%;
+	width: 100%;
+	/* background-color: var(--secondary-color); */
+	font-family: var(--font);
 }
 
 .team-members {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 20px;
-  width: 100%; /* Adjust width to 100% or a value that fits your needs */
-  justify-items: center;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 20px;
+	width: 100%; /* Adjust width to 100% or a value that fits your needs */
+	justify-items: center;
 }
 
 .adam,
 .jasmine,
 .madhur,
 .andre {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 300px;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-  border-radius: var(--border-radius);
-  text-align: center;
-  margin: 5%;
-  transition: transform 0.3s;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	max-width: 300px;
+	padding: 20px;
+	box-sizing: border-box;
+	background-color: var(--primary-color);
+	color: var(--secondary-color);
+	border-radius: var(--border-radius);
+	text-align: center;
+	margin: 5%;
+	transition: transform 0.3s;
 }
 
 .adam img,
 .jasmine img,
 .madhur img,
 .andre img {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 20px;
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	object-fit: cover;
+	margin-bottom: 20px;
 }
 
 .adam h2,
 .jasmine h2,
 .madhur h2,
 .andre h2 {
-  font-size: 1.5rem;
-  font-weight: 900;
+	font-size: 1.5rem;
+	font-weight: 900;
 }
 
 .about-us h1 {
-  font-size: 2rem;
-  font-weight: 900;
+	font-size: 2rem;
+	font-weight: 900;
 }
 
 .adam:hover,
 .jasmine:hover,
 .madhur:hover,
 .andre:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	transform: translateY(-10px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .adam:hover h2,
 .jasmine:hover h2,
 .madhur:hover h2,
 .andre:hover h2 {
-  color: var(--accent-color);
+	color: var(--accent-color);
 }
 
-.modal-background{
-  background-color: rgba(106, 106, 106, 0.575) !important;
+.modal-background {
+	background-color: rgba(106, 106, 106, 0.575) !important;
 }
 
-.about-modal-content{
-  /* background-color: white; */
+.about-modal-content {
+	/* background-color: white; */
 }
 
 /* Media query for mobile devices */
 @media (max-width: 768px) {
-  .modal{
-    height: fit-content;
-    /* padding: 0; */
-    background-color: transparent;
-  }
-  .team-members {
-    grid-template-columns: 1fr;
-    grid-gap: 10px;
-  }
+	.modal {
+		height: fit-content;
+		/* padding: 0; */
+		background-color: transparent;
+	}
+	.team-members {
+		grid-template-columns: 1fr;
+		grid-gap: 10px;
+	}
 
-  .adam,
-  .jasmine,
-  .madhur,
-  .andre {
-    flex-direction: row;
-    justify-content: flex-start;
-    max-width: 300px;
-    height: 150px;
-    margin: 2%;
-    box-sizing: border-box;
-  }
+	.adam,
+	.jasmine,
+	.madhur,
+	.andre {
+		flex-direction: row;
+		justify-content: flex-start;
+		max-width: 300px;
+		height: 150px;
+		margin: 2%;
+		box-sizing: border-box;
+	}
 
-  .adam img,
-  .jasmine img,
-  .madhur img,
-  .andre img {
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
-  }
+	.adam img,
+	.jasmine img,
+	.madhur img,
+	.andre img {
+		width: 80px;
+		height: 80px;
+		margin-right: 20px;
+	}
 
-  .adam h2,
-  .jasmine h2,
-  .madhur h2,
-  .andre h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0;
-  }
+	.adam h2,
+	.jasmine h2,
+	.madhur h2,
+	.andre h2 {
+		font-size: 1.2rem;
+		margin-bottom: 0;
+	}
 
-  .about-us {
-    /* padding: 20px; */
-    width: 100%;
-    box-sizing: border-box;
-  }
+	.about-us {
+		/* padding: 20px; */
+		width: 100%;
+		box-sizing: border-box;
+	}
 
-  .about-us h1 {
-    font-size: 1.8rem;
-  }
-  .adam p,
-  .jasmine p,
-  .madhur p,
-  .andre p {
-    display: none;
-  }
+	.about-us h1 {
+		font-size: 1.8rem;
+	}
+	.adam p,
+	.jasmine p,
+	.madhur p,
+	.andre p {
+		display: none;
+	}
 
-  .about-modal-content {
-    /* background-color: white; */
-    margin-top: 50px;
-  }
-  
-  .close-modal {
-    color: black;
-    background-color: black;
-  }
+	.about-modal-content {
+		/* background-color: white; */
+		margin-top: 50px;
+	}
+
+	.close-modal {
+		color: black;
+		background-color: black;
+	}
 }
 
 .close-modal p {
-  padding:5px;
-  border-radius: 5px;
-  background-color: green;
-  color: white;
+	padding: 5px;
+	border-radius: 5px;
+	background-color: green;
+	color: white;
 }

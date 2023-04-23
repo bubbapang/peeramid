@@ -1,17 +1,25 @@
-// import dependencies
-import React from "react";
-import PinItem from "./PinItem";
+// import react dependencies
+import {React, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import "./Pin.css";
-import { fetchPins } from "../../store/pins";
-import { fetchLikes } from "../../store/likes";
 import { Link } from "react-router-dom";
 
-// make the pin component
-export default function Pin() {
+// store tings
+import { fetchPins } from "../../store/pins";
+import { fetchLikes } from "../../store/likes";
+
+// importing pin item
+import PinItem from "./PinItem";
+
+// css
+import "./Pin.css";
+
+// pin component
+export default function Pin({finalUser}) {
+	// set up dispatch
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.session.user);
+
+	// get current user, pins, and likes from the store
+	const user = finalUser;
 	const pins = useSelector((state) => state.pins);
 	const likes = useSelector((state) => state.likes);
 

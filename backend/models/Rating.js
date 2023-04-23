@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const User = require('./User'); 
 
 const ratingSchema = new Schema({
-    transcendance: {
+    transcendence: {
         type: Number,
         required: true
     },
@@ -15,7 +15,7 @@ const ratingSchema = new Schema({
         type: Number,
         required: true
     },
-    knowledge: {
+    cognition: {
         type: Number,
         required: true
     },
@@ -31,7 +31,7 @@ const ratingSchema = new Schema({
         type: Number,
         required: true
     },
-    physiological: {
+    physiology: {
         type: Number,
         required: true
     },

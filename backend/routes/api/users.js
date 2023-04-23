@@ -1,22 +1,35 @@
+// init express
 const express = require("express");
+
+// init router, bcrypt, passport
 const router = express.Router();
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
+
+// do a production check
+const { isProduction } = require("../../config/keys");
+
+// init mongoose
 const mongoose = require("mongoose");
+
+// init models
 const User = mongoose.model("User");
 const Rating = mongoose.model("Rating");
-const passport = require("passport");
 const Suggestion = mongoose.model("Suggestion");
+
+// init passport
 const {
 	loginUser,
 	restoreUser,
 	requireUser,
 } = require("../../config/passport");
-const { isProduction } = require("../../config/keys");
+
+// init validations
 const validateRegisterInput = require("../../validations/register");
 const validateLoginInput = require("../../validations/login");
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
+router.get("/", function (res) {
 	res.json({
 		message: "GET /api/users",
 	});
@@ -31,6 +44,11 @@ router.get("/current", restoreUser, (req, res) => {
 	res.json({
 		...req.user._doc,
 	});
+});
+
+router.get("/:id", async (req, res) => {
+	const user = await User.findById(req.params.id);
+	res.json(user);
 });
 
 router.post("/register", validateRegisterInput, async (req, res, next) => {
@@ -94,7 +112,6 @@ router.post("/register", validateRegisterInput, async (req, res, next) => {
 	});
 });
 
-// TO LOGIN THE USER
 router.post("/login", validateLoginInput, async (req, res, next) => {
 	passport.authenticate("local", async function (err, user) {
 		if (err) return next(err);
@@ -280,6 +297,19 @@ router.get("/:id/ratings", async (req, res, next) => {
 	}
 });
 
+// GET USER'S RATEDTODAY ATTRIBUTE
+router.get("/:id/ratedtoday", restoreUser, async (req, res, next) => {
+	const currentUser = req.user;
+	try {
+		if (!currentUser) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		return res.status(200).json({ ratedToday: currentUser.ratedToday });
+	} catch (err) {
+		return next(err);
+	}
+});
+
 // GET SUGGESTIONS USER MADE
 router.get("/:id/suggestions", requireUser, async (req, res, next) => {
 	try {
@@ -306,7 +336,7 @@ router.get("/search", async (req, res, next) => {
 				{ firstName: { $regex: searchQuery, $options: "i" } },
 				{ lastName: { $regex: searchQuery, $options: "i" } },
 			],
-		})
+		});
 		res.json(users);
 	} catch (err) {
 		next(err);

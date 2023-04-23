@@ -1,6 +1,3 @@
-// import { addUserPin } from "./session";
-// import { useSelector } from "react-redux";
-// import { receiveSuggestions } from "./suggestions";
 import jwtFetch from "./jwt";
 
 export const RECEIVE_PINS = `pins/RECEIVE_PINS`;

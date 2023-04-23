@@ -1,284 +1,310 @@
+.need-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1;
+	font-size: 2rem;
+	font-family: "Monaco", "Courier New", monospace;
+	font-weight: bold;
+	text-align: center;
+}
+
+.need-modal-content {
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 4px;
+	width: 60vw;
+	max-width: 800px;
+}
+
 /* whole page */
 .today {
-    background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/ocean+painting.jpg");
-    background-size: 100%;
-    background-position: center;
-    overflow: hidden;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow-y: hidden;
+	background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/ocean+painting.jpg");
+	background-size: 100%;
+	background-position: center;
+	overflow: hidden;
+	width: 100%;
+	height: 95vh;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	/* overflow-y: hidden; */
 }
 
 /* left */
 .left-side {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
 }
-
 
 /* middle */
 .needs {
-    width: 1400px;
-    height: 900px;
-    border-radius: 30px;
-    font-size: 2rem;
-    font-family: "Monaco", "Courier New", monospace;
-    font-weight: bold;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0px;
-    /* overflow-y: hidden; */
+	width: 1400px;
+	height: 900px;
+	border-radius: 30px;
+	font-size: 2rem;
+	font-family: "Monaco", "Courier New", monospace;
+	font-weight: bold;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0px;
+	overflow-y: hidden;
 }
 
 /* right */
 .right-side {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
 }
 
 /* button shit */
-.today button.highlight, button.info, button.lowlight {
-    padding: 12px 24px;
-    font-size: 18px;
-    font-family: 'Monaco', 'Courier New', monospace;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #000000;
-    background-color: #fafafa;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    overflow-y: hidden;
+.today button.highlight,
+button.info,
+button.lowlight {
+	padding: 12px 24px;
+	font-size: 18px;
+	font-family: "Monaco", "Courier New", monospace;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #000000;
+	background-color: #fafafa;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	outline: none;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+	overflow-y: hidden;
 }
 
 button.submit {
-    padding: 12px 24px;
-    font-size: 18px;
-    font-family: 'Monaco', 'Courier New', monospace;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #fff;
-    background-color: #15D99B;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+	padding: 12px 24px;
+	font-size: 18px;
+	font-family: "Monaco", "Courier New", monospace;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #fff;
+	background-color: #15d99b;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	outline: none;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
 }
 
-button.highlight:hover, button.lowlight:hover, button.info:hover, button.submit:hover {
-    background-color: #12488e;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+button.highlight:hover,
+button.lowlight:hover,
+button.info:hover,
+button.submit:hover {
+	background-color: #12488e;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
-button.highlight:active, button.lowlight:active, button.info:active, button.submit:active {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(2px);
+button.highlight:active,
+button.lowlight:active,
+button.info:active,
+button.submit:active {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	transform: translateY(2px);
 }
-
 
 /* MODAL */
 .modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
 }
 
 .modal-content {
-    background-color: #fff;
-    color: #000;
-    padding: 30px;
-    border-radius: 10px;
-    width: 40vw;
-    max-width: 500px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+	background-color: #fff;
+	color: #000;
+	padding: 30px;
+	border-radius: 10px;
+	width: 40vw;
+	max-width: 500px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 20px;
 }
 
 .modal-content h3 {
-    font-size: 22px;
-    font-weight: bold;
-    margin: 0;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 0;
 }
 
 .modal-content h3 .phys {
-    color: #577590;
+	color: #577590;
 }
 
 .modal-content h3 .safety {
-    color: #4D908E;
+	color: #4d908e;
 }
 
 .modal-content h3 .love {
-    color: #43AA8B;
+	color: #43aa8b;
 }
 
 .modal-content h3 .esteem {
-    color: #90BE6D;
+	color: #90be6d;
 }
 
 .modal-content h3 .act {
-    color: #F3722C;
+	color: #f3722c;
 }
 
 .modal-content h3 .cog {
-  color: #F9C74F;
+	color: #f9c74f;
 }
 
 .modal-content h3 .aes {
-  color: #F8961E;
+	color: #f8961e;
 }
 
 .modal-content h3 .trans {
-  color: #F94144;
+	color: #f94144;
 }
 
 .modal-content h3 p {
-  height: 7px;
+	height: 7px;
 }
 
 .modal-content p {
-    font-size: 18px;
-    text-align: justify;
+	font-size: 18px;
+	text-align: justify;
 }
 
 .modal-content textarea[type="text"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+	width: 100%;
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
 
 .modal-content button {
-    padding: 10px 20px;
-    font-size: 18px;
-    font-family: 'Monaco', 'Courier New', monospace;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #fff;
-    background-color: #15D99B;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+	padding: 10px 20px;
+	font-size: 18px;
+	font-family: "Monaco", "Courier New", monospace;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: #fff;
+	background-color: #15d99b;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	outline: none;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
 }
 
 .modal-content button:hover {
-    background-color: #12488e;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+	background-color: #12488e;
+	box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
 
 .modal-content button:active {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(2px);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	transform: translateY(2px);
 }
 
 .buttons {
-  width: 100%;
+	width: 100%;
 }
-
 
 /* Add the following media query at the end of your Rating.css file */
 
 @media (max-width: 768px) {
-    /* Adjust the layout for the whole page */
-    .today {
-      flex-direction: column;
-      margin: 0px;
-      padding: 0px;
-      height: 92vh;
-      overflow-y: hidden;
-      background-size: 100vh;
-    }
-  
-    .container {
-        width: 100%;
-        margin: 1px;
-    }
-    /* Adjust the left-side layout */
-    .left-side {
-      flex-direction: row;
-      gap: 10px;
-      justify-content: center;
-    }
-  
-    /* Adjust the needs layout */
-    .needs {
-      width: 100%;
-      height: auto;
-      padding: 25px;
-      
-    }
-  
-    /* Adjust the right-side layout */
-    .right-side {
-      flex-direction: row;
-      gap: 10px;
-      justify-content: center;
-    }
-  
-    /* Adjust buttons */
-    .today button.highlight,
-    button.info,
-    button.lowlight,
-    button.submit {
-      font-size: 14px;
-      padding: 8px 16px;
-    }
-  
-    /* Adjust modal-content layout and styles */
-    .modal-content {
-      width: 90vw;
-      max-width: 400px;
-    }
-  
-    .modal-content h3 {
-      font-size: 20px;
-    }
-  
-    .modal-content p {
-      font-size: 16px;
-    }
-  
-    .modal-content textarea[type="text"] {
-      font-size: 14px;
-    }
-  
-    .modal-content button {
-      font-size: 14px;
-      padding: 8px 16px;
-    }
-  }
-  
-  
+	/* Adjust the layout for the whole page */
+	.today {
+		flex-direction: column;
+		margin: 0px;
+		padding: 0px;
+		height: 92vh;
+		overflow-y: hidden;
+		background-size: 100vh;
+	}
+
+	.container {
+		width: 100%;
+		margin: 1px;
+	}
+	/* Adjust the left-side layout */
+	.left-side {
+		flex-direction: row;
+		gap: 10px;
+		justify-content: center;
+	}
+
+	/* Adjust the needs layout */
+	.needs {
+		width: 100%;
+		height: auto;
+		padding: 25px;
+	}
+
+	/* Adjust the right-side layout */
+	.right-side {
+		flex-direction: row;
+		gap: 10px;
+		justify-content: center;
+	}
+
+	/* Adjust buttons */
+	.today button.highlight,
+	button.info,
+	button.lowlight,
+	button.submit {
+		font-size: 14px;
+		padding: 8px 16px;
+	}
+
+	/* Adjust modal-content layout and styles */
+	.modal-content {
+		width: 90vw;
+		max-width: 400px;
+	}
+	.modal-content h3 {
+		font-size: 20px;
+	}
+
+	.modal-content p {
+		font-size: 16px;
+	}
+
+	.modal-content textarea[type="text"] {
+		font-size: 14px;
+	}
+
+	.modal-content button {
+		font-size: 14px;
+		padding: 8px 16px;
+	}
+}

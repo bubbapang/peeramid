@@ -1,30 +1,33 @@
-import React from "react";
+// import react stuff
+import { React, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { searchUsers } from "../../store/session";
-// import SearchResults from './SearchResults';
-import SearchBar from "./SearchBar";
+import { useDispatch, useSelector } from "react-redux";
+
+// import store stuff
+import { searchUsers, clearTargetUser } from "../../store/session";
 import { logout } from "../../store/session";
-import { useState } from "react";
+
+// components
+import SearchBar from "./SearchBar";
 import AboutUs from "../AboutUs";
-import { useEffect } from "react";
+
+// css
 import "./Navigation.css";
 
+// start of nav component
 export default function Navigation() {
+
+	// init dispatch and history
 	const dispatch = useDispatch();
 	const history = useHistory();
+
+	// get the ratedToday boolean from frontend state
+	const ratedToday = useSelector((state) => state.session.ratedToday);
+
+	// set up state for modal
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const handleModalToggle = () => {
-		setIsModalOpen(!isModalOpen);
-	};
-
-	const handleBackgroundClick = (e) => {
-		if (e.target.classList.contains("modal-background")) {
-			setIsModalOpen(false);
-		}
-	};
-
+	// add event listener for background click
 	useEffect(() => {
 		if (isModalOpen) {
 			document.addEventListener("click", handleBackgroundClick);
@@ -37,21 +40,47 @@ export default function Navigation() {
 		};
 	}, [isModalOpen]);
 
+	// handle modal toggle
+	const handleModalToggle = () => {
+		setIsModalOpen(!isModalOpen);
+	};
+
+	// handle background click
+	const handleBackgroundClick = (e) => {
+		if (e.target.classList.contains("modal-background")) {
+			setIsModalOpen(false);
+		}
+	};
+
+	// handle logout
 	const handleLogout = (e) => {
+		// prevent default
 		e.preventDefault();
+
+		// logout
 		dispatch(logout());
+
 		// send back to '/'
 		history.push("/");
 	};
 
+	// handle button click
 	const handleButtonClick = (buttonName) => {
 		history.push(`/${buttonName.toLowerCase()}`);
+
+		if (buttonName === "Profile") {
+			history.push("/profile");
+			// clear the target user somehow
+			dispatch(clearTargetUser());
+		}
 	};
 
+	// handle search
 	const handleSearch = (searchTerm) => {
 		dispatch(searchUsers(searchTerm));
 	};
 
+	// render
 	return (
 		<div className="nav-bar-container">
 			<button className="logout-icon" onClick={handleLogout}>
@@ -66,7 +95,9 @@ export default function Navigation() {
 						<i className="fas fa-user-circle fa-2x" />
 					</button>
 					<button
-						className="today"
+						className={
+							ratedToday ? "rated-today" : "not-rated-today"
+						}
 						onClick={() => handleButtonClick("Rating")}
 					>
 						Today

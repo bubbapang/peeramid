@@ -1,68 +1,31 @@
+// import jwt
 import jwtFetch from "./jwt";
-// import { RECEIVE_PIN } from "./pins";
+
+// import session errors function, I just extracted some error logic out of this session file for brevity
+import { receiveErrors } from "./sessionErrors";
+
+// Constants
+const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
+const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
+const RECEIVE_SEARCH_RESULTS = "session/RECEIVE_SEARCH_RESULTS";
 
 const SET_TARGET_USER = "session/SET_TARGET_USER";
-const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
-const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
-const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
+const CLEAR_TARGET_USER = "session/CLEAR_TARGET_USER";
+const SET_RATED_TODAY = "session/SET_RATED_TODAY";
+const ADD_USER_PIN = "users/ADD_USER_PIN";
 
-export const RECEIVE_SEARCH_RESULTS = "users/RECEIVE_SEARCH_RESULTS";
-export const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
-export const ADD_USER_PIN = "users/ADD_USER_PIN";
+// Action creators, "private"
 
-// Dispatch setTargetUser to set the target user.
-// this is the only thunk action that we need to export because its frontend state management only, no backend shenanigans happening here
-export const setTargetUser = (targetUser) => ({
-	type: SET_TARGET_USER,
-	targetUser,
-});
-
-// Dispatch receiveCurrentUser when a user logs in.
 const receiveCurrentUser = (currentUser) => ({
 	type: RECEIVE_CURRENT_USER,
 	currentUser,
 });
 
-// Dispatch receiveErrors to show authentication errors on the frontend.
-const receiveErrors = (errors) => ({
-	type: RECEIVE_SESSION_ERRORS,
-	errors,
-});
-
-// Dispatch logoutUser to clear the session user when a user logs out.
 const logoutUser = () => ({
 	type: RECEIVE_USER_LOGOUT,
 });
 
-// Dispatch clearSessionErrors to clear any session errors.
-export const clearSessionErrors = () => ({
-	type: CLEAR_SESSION_ERRORS,
-});
-
-export const receiveSearchResults = (results) => {
-	return {
-		type: RECEIVE_SEARCH_RESULTS,
-		results,
-	};
-};
-
-export const addUserPin = (suggestionId, userId) => {
-	return {
-		type: ADD_USER_PIN,
-		suggestionId,
-		userId,
-	};
-};
-
-export const signup = (user) => startSession(user, "api/users/register");
-export const login = (user) => startSession(user, "api/users/login");
-
-export const getCurrentUser = () => async (dispatch) => {
-	const res = await jwtFetch("/api/users/current");
-	const user = await res.json();
-	return dispatch(receiveCurrentUser(user));
-};
-
+// helper method for signup and login
 const startSession = (userInfo, route) => async (dispatch) => {
 	try {
 		const res = await jwtFetch(route, {
@@ -80,58 +43,113 @@ const startSession = (userInfo, route) => async (dispatch) => {
 	}
 };
 
+// Action creators, "public"
+
+// exported session actions based on api path
+export const signup = (user) => startSession(user, "api/users/register");
+export const login = (user) => startSession(user, "api/users/login");
+
 export const logout = () => (dispatch) => {
 	localStorage.removeItem("jwtToken");
 	dispatch(logoutUser());
 };
 
+export const getCurrentUser = () => async (dispatch) => {
+	const res = await jwtFetch("/api/users/current");
+	const user = await res.json();
+	return dispatch(receiveCurrentUser(user));
+};
+
+export const setTargetUser = (targetUser) => ({
+	type: SET_TARGET_USER,
+	targetUser,
+});
+
+export const clearTargetUser = () => ({
+	type: CLEAR_TARGET_USER,
+});
+
 export const searchUsers = (searchTerm) => async (dispatch) => {
 	const response = await fetch(`/api/users/search?q=${searchTerm}`);
-	
+
 	if (response.ok) {
 		const searchResults = await response.json();
 		dispatch(receiveSearchResults(searchResults));
 	}
 };
 
+export const receiveSearchResults = (searchResults) => ({
+	type: RECEIVE_SEARCH_RESULTS,
+	searchResults,
+});
+
+export const setRatedToday = (ratedToday) => ({
+	type: SET_RATED_TODAY,
+	ratedToday,
+});
+
+export const addUserPin = (suggestionId, userId) => {
+	return {
+		type: ADD_USER_PIN,
+		suggestionId,
+		userId,
+	};
+};
+
+// initial state
 const initialState = {
 	user: undefined,
 	targetUser: undefined,
 	searchResults: [],
 };
 
-const sessionReducer = (state = initialState, action) => {
+// session sub reducer
+export default function sessionReducer (state = initialState, action) {
 	switch (action.type) {
-		case SET_TARGET_USER:
-			return { ...state, targetUser: action.targetUser };
+		// follow stuff
+		// case RECEIVE_FOLLOW:
+		// 	return {
+		// 		...state,
+		// 		user: {
+		// 			...state.user,
+		// 			following: [...state.user.following, action.userId],
+		// 		},
+		// 	};
+
+		// case REMOVE_FOLLOW:
+		// 	return {
+		// 		...state,
+		// 		user: {
+		// 			...state.user,
+		// 			following: state.user.following.filter(
+		// 				(id) => id !== action.userId
+		// 			),
+		// 		},
+		// 	};
+
+		// receiving
 		case RECEIVE_CURRENT_USER:
 			return { user: action.currentUser };
 		case RECEIVE_USER_LOGOUT:
 			return initialState;
+		case RECEIVE_SEARCH_RESULTS:
+			return { ...state, searchResults: action.searchResults };
+
+		case CLEAR_TARGET_USER:
+			return { ...state, targetUser: undefined };
+		// setting
+		case SET_TARGET_USER:
+			return { ...state, targetUser: action.targetUser };
+		case SET_RATED_TODAY:
+			return { ...state, ratedToday: action.ratedToday };
+
+		// adding
 		case ADD_USER_PIN:
 			state[action.userId].pins.push(action.suggestionId);
 			return state;
-		case RECEIVE_SEARCH_RESULTS:
-			return { ...state, searchResults: action.results };
+
+		// default
 		default:
 			return state;
 	}
 };
-
-const nullErrors = null;
-
-export const sessionErrorsReducer = (state = nullErrors, action) => {
-	// const newState = { ...state };
-	switch (action.type) {
-		case RECEIVE_SESSION_ERRORS:
-			return action.errors;
-		case RECEIVE_CURRENT_USER:
-			return nullErrors;
-		case CLEAR_SESSION_ERRORS:
-			return nullErrors;
-		default:
-			return state;
-	}
-};
-
-export default sessionReducer;
