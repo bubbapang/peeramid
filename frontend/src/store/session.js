@@ -129,7 +129,7 @@ export default function sessionReducer(state = initialState, action) {
 
 		// receiving
 		case RECEIVE_CURRENT_USER:
-			return { user: action.currentUser };
+			return { ...state, user: action.currentUser };
 		case RECEIVE_USER_LOGOUT:
 			return initialState;
 		case RECEIVE_SEARCH_RESULTS:

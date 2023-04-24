@@ -21,6 +21,7 @@ import Bottom from "./bottom";
 
 // css
 import "./Profile.css";
+import { getCurrentUser, getTargetUser } from "../../store/session";
 
 // start of Profile component
 export default function Profile() {
@@ -58,6 +59,7 @@ export default function Profile() {
 	}, [dispatch, finalUser]);
 
 	// Update chart data and options
+
 	useEffect(() => {
 		if (finalUser) {
 			setIsLoading(false);
@@ -80,7 +82,7 @@ export default function Profile() {
 	// setup sorted ratings
 	const sortedRatings = ratings
 		.slice()
-		.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // sorting by date to make the finaluser's ratings LIFO
+		.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // sorting by date to make the pageUser's ratings LIFO
 
 	// init the top and bottom functions.
 	// extract these to their own components at a later point, as this file is getting too big: 400+ lines

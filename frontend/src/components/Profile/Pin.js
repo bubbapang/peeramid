@@ -20,6 +20,7 @@ export default function Pin({finalUser}) {
 
 	// get current user, pins, and likes from the store
 	const user = finalUser;
+
 	const pins = useSelector((state) => state.pins);
 	const likes = useSelector((state) => state.likes);
 
@@ -42,7 +43,7 @@ export default function Pin({finalUser}) {
 							<em>suggestions</em>{" "}
 						</span>{" "}
 					</Link>
-					&nbsp;page to add suggestion
+					&nbsp;page to pin suggestion
 				</h1>
 			</div>
 		);
@@ -59,7 +60,9 @@ export default function Pin({finalUser}) {
 					<PinItem
 						key={idx}
 						suggestion={object}
-						likeIds={Object.keys(likes)}
+						likes={likes}
+						sessionUserPins={sessionUser.pins}
+						isProfileSelf={user._id === sessionUser._id}
 					/>
 				))
 			)}

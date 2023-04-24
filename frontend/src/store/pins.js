@@ -26,9 +26,13 @@ export const removePin = (suggestionId) => {
 	};
 };
 
-export const getPins = (userId) => (store) => {
+export const getUserPins = (userId) => (store) => {
 	return store.session.user ? store.session.user.pins : [];
 };
+
+export const getTargetPins = (store) => {
+	return store.session.targetUser ? store.session.targetUser.pins : [];
+}
 
 export const fetchPins = (user) => async (dispatch) => {
 	const response = await jwtFetch(`/api/users/${user._id}/pins`);
@@ -62,11 +66,19 @@ export const deletePin = (suggestionId) => async (dispatch) => {
 	}
 };
 
+export const deleteTargetUserPin = (suggestionId) => async (dispatch) => {
+	await jwtFetch(`/api/suggestions/${suggestionId}/pin`, {
+		method: "DELETE",
+	});
+
+};
+
 const pinsReducer = (oldState = {}, action) => {
 	let newState = { ...oldState };
 
 	switch (action.type) {
 		case RECEIVE_PINS:
+			newState = {};
 			action.suggestions.forEach((sugg) => {
 				newState[sugg._id] = sugg;
 			});
