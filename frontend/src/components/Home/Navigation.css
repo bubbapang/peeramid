@@ -2,10 +2,10 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	width: 100%;
-	height: 70px;
+	height: 5vh;
+	width: 100vw;
 	background-color: #3c3c3c;
-	border-bottom: 1px solid #2b2b2b;
+	/* border-bottom: 1px solid #2b2b2b; */
 	position: relative;
 	z-index: 2;
 	position: relative;
@@ -43,8 +43,12 @@
 	height: 40px;
 }
 
-.nav-bar-container .today {
+.nav-bar-container .not-rated-today {
 	background-color: rgb(59, 193, 59);
+}
+
+.nav-bar-container .rated-today {
+	background-color: rgb(255, 168, 39);
 }
 
 .nav-bar-container button:hover {

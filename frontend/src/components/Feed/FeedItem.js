@@ -60,14 +60,15 @@ export default function FeedItem({ rating, idx }) {
 	useEffect(() => {
 		// setting up background colors for the chart
 		const backgroundColors = [
-			"rgba(255, 99, 32, 0.8)",
-			"rgba(75, 192, 192, 0.8)",
-			"rgba(255, 206, 86, 0.8)",
-			"rgba(153, 102, 255, 0.8)",
-			"rgba(54, 162, 235, 0.8)",
-			"rgba(201, 203, 07, 0.8)",
-			"rgba(255, 159, 64, 0.8)",
-			"rgba(255, 99, 132, 0.8)",
+			"#264653",
+			"#287271",
+			"#2a9d8f",
+			"#8ab17d",
+			"#e9c46a",
+			"#efb366",
+			"#f4a261",
+			"#ee8959",
+			"#F3E1DD",
 		];
 
 		// if the chart exists, destroy it
@@ -76,17 +77,27 @@ export default function FeedItem({ rating, idx }) {
 		// get the canvas element
 		const chartCanvas = document.getElementById(`chart-${idx}`);
 
-		// create the scores array
-		const scores = [
-			rating.physiological,
-			rating.safety,
-			rating.love,
-			rating.esteem,
-			rating.knowledge,
-			rating.aesthetics,
-			rating.actualization,
-			rating.transcendance,
+		const needs = [
+			"Physiology",
+			"Safety",
+			"Love",
+			"Esteem",
+			"Cognition",
+			"Aesthetics",
+			"Actualization",
+			"Transcendence",
 		];
+
+		const scores = [];
+		for (let need of needs) {
+			const lowercaseNeed = need.toLowerCase();
+			scores.push(rating[lowercaseNeed]);
+		}
+
+		needs.push("Potential");
+		const maxScore = 80;
+		const totalScore = scores.reduce((a, b) => a + b, 0);
+		scores.push(maxScore - totalScore);
 
 		// create the chart colors array
 		const chartColors = backgroundColors.slice(0, scores.length);
@@ -95,16 +106,7 @@ export default function FeedItem({ rating, idx }) {
 		const chartConfig = {
 			type: "doughnut",
 			data: {
-				labels: [
-					"Physiology",
-					"Safety",
-					"Love",
-					"Esteem",
-					"Cognition",
-					"Aesthetics",
-					"Actualization",
-					"Transcendence",
-				],
+				labels: [...needs],
 				datasets: [
 					{
 						label: "",

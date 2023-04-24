@@ -7,11 +7,10 @@ export default function Need({
 	color,
 	width,
 	onRatingChange,
+	onNeedHover,
+	onNeedLeave,
 }) {
-	const style = {
-		backgroundColor: color,
-		width: width,
-	};
+
 	const buttonColors = [
 		"#b76935",
 		"#a56336",
@@ -39,9 +38,20 @@ export default function Need({
 		onRatingChange(name, buttonNumber); // Call the function passed from the parent
 	};
 
+	const handleMouseEnter = (e) => {
+		onNeedHover(name);
+	};
+
 	return (
-		<div className="container">
-			<div className="need" style={style}>
+		<div
+			className="container"
+			onMouseEnter={() => handleMouseEnter()}
+			onMouseLeave={onNeedLeave}
+		>
+			<div
+				className="need"
+				style={{ backgroundColor: color, width: `${width}px` }}
+			>
 				<h1>{rating}</h1>
 				<h1 className="middle">{name}</h1>
 			</div>

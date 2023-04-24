@@ -1,16 +1,27 @@
+// import react things
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
+
+// import store session actions
 import { login } from "../../store/session";
+
+// css
 import "./Welcome.css";
 
+// Welcome component
 export default function Welcome() {
+	// use states
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	// dispatch and history
 	const dispatch = useDispatch();
 	const history = useHistory();
+
+	// use selectors
 	const currentUser = useSelector((state) => state.session.user);
-	const errors = useSelector((state) => state.errors.session);
+	const errors = useSelector((state) => state.errors);
 
 	let objectErrors;
 	if (errors) {
@@ -23,7 +34,7 @@ export default function Welcome() {
 	const handleDemo = (e) => {
 		e.preventDefault();
 		const demoCredentials = {
-			email: "demo@user.io",
+			email: "lionel@gmail.com",
 			password: "password",
 		};
 		dispatch(login(demoCredentials));

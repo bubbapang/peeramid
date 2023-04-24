@@ -1,5 +1,5 @@
 :root {
-  --border-radius: 10px;
+	--border-radius: 8px;
 }
 
 .login-box {
@@ -126,35 +126,33 @@
 }
 @media (max-width: 768px) {
 	.welcome-modal {
-	  flex-direction: column;
+		flex-direction: column;
 	}
-  
+
 	.welcome-form,
 	.welcome-image {
-	  width: 100%;
-	  max-width: 100%; /* Constrain the width */
-	  box-sizing: border-box; /* Include padding and border in the width calculation */
-	  border-radius: var(--border-radius);
+		width: 100%;
+		max-width: 100%; /* Constrain the width */
+		box-sizing: border-box; /* Include padding and border in the width calculation */
+		border-radius: var(--border-radius);
 	}
-  
+
 	.welcome-form {
-	  border-top-left-radius: var(--border-radius);
-	  border-bottom-left-radius: 0;
-	  border-bottom-right-radius: 0; /* Move the border-radius property to the correct rule */
-	  padding: 20px; /* Move the padding property to the correct rule */
-	  /* padding-left: 40px; */
-	  /* padding-right: 40px; */
-	  margin-bottom: -1px;
+		border-top-left-radius: var(--border-radius);
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0; /* Move the border-radius property to the correct rule */
+		padding: 20px; /* Move the padding property to the correct rule */
+		/* padding-left: 40px; */
+		/* padding-right: 40px; */
+		margin-bottom: -1px;
 	}
-  
-	
-  
+
 	.welcome-image {
-	  border-top-right-radius: 0;
-	  border-bottom-right-radius: var(--border-radius);
-	  border-top-left-radius: 0;
-	  background-size: cover;
-	  margin-top: 0;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: var(--border-radius);
+		border-top-left-radius: 0;
+		background-size: cover;
+		margin-top: 0;
 	}
 
 	.welcome-form input {
@@ -165,8 +163,4 @@
 	.welcome-form label {
 		font-size: 1rem;
 	}
-  }
-  
-  
-  
-  
+}

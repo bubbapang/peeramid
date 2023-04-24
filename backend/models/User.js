@@ -1,5 +1,5 @@
+//
 const mongoose = require("mongoose");
-const Suggestion = require("./Suggestion");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
@@ -27,6 +27,10 @@ const userSchema = new Schema(
 		public: {
 			type: Boolean,
 			default: true,
+		},
+		ratedToday: {
+			type: Boolean,
+			default: false,
 		},
 		pins: [
 			{

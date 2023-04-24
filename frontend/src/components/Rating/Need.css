@@ -1,5 +1,5 @@
 .container {
-	min-width:fit-content;
+	min-width: fit-content;
 	position: relative;
 	display: inline-block;
 	/* margin-top: 70px; */
@@ -38,7 +38,6 @@
 	opacity: 0;
 	pointer-events: none;
 	overflow: hidden;
-	border-radius: 0.5rem;
 }
 
 .buttons button {
@@ -46,18 +45,16 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* Replace padding: 0.5rem 1rem; with padding: 0.5vw 1vw; */
-	padding: 0.5vw ;
+	padding: 0.5vw;
 	height: 100%;
-	/* Replace font-size: 2rem; with font-size: 2vw; */
 	font-size: 2vw;
 	font-family: "Monaco", "Courier New", monospace;
 	font-weight: bold;
 	color: #ffffff;
-	border: none;
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 }
+
 .buttons button:first-child {
 	border-top-left-radius: 0.5rem;
 	border-bottom-left-radius: 0.5rem;
@@ -92,7 +89,5 @@
 	.buttons button {
 		padding: 0.25rem 0.5rem;
 		font-size: 1.5rem;
-		
 	}
 }
-

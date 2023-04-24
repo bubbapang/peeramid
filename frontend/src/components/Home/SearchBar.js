@@ -1,9 +1,12 @@
 // import dependencies
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { searchUsers } from "../../store/session";
 import { useHistory } from "react-router-dom";
-import { setTargetUser } from "../../store/session";
+
+// import session actions
+import { setTargetUser, searchUsers } from "../../store/session";
+
+// css
 import "./SearchBar.css";
 
 // making the search bar component
@@ -21,7 +24,7 @@ export default function SearchBar({ onSearch }) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-	// using the useEffect hook to dispatch the searchUsers action creator
+	// using the useEffect hook to dispatch the searchUsers action creator when the searchTerm changes
 	useEffect(() => {
 		if (searchTerm !== "") {
 			dispatch(searchUsers(searchTerm));
@@ -30,11 +33,11 @@ export default function SearchBar({ onSearch }) {
 
 	// handling the change in the input field
 	const handleChange = (event) => {
+		console.log("all search results", allSearchResults);
 		setSearchTerm(event.target.value);
-			setIsDropdownVisible(true);
+		setIsDropdownVisible(true);
 		if (searchTerm === "") {
 			setIsDropdownVisible(false);
-			setIsDropdownVisible(true);
 		} else {
 		}
 	};
@@ -54,7 +57,6 @@ export default function SearchBar({ onSearch }) {
 		onSearch(user.firstName + " " + user.lastName);
 		setIsDropdownVisible(false);
 		dispatch(setTargetUser(user)); // Dispatch the setTargetUser action
-		console.log("just set the target user");
 		history.push(`/profile/${user._id}`);
 	};
 

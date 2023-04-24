@@ -1,5 +1,7 @@
+// import jwt
 import jwtFetch from "./jwt";
 
+// Constants
 export const RECEIVE_RATINGS = `suggestions/RECEIVE_RATINGS`;
 export const RECEIVE_RATING = `suggestions/RECEIVE_RATING`;
 export const REMOVE_RATING = `suggestions/REMOVE_RATING`;
