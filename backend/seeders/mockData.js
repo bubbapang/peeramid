@@ -2,7 +2,7 @@
 // ARRAYS AND MOCK DATA //
 
 // name arrays
-export const firstNames = [
+const firstNames = [
 	"Adam",
 	"Andre",
 	"Jasmine",
@@ -15,7 +15,7 @@ export const firstNames = [
 	"Cristiano",
 ];
 
-export const lastNames = [
+const lastNames = [
 	"Pangelinan",
 	"Hanna",
 	"Kobata",
@@ -28,7 +28,7 @@ export const lastNames = [
 	"Ronaldo",
 ];
 
-export const userNames = [
+const userNames = [
 	"BUBBAPANG",
 	"andre3000",
 	"bachataforlife",
@@ -42,19 +42,19 @@ export const userNames = [
 ];
 
 // init needs array
-export const needs = [
+const needs = [
 	"transcendence",
 	"actualization",
 	"aesthetics",
-	"understanding",
+	"cognition",
 	"esteem",
 	"love",
 	"safety",
-	"physiological",
+	"physiology",
 ];
 
 // mock highlight and lowlight data
-export const mockHighlights = [
+const mockHighlights = [
 	"Had a productive day at work.",
 	"Spent quality time with family.",
 	"Finished reading a great book.",
@@ -130,7 +130,7 @@ export const mockHighlights = [
 	"Listened to an inspiring podcast.",
 ];
 
-export const mockLowlights = [
+const mockLowlights = [
 	"Had a disagreement with a colleague.",
 	"Missed an important deadline.",
 	"Felt overwhelmed by tasks.",
@@ -195,7 +195,7 @@ export const mockLowlights = [
 ];
 
 // mock suggestions data with body and category tags
-export const mockSuggestions = [
+const mockSuggestions = [
 	{
 		body: "To improve your sense of safety, try to surround yourself with positive and supportive people.",
 		categoryTag: "Safety",
@@ -229,3 +229,13 @@ export const mockSuggestions = [
 		categoryTag: "Physiological",
 	},
 ];
+
+module.exports = {
+	firstNames,
+	lastNames,
+	userNames,
+	needs,
+	mockHighlights,
+	mockLowlights,
+	mockSuggestions,
+};

@@ -34,7 +34,7 @@ export default function Welcome() {
 	const handleDemo = (e) => {
 		e.preventDefault();
 		const demoCredentials = {
-			email: "demo@user.io",
+			email: "lionel@gmail.com",
 			password: "password",
 		};
 		dispatch(login(demoCredentials));

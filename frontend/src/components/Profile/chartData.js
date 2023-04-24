@@ -1,19 +1,13 @@
-// init arrays for the chart setup
 const needsAndColors = {
-	"physiology": "#577590",
-	"safety": "#4d908e",
-	"love": "#43aa8b",
-	"esteem": "#90be6d",
-	"cognition": "#f9c74f",
-	"aesthetics": "#f8961e",
-	"actualization": "#f3722c",
-	"transcendence": "#f94144",
+	physiology: "#577590",
+	safety: "#4d908e",
+	love: "#43aa8b",
+	esteem: "#90be6d",
+	cognition: "#f9c74f",
+	aesthetics: "#f8961e",
+	actualization: "#f3722c",
+	transcendence: "#f94144",
 };
-
-const needsAndColorsArray = Object.entries(needsAndColors);
-
-// init needs
-const needs = Object.keys(needsAndColors);
 
 const months = [
 	"January",
@@ -30,82 +24,62 @@ const months = [
 	"December",
 ];
 
-// init the dataset array for both charts
-// a dataset has: label, borderColor, data, fill, tension
+const needsAndColorsArray = Object.entries(needsAndColors);
+const needs = Object.keys(needsAndColors);
+
 const datasets = [];
-
-// i want to rename the next two arrays to be more descriptive, but i'm not sure what to call them because of how they're used in the chart setup
-
-// init for line chart
-// key=month, value=ratings
-	// what is a rating though? is a rating an object with the need as key and THAT day's rating as value?
-		// i should take a look at what the frontend state for ratings looks like
 const monthsAndRatings = {};
+const monthsAndAverageRatings = {};
 
-const monthsAndRatingsArray = Object.entries(monthsAndRatings);
+const createDatasets = (ratings) => {
+	ratings.forEach((rating) => {
+		const currentYear = new Date().getFullYear();
+		const ratingTimestamp = Date.parse(rating.createdAt);
+		const ratingFullDate = new Date(ratingTimestamp);
+		const ratingYear = ratingFullDate.getFullYear();
 
-// init for radar chart
-// key=month, value=avg rating for each need
-// average rating is calculated by summing all ratings for a given need and dividing by the number of ratings
-const ratingAvgByNeed = {};
-
-// the question now is... how do we 1) populate these arrays?, then 2) put them in the get functions, to be exported into the profile react component?
-
-// this iterates over the needsAndColors object, and for each need, it creates a dataset object and pushes it into the datasets array, for BOTH charts
-for (let [need, color] of needsAndColorsArray) {
-	datasets.push({
-		label: need,
-		borderColor: color,
-		data: months.map((month) =>
-			ratingAvgByNeed[month] ? ratingAvgByNeed[month][need] : null
-		),
-		fill: false,
-		tension: 0.1,
+		if (currentYear === ratingYear) {
+			const ratingMonth = ratingFullDate.getMonth();
+			monthsAndRatings[ratingMonth] = monthsAndRatings[ratingMonth] || [];
+			monthsAndRatings[ratingMonth].push(rating);
+		}
 	});
-}
 
-// idk where to put this, because the ratings are only going to come in the "get" methods as an argument, so this block needs to be in one of those
+	// Populate monthsAndAverageRatings object
+	needs.forEach((need, idx) => {
+		for (let [month, ratingsArray] of Object.entries(monthsAndRatings)) {
+			let sum = 0;
+			ratingsArray.forEach((rating) => {
+				sum += rating[need];
+			});
+			const average = sum / ratingsArray.length;
+			monthsAndAverageRatings[month] = monthsAndAverageRatings[month] || {};
+			monthsAndAverageRatings[month][needs[idx]] = average;
+		}	
+	});
 
-// this loop populates the ratingAvgByNeed object
-// for each need
-needs.forEach((need, idx) => {
-	for (let [month, ratingsArray] of monthsAndRatingsArray) {
-		let sum = 0;	
-		ratingsArray.forEach((rating) => {
-			sum += rating[need];
-		});
-		const average = sum / ratingsArray.length;
-		ratingAvgByNeed[month] = ratingAvgByNeed[month] || {};
-		ratingAvgByNeed[month][needs[idx]] = average;
-	}
-});
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// THE "GET" FUNCTIONS //
-
-// data functions
+	return monthsAndAverageRatings;
+};
 
 export const getLineChartData = (ratings) => {
-	// this loop populates the monthsAndRatings object
-	// for each rating, over 100+ of them...
-	ratings.forEach((rating) => {
-		// init the current year
-		const currentYear = new Date().getFullYear();
-		// parse the date from the rating object
-		const ratingTimestamp = Date.parse(rating.createdAt);
-		// make a new date object from the above parsing
-		const ratingFullDate = new Date(ratingTimestamp);
-		const ratingYear = ratingFullDate.getFullYear()
-		// if the rating was created within the current year...
-		if (currentYear === ratingYear) {
-			// get the month from the date object
-			const ratingMonth = ratingFullDate.getMonth();
-			// if the monthsAndRatings object doesn't have a key for that month, then create it and set the value to an empty array
-			monthsAndRatings[ratingMonth] = monthsAndRatings[ratingMonth] || [];
-			// push the whatever the above line created into the monthsAndRatings object
-			monthsAndRatings[ratingMonth].push(rating);
-	}
-});
+	const monthsAndAverageRatings = createDatasets(ratings);
+	// console.log("monthsAndRatings", monthsAndRatings)
+	// console.log("monthsAndAverageRatings", monthsAndAverageRatings)
+
+	for (let [need, color] of needsAndColorsArray) {
+		const data = months.map((_, idx) =>
+			monthsAndAverageRatings[idx] ? monthsAndAverageRatings[idx][need] : null
+		);
+
+		datasets.push({
+			label: need,
+			borderColor: color,
+			data: data,
+			fill: false,
+			tension: 0.1,
+		});
+	}	
+
 	const lineChartData = {
 		labels: [...months],
 		datasets: datasets,
@@ -123,10 +97,7 @@ export const getRadarChartData = (ratings) => {
 		return sum / ratings.length;
 	};
 
-	const dataForRadarChart = [];
-	for (let i = 0; i < needs.length; i++) {
-		dataForRadarChart.push(getAverage(needs[i]));
-	}
+	const dataForRadarChart = needs.map((need) => getAverage(need));
 
 	const radarChartData = {
 		labels: needs,
@@ -147,8 +118,6 @@ export const getRadarChartData = (ratings) => {
 
 	return radarChartData;
 };
-
-// options functions
 
 export const getLineChartOptions = () => {
 	const lineChartOptions = {

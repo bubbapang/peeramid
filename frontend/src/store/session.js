@@ -104,7 +104,7 @@ const initialState = {
 };
 
 // session sub reducer
-export default function sessionReducer (state = initialState, action) {
+export default function sessionReducer(state = initialState, action) {
 	switch (action.type) {
 		// follow stuff
 		// case RECEIVE_FOLLOW:
@@ -152,4 +152,4 @@ export default function sessionReducer (state = initialState, action) {
 		default:
 			return state;
 	}
-};
+}

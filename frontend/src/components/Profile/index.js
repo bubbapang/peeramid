@@ -68,6 +68,9 @@ export default function Profile() {
 		const lineChartOptions = getLineChartOptions();
 		const radarChartOptions = getRadarChartOptions();
 
+		// console.log("lineChartData", lineChartData);
+		console.log("radarChartData", radarChartData);
+
 		setLineData(lineChartData);
 		setRadarData(radarChartData);
 		setLineOptions(lineChartOptions);

@@ -46,11 +46,6 @@ router.get("/current", restoreUser, (req, res) => {
 	});
 });
 
-router.get("/:id", async (req, res) => {
-	const user = await User.findById(req.params.id);
-	res.json(user);
-});
-
 router.post("/register", validateRegisterInput, async (req, res, next) => {
 	// Check to make sure no one has already registered with the proposed email or
 	// username.
@@ -130,6 +125,103 @@ router.delete("/logout", (req, res) => {
 	req.logout(() => {
 		res.json({ message: "You have successfully logged out" });
 	});
+});
+
+// FOR PRIVATE USERS, ACCEPTS THE FOLLOW REQUEST
+router.post("/approve/:id", restoreUser, async (req, res, next) => {
+	const requesterUser = await User.findById(req.params.id); //user who sent request
+	const currentUser = req.user; //user approving request
+
+	try {
+		if (!requesterUser) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		if (!currentUser) {
+			return res.status(404).json({ message: "Current user not found" });
+		}
+		if (!currentUser.followRequest.includes(requesterUser._id)) {
+			return res.status(400).json({ message: `No request to approve` });
+		}
+		// currentUser is approving
+		await User.findByIdAndUpdate(currentUser._id, {
+			$push: { followers: requesterUser._id },
+			$pull: { followRequest: requesterUser._id },
+		});
+
+		// requesterUser is requesting to follow
+		await User.findByIdAndUpdate(requesterUser._id, {
+			$push: { following: currentUser._id },
+		});
+		return res.status(200).json({ message: "Follow request approved" });
+	} catch (err) {
+		return next(err);
+	}
+});
+
+// FOR PRIVATE USERS, DELETES THE FOLLOW REQUEST
+router.delete("/delete/:id", restoreUser, async (req, res, next) => {
+	const requesterUser = await User.findById(req.params.id);
+	const currentUser = req.user;
+	try {
+		if (!requesterUser) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		if (!currentUser) {
+			return res.status(404).json({ message: "Current user not found" });
+		}
+		if (!currentUser.followRequest.includes(requesterUser._id)) {
+			return res.status(400).json({ message: `No request to approve` });
+		}
+		// currentUser is approving
+		await User.findByIdAndUpdate(currentUser._id, {
+			$pull: { followRequest: requesterUser._id },
+		});
+
+		return res.status(200).json({ message: "Follow request deleted" });
+	} catch (err) {
+		return next(err);
+	}
+});
+
+// implemented seach query for users, here regex means regular expression helps in pattern matching, options helps in making the query case-insensitive
+// So, we find the users by the options, and select the fields we need and return them
+// SEARCH FOR USERS
+router.get("/search", async (req, res, next) => {
+	const searchQuery = req.query.q;
+	try {
+		const users = await User.find({
+			$or: [
+				{ username: { $regex: searchQuery, $options: "i" } },
+				{ firstName: { $regex: searchQuery, $options: "i" } },
+				{ lastName: { $regex: searchQuery, $options: "i" } },
+			],
+		}).select("_id username firstName lastName");
+		res.json(users);
+	} catch (err) {
+		next(err);
+	}
+});
+
+// GET DISLIKES BY THE USER
+router.get("/dislikes", requireUser, async (req, res, next) => {
+	try {
+		const currentUser = await User.findById(req.user._id).populate(
+			"dislikes"
+		);
+		if (!currentUser) {
+			return res.status(404).json({ message: "Current user not found" });
+		}
+		return res.json(currentUser.dislikes);
+	} catch (err) {
+		next(err);
+	}
+});
+
+// ID routes
+
+router.get("/:id", async (req, res) => {
+	const user = await User.findById(req.params.id);
+	res.json(user);
 });
 
 // CREATES A FOLLOWING FOR PUBLIC AND SENDS A REQ IF THE USER RECEIVING THE REQUEST IS PRIVATE
@@ -223,62 +315,6 @@ router.delete("/:id/follow", restoreUser, async (req, res, next) => {
 	}
 });
 
-// FOR PRIVATE USERS, ACCEPTS THE FOLLOW REQUEST
-router.post("/approve/:id", restoreUser, async (req, res, next) => {
-	const requesterUser = await User.findById(req.params.id); //user who sent request
-	const currentUser = req.user; //user approving request
-
-	try {
-		if (!requesterUser) {
-			return res.status(404).json({ message: "User not found" });
-		}
-		if (!currentUser) {
-			return res.status(404).json({ message: "Current user not found" });
-		}
-		if (!currentUser.followRequest.includes(requesterUser._id)) {
-			return res.status(400).json({ message: `No request to approve` });
-		}
-		// currentUser is approving
-		await User.findByIdAndUpdate(currentUser._id, {
-			$push: { followers: requesterUser._id },
-			$pull: { followRequest: requesterUser._id },
-		});
-
-		// requesterUser is requesting to follow
-		await User.findByIdAndUpdate(requesterUser._id, {
-			$push: { following: currentUser._id },
-		});
-		return res.status(200).json({ message: "Follow request approved" });
-	} catch (err) {
-		return next(err);
-	}
-});
-
-// FOR PRIVATE USERS, DELETES THE FOLLOW REQUEST
-router.delete("/delete/:id", restoreUser, async (req, res, next) => {
-	const requesterUser = await User.findById(req.params.id);
-	const currentUser = req.user;
-	try {
-		if (!requesterUser) {
-			return res.status(404).json({ message: "User not found" });
-		}
-		if (!currentUser) {
-			return res.status(404).json({ message: "Current user not found" });
-		}
-		if (!currentUser.followRequest.includes(requesterUser._id)) {
-			return res.status(400).json({ message: `No request to approve` });
-		}
-		// currentUser is approving
-		await User.findByIdAndUpdate(currentUser._id, {
-			$pull: { followRequest: requesterUser._id },
-		});
-
-		return res.status(200).json({ message: "Follow request deleted" });
-	} catch (err) {
-		return next(err);
-	}
-});
-
 // GET USERS RATINGS
 router.get("/:id/ratings", async (req, res, next) => {
 	const visitedUser = await User.findById(req.params.id);
@@ -324,25 +360,6 @@ router.get("/:id/suggestions", requireUser, async (req, res, next) => {
 	}
 });
 
-// implemented seach query for users, here regex means regular expression helps in pattern matching, options helps in making the query case-insensitive
-// So, we find the users by the options, and select the fields we need and return them
-// SEARCH FOR USERS
-router.get("/search", async (req, res, next) => {
-	const searchQuery = req.query.q;
-	try {
-		const users = await User.find({
-			$or: [
-				{ username: { $regex: searchQuery, $options: "i" } },
-				{ firstName: { $regex: searchQuery, $options: "i" } },
-				{ lastName: { $regex: searchQuery, $options: "i" } },
-			],
-		});
-		res.json(users);
-	} catch (err) {
-		next(err);
-	}
-});
-
 // GET LIKES BY THE USER
 router.get("/:id/likes", async (req, res, next) => {
 	const currentUser = req.user;
@@ -369,21 +386,6 @@ router.get("/:id/likes", async (req, res, next) => {
 		}
 
 		return res.json(visibleLikes);
-	} catch (err) {
-		next(err);
-	}
-});
-
-// GET DISLIKES BY THE USER
-router.get("/dislikes", requireUser, async (req, res, next) => {
-	try {
-		const currentUser = await User.findById(req.user._id).populate(
-			"dislikes"
-		);
-		if (!currentUser) {
-			return res.status(404).json({ message: "Current user not found" });
-		}
-		return res.json(currentUser.dislikes);
 	} catch (err) {
 		next(err);
 	}
