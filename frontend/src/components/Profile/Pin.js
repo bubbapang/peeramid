@@ -31,41 +31,35 @@ export default function Pin({ finalUser, sessionUser }) {
 		}
 	}, [dispatch, user]);
 
-	if (!pins || Object.values(pins).length === 0) {
-		return (
-			<div className="pins">
-				<h1 id="pin-banner">
-					Head to the&nbsp;{" "}
-					<Link to="/suggestions">
-						{" "}
-						<span id="sugg-prof-button">
-							{" "}
-							<em>suggestions</em>{" "}
-						</span>{" "}
-					</Link>
-					&nbsp;page to pin suggestion
-				</h1>
-			</div>
-		);
+	if (pins) {
+		if (Object.values(pins).length > 0) {
+			return (
+				<div className="pins">
+					{Object.values(pins).map((object, idx) => (
+						<PinItem
+							key={idx}
+							suggestion={object}
+							likes={likes}
+							sessionUserPins={sessionUser.pins}
+							isProfileSelf={user._id === sessionUser._id}
+						/>
+					))}
+				</div>
+			);
+		} else {
+			return (
+				<div className="pins">
+					<h1 id="pin-banner">
+						Head to the&nbsp;{" "}
+						<Link to="/suggestions">
+							<span id="sugg-prof-button">
+								<em>suggestions</em>
+							</span>
+						</Link>
+						&nbsp;page to pin suggestion
+					</h1>
+				</div>
+			);
+		}
 	}
-	return (
-		<div className="pins">
-			{!pins ? (
-				<h1 id="pin-banner">
-					Head to the <Link to="/suggesitons"> suggestions </Link>{" "}
-					page to pin a suggestion
-				</h1>
-			) : (
-				Object.values(pins).map((object, idx) => (
-					<PinItem
-						key={idx}
-						suggestion={object}
-						likes={likes}
-						sessionUserPins={sessionUser.pins}
-						isProfileSelf={user._id === sessionUser._id}
-					/>
-				))
-			)}
-		</div>
-	);
 }

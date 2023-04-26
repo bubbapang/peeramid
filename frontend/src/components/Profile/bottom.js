@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
-
-// import chart dependencies
 import { Line, Radar } from "react-chartjs-2";
 
-// import other needed components to render in the profile
 import FeedItem from "../Feed/FeedItem";
 import Pin from "./Pin";
 
