@@ -33,7 +33,6 @@ export default function SearchBar({ onSearch }) {
 
 	// handling the change in the input field
 	const handleChange = (event) => {
-		console.log("all search results", allSearchResults);
 		setSearchTerm(event.target.value);
 		setIsDropdownVisible(true);
 		if (searchTerm === "") {

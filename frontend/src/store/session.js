@@ -1,10 +1,6 @@
-// import jwt
 import jwtFetch from "./jwt";
-
-// import session errors function, I just extracted some error logic out of this session file for brevity
 import { receiveErrors } from "./sessionErrors";
 
-// Constants
 const RECEIVE_CURRENT_USER = "session/RECEIVE_CURRENT_USER";
 const RECEIVE_USER_LOGOUT = "session/RECEIVE_USER_LOGOUT";
 const RECEIVE_SEARCH_RESULTS = "session/RECEIVE_SEARCH_RESULTS";
@@ -16,13 +12,13 @@ const ADD_USER_PIN = "users/ADD_USER_PIN";
 
 // Action creators, "private"
 
+const logoutUser = () => ({
+	type: RECEIVE_USER_LOGOUT,
+});
+
 const receiveCurrentUser = (currentUser) => ({
 	type: RECEIVE_CURRENT_USER,
 	currentUser,
-});
-
-const logoutUser = () => ({
-	type: RECEIVE_USER_LOGOUT,
 });
 
 // helper method for signup and login
@@ -45,20 +41,7 @@ const startSession = (userInfo, route) => async (dispatch) => {
 
 // Action creators, "public"
 
-// exported session actions based on api path
-export const signup = (user) => startSession(user, "api/users/register");
-export const login = (user) => startSession(user, "api/users/login");
-
-export const logout = () => (dispatch) => {
-	localStorage.removeItem("jwtToken");
-	dispatch(logoutUser());
-};
-
-export const getCurrentUser = () => async (dispatch) => {
-	const res = await jwtFetch("/api/users/current");
-	const user = await res.json();
-	return dispatch(receiveCurrentUser(user));
-};
+// frontend, exported actions
 
 export const setTargetUser = (targetUser) => ({
 	type: SET_TARGET_USER,
@@ -68,15 +51,6 @@ export const setTargetUser = (targetUser) => ({
 export const clearTargetUser = () => ({
 	type: CLEAR_TARGET_USER,
 });
-
-export const searchUsers = (searchTerm) => async (dispatch) => {
-	const response = await fetch(`/api/users/search?q=${searchTerm}`);
-
-	if (response.ok) {
-		const searchResults = await response.json();
-		dispatch(receiveSearchResults(searchResults));
-	}
-};
 
 export const receiveSearchResults = (searchResults) => ({
 	type: RECEIVE_SEARCH_RESULTS,
@@ -96,15 +70,37 @@ export const addUserPin = (suggestionId, userId) => {
 	};
 };
 
-// initial state
+// exported session actions based on api path
+export const signup = (user) => startSession(user, "/api/user-authentication/register");
+export const login = (user) => startSession(user, "/api/user-authentication/login");
+
+export const logout = () => (dispatch) => {
+	localStorage.removeItem("jwtToken");
+	dispatch(logoutUser());
+};
+
+export const getCurrentUser = () => async (dispatch) => {
+	const res = await jwtFetch("/api/user-data/current");
+	const user = await res.json();
+	return dispatch(receiveCurrentUser(user));
+};
+
+export const searchUsers = (searchTerm) => async (dispatch) => {
+	const response = await fetch(`/api/user-data/search?q=${searchTerm}`);
+
+	if (response.ok) {
+		const searchResults = await response.json();
+		dispatch(receiveSearchResults(searchResults));
+	}
+};
+
 const initialState = {
 	user: undefined,
 	targetUser: undefined,
 	searchResults: [],
 };
 
-// session sub reducer
-export default function sessionReducer(state = initialState, action) {
+function sessionReducer(state = initialState, action) {
 	switch (action.type) {
 		// follow stuff
 		// case RECEIVE_FOLLOW:
@@ -153,3 +149,5 @@ export default function sessionReducer(state = initialState, action) {
 			return state;
 	}
 }
+
+export default sessionReducer;

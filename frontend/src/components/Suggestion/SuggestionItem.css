@@ -3,6 +3,7 @@
 	height: 150px;
 	margin: 5px;
 }
+
 .sugg-item {
 	display: flex;
 	flex-direction: row;
@@ -17,12 +18,12 @@
 	min-height: 100px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 	transition: all var(--transition-duration);
-	/* margin-right: 5px; */
 	margin-left: 5px;
 	margin: 5px;
 	position: relative;
 	height: fit-content;
 }
+
 .sugg-item-content {
 	display: flex;
 	flex-direction: column;
@@ -75,8 +76,6 @@ button {
 	background-color: var(--button-color);
 	color: #4d908e;
 	border: none;
-	/* padding: 6px 12px; */
-	/* border-radius: 5px; */
 	font-size: 14px;
 	cursor: pointer;
 	transition: all var(--transition-duration);

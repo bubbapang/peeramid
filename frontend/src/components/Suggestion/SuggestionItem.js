@@ -1,36 +1,39 @@
-// import dependencies
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import "./SuggestionItem.css";
 import { createLike, deleteLike } from "../../store/likes";
 import { createPin, deletePin } from "../../store/pins";
 import { updateSuggestion } from "../../store/suggestions";
 import { deleteSuggestion } from "../../store/suggestions";
+import "./SuggestionItem.css";
 
-// make the categoryEmojiMap
-// const categoryEmojiMap = {
-// 	Transcendence: "🌌",
-// 	Actualization: "🌟",
-// 	Aesthetics: "🎨",
-// 	Cognition: "🧠",
-// 	Esteem: "🏆",
-// 	Love: "❤️",
-// 	Safety: "🔒",
-// 	Physiology: "💪",
-// };
-
-// make the SuggestionItem component
 export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
-
-  // make the dispatch
 	const dispatch = useDispatch();
 
-  // make the state
+	const currentUser = useSelector((state) => state.session.user);
+
 	const [editMode, setEditMode] = useState(false);
 	const [showSuccessBanner, setShowSuccessBanner] = useState(false);
-	const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] =
-		useState(false);
-	const currentUser = useSelector((state) => state.session.user);
+	const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] = useState(false);
+	const [likeDisplay, setLikeDisplay] = useState("Like");
+	const [pinDisplay, setPinDisplay] = useState("Pin");
+	const [likeCount, setLikeCount] = useState(suggestion.likes.length);
+	const [pinCount, setPinCount] = useState(suggestion.pins.length);
+
+	useEffect(() => {
+		if (likeIds.includes(suggestion._id)) {
+			setLikeDisplay("Liked");
+		} else {
+			setLikeDisplay("Like");
+		}
+	}, [likeIds, suggestion._id]);
+
+	useEffect(() => {
+		if (pinIds.includes(suggestion._id)) {
+			setPinDisplay("Pinned");
+		} else {
+			setPinDisplay("Pin");
+		}
+	}, [pinIds, suggestion._id]);
 
 	const displayDeleteSuccessBanner = () => {
 		setShowDeleteSuccessBanner(true);
@@ -69,36 +72,12 @@ export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
 		displaySuccessBanner();
 	};
 
-	// const likeDisplay = currentUser && currentUser.likes.includes(suggestion._id) ? "Liked" : "Like";
-	// const [pinDisplay, setPinDisplay] = useState(pinIds.includes(suggestion._id) ? "Pinned" : "Pin")
-
-	const [likeDisplay, setLikeDisplay] = useState("Like");
-	const [pinDisplay, setPinDisplay] = useState("Pin");
-	const [likeCount, setLikeCount] = useState(suggestion.likes.length);
-	const [pinCount, setPinCount] = useState(suggestion.pins.length);
-
-	useEffect(() => {
-		// if (currentUser && currentUser.likes.includes(suggestion._id)) {
-		if (likeIds.includes(suggestion._id)) {
-			setLikeDisplay("Liked");
-		} else {
-			setLikeDisplay("Like");
-		}
-	}, [likeIds, suggestion._id]);
-
-	useEffect(() => {
-		if (pinIds.includes(suggestion._id)) {
-			setPinDisplay("Pinned");
-		} else {
-			setPinDisplay("Pin");
-		}
-	}, [pinIds, suggestion._id]);
-
 	const likeClick = async () => {
 		await dispatch(createLike(suggestion, currentUser._id));
 		setLikeDisplay("Liked");
 		setLikeCount(likeCount + 1);
 	};
+
 	const unlikeClick = async () => {
 		await dispatch(deleteLike(suggestion._id, currentUser._id));
 		setLikeDisplay("Like");
@@ -110,6 +89,7 @@ export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
 		setPinDisplay("Pinned");
 		setPinCount(pinCount + 1);
 	};
+
 	const unpinClick = async () => {
 		await dispatch(deletePin(suggestion._id, currentUser._id));
 		setPinDisplay("Pin");

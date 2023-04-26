@@ -8,15 +8,17 @@ import "./Suggestion.css";
 import "./Sidebar.css";
 
 export default function Suggestion() {
+	const dispatch = useDispatch();
+
 	const user = useSelector((state) => state.session.user);
 	const suggestions = useSelector((state) => state.suggestions);
-	const dispatch = useDispatch();
-	// const pinIds = useSelector(getPins(user._id));
 	const pinIds = Object.keys(useSelector((state) => state.pins));
 	const likeIds = Object.keys(useSelector((state) => state.likes));
 
+	const [filter, setFilter] = useState("All Suggestions");
+
 	useEffect(() => {
-		dispatch(fetchPins(user));
+		dispatch(fetchPins(user._id));
 		dispatch(fetchLikes(user._id));
 	}, [dispatch, user]);
 
@@ -38,19 +40,6 @@ export default function Suggestion() {
 		};
 	}, [dispatch]);
 
-	// const categories = [
-	// 	"Transcendence",
-	// 	"Actualization",
-	// 	"Aesthetics",
-	// 	"Cognition",
-	// 	"Esteem",
-	// 	"Love",
-	// 	"Safety",
-	// 	"Physiology",
-	// ];
-
-	const [filter, setFilter] = useState("All Suggestions");
-
 	const buttons = [
 		{ label: "All Suggestions", emoji: "🔎" },
 		{ label: "Transcendence", emoji: "🌌" },
@@ -65,8 +54,9 @@ export default function Suggestion() {
 
 	const filteredSuggestions =
 		filter === "All Suggestions"
-			? Object.values(suggestions)
-					.sort((a, b) => b.likes.length - a.likes.length)
+			? Object.values(suggestions).sort(
+					(a, b) => b.likes.length - a.likes.length
+			)
 			: Object.values(suggestions)
 					.filter((suggestion) => suggestion.categoryTag === filter)
 					.sort((a, b) => b.likes.length - a.likes.length);

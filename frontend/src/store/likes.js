@@ -1,13 +1,13 @@
 import jwtFetch from "./jwt";
 
-export const RECEIVE_LIKES = `likes/RECEIVE_LIKES`;
-export const RECEIVE_LIKE = `likes/RECEIVE_LIKE`;
-export const REMOVE_LIKE = `likes/REMOVE_LIKE`;
+export const RECEIVE_LIKES = "RECEIVE_LIKES";
+export const RECEIVE_LIKE = "RECEIVE_LIKE";
+export const REMOVE_LIKE = "REMOVE_LIKE";
 
-export const receiveLikes = (suggestions) => {
+export const receiveLikes = (likes) => {
 	return {
 		type: RECEIVE_LIKES,
-		suggestions,
+		likes,
 	};
 };
 
@@ -26,31 +26,36 @@ export const removeLike = (suggestionId) => {
 	};
 };
 
+// helper functions
+
 export const getLikes = (userId) => (store) => {
 	return store.users[userId] ? store.users[userId].likes : [];
 };
 
-export const fetchLikes = (userId) => async (dispatch) => {
-	const response = await jwtFetch(`/api/users/${userId}/likes`);
+// thunk action creators
 
-	if (response.ok) {
-		const likes = await response.json();
-		dispatch(receiveLikes(likes));
-	}
+export const fetchLikes = (userId) => async (dispatch) => {
+    const response = await jwtFetch(`/api/user-data/${userId}/likes`);
+    if (response.ok) {
+        const likes = await response.json();
+        dispatch(receiveLikes(likes));
+    }
 };
 
 export const createLike = (suggestion, userId) => async (dispatch) => {
-	const response = await jwtFetch(`/api/suggestions/${suggestion._id}/like`, {
+	const response = await jwtFetch(`/api/likes/${suggestion._id}/like`, {
 		method: "POST",
 	});
 
 	if (response.ok) {
+		console.log("suggestion", suggestion);
+		console.log("userId", userId);
 		dispatch(receiveLike(suggestion, userId));
 	}
 };
 
 export const deleteLike = (suggestionId) => async (dispatch) => {
-	const response = await jwtFetch(`/api/suggestions/${suggestionId}/like`, {
+	const response = await jwtFetch(`/api/likes/${suggestionId}/like`, {
 		method: "DELETE",
 	});
 
@@ -64,22 +69,19 @@ const likesReducer = (oldState = {}, action) => {
 
 	switch (action.type) {
 		case RECEIVE_LIKES:
-			action.suggestions.forEach((sugg) => {
-				newState[sugg._id] = sugg;
+			action.likes.forEach((like) => {
+				newState[like._id] = like;
 			});
 			return newState;
 
 		case RECEIVE_LIKE:
-			// newState[userId] = newState[userId] || { pins: [] };
-			// newState[userId].pins.push(suggestionId);
-
 			const { suggestion } = action;
+			console.log("suggestion", suggestion);
 			newState[suggestion._id] = suggestion;
 			return newState;
 
 		case REMOVE_LIKE:
 			delete newState[action.suggestionId];
-			// delete newState.session.user.pins
 			return newState;
 
 		default:

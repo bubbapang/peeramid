@@ -63,9 +63,6 @@ const createDatasets = (ratings) => {
 
 export const getLineChartData = (ratings) => {
 	const monthsAndAverageRatings = createDatasets(ratings);
-	// console.log("monthsAndRatings", monthsAndRatings)
-	// console.log("monthsAndAverageRatings", monthsAndAverageRatings)
-
 	for (let [need, color] of needsAndColorsArray) {
 		const data = months.map((_, idx) =>
 			monthsAndAverageRatings[idx] ? monthsAndAverageRatings[idx][need] : null

@@ -1,7 +1,5 @@
-// import jwt
 import jwtFetch from "./jwt";
 
-// Constants
 export const RECEIVE_RATINGS = `suggestions/RECEIVE_RATINGS`;
 export const RECEIVE_RATING = `suggestions/RECEIVE_RATING`;
 export const REMOVE_RATING = `suggestions/REMOVE_RATING`;
@@ -27,6 +25,8 @@ export const removeRating = (ratingId) => {
 	};
 };
 
+// helper functions
+
 export const getRatings = (store) => {
 	return store.ratings ? Object.values(store.ratings) : [];
 };
@@ -34,6 +34,8 @@ export const getRatings = (store) => {
 export const getRating = (ratingId) => (store) => {
 	return store.ratings ? store.ratings[ratingId] : null;
 };
+
+// thunk action creators
 
 export const fetchPublicRatings = () => async (dispatch) => {
 	const response = await jwtFetch(`/api/ratings/public`);
@@ -54,7 +56,7 @@ export const fetchFollowingRatings = () => async (dispatch) => {
 };
 
 export const fetchUserRatings = (userId) => async (dispatch) => {
-	const response = await jwtFetch(`/api/users/${userId}/ratings`);
+	const response = await jwtFetch(`/api/user-data/${userId}/ratings`);
 
 	if (response.ok) {
 		const ratings = await response.json();
@@ -126,4 +128,5 @@ const ratingsReducer = (oldState = initialState, action) => {
 			return oldState;
 	}
 };
+
 export default ratingsReducer;

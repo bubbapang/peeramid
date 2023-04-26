@@ -1,5 +1,5 @@
 // import react dependencies
-import {React, useEffect} from "react";
+import { React, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,7 @@ import PinItem from "./PinItem";
 import "./Pin.css";
 
 // pin component
-export default function Pin({finalUser}) {
+export default function Pin({ finalUser, sessionUser }) {
 	// set up dispatch
 	const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ export default function Pin({finalUser}) {
 
 	useEffect(() => {
 		if (user && user._id) {
-			dispatch(fetchPins(user));
+			dispatch(fetchPins(user._id));
 			dispatch(fetchLikes(user._id));
 		}
 	}, [dispatch, user]);
