@@ -48,8 +48,6 @@ export const createLike = (suggestion, userId) => async (dispatch) => {
 	});
 
 	if (response.ok) {
-		console.log("suggestion", suggestion);
-		console.log("userId", userId);
 		dispatch(receiveLike(suggestion, userId));
 	}
 };
@@ -76,7 +74,6 @@ const likesReducer = (oldState = {}, action) => {
 
 		case RECEIVE_LIKE:
 			const { suggestion } = action;
-			console.log("suggestion", suggestion);
 			newState[suggestion._id] = suggestion;
 			return newState;
 

@@ -1,22 +1,16 @@
-// import react stuff
 import { React, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-// import store stuff
 import { searchUsers, clearTargetUser } from "../../store/session";
 import { logout } from "../../store/session";
 
-// components
 import SearchBar from "./SearchBar";
 import AboutUs from "../AboutUs";
 
-// css
 import "./Navigation.css";
 
-// start of nav component
 export default function Navigation() {
-
 	// init dispatch and history
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -54,10 +48,7 @@ export default function Navigation() {
 
 	// handle logout
 	const handleLogout = (e) => {
-		// prevent default
 		e.preventDefault();
-
-		// logout
 		dispatch(logout());
 
 		// send back to '/'
