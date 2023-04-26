@@ -6,29 +6,39 @@ import { createPin, deletePin, deleteTargetUserPin } from "../../store/pins";
 import { getCurrentUser } from "../../store/session";
 import "./PinItem.css";
 
-export default function PinItem({ suggestion, likes, sessionUserPins, isProfileSelf }) {
+export default function PinItem({
+	suggestion,
+	likes,
+	sessionUserPins,
+	isProfileSelf,
+}) {
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.session.user);
 	const [likeCount, setLikeCount] = useState(suggestion.likes.length);
 	const [pinDisplay, setPinDisplay] = useState("Unpin");
-	// const [pinCount, setPinCount] = useState(suggestion.pins.length);
-
 	const [likeDisplay, setLikeDisplay] = useState(
 		likes[suggestion._id] ? "Liked" : "Like"
 	);
 
 	useEffect(() => {
 		setLikeDisplay(likes[suggestion._id] ? "Liked" : "Like");
-		// setLikeCount(suggestion.likes.length)
 	}, [likes, suggestion._id]);
 
 	useEffect(() => {
 		if (!isProfileSelf) {
-			setPinDisplay(sessionUserPins.includes(suggestion._id) ? "Pinned" : "Pin")
+			setPinDisplay(
+				sessionUserPins.includes(suggestion._id) ? "Pinned" : "Pin"
+			);
 		} else {
-			setPinDisplay("Unpin")
+			setPinDisplay("Unpin");
 		}
-	})
+	}, [sessionUserPins, suggestion._id, isProfileSelf]);
+
+	useEffect(() => {
+		setLikeCount(suggestion.likes.length);
+	}, [suggestion.likes.length]);
+
+	// like and unlike functions
 
 	const likeClick = async () => {
 		await dispatch(createLike(suggestion, currentUser._id));
@@ -42,30 +52,27 @@ export default function PinItem({ suggestion, likes, sessionUserPins, isProfileS
 		setLikeCount(likeCount - 1);
 	};
 
-	const unpinCurrentUserClick = async () => {
-		await dispatch(deletePin(suggestion._id));
-	};
+	// create and delete pins. backend / actual
+	// receive and remove pins. frontend / visual
+
+	// pin and unpin functions
 
 	const pinClick = async () => {
 		await dispatch(createPin(suggestion, currentUser._id));
 		setPinDisplay("Pinned");
 		dispatch(getCurrentUser());
-		// setPinCount(pinCount + 1);
 	};
+
+	const unpinCurrentUserClick = async () => {
+		console.log("UNPIN")
+		await dispatch(deletePin(suggestion._id));
+	};
+
 	const unpinTargetUserClick = async () => {
 		await dispatch(deleteTargetUserPin(suggestion._id, currentUser._id));
 		setPinDisplay("Pin");
 		dispatch(getCurrentUser());
-		// setPinCount(pinCount - 1);
 	};
-
-	// useEffect(() => {
-	// 	dispatch(getCurrentUser());
-	// }, [dispatch, pinClick])
-
-	useEffect(() => {
-		setLikeCount(suggestion.likes.length);
-	}, [suggestion.likes.length]);
 
 	const handleClick = () => {
 		if (isProfileSelf) {
@@ -73,7 +80,7 @@ export default function PinItem({ suggestion, likes, sessionUserPins, isProfileS
 		} else {
 			pinDisplay === "Pin" ? pinClick() : unpinTargetUserClick();
 		}
-	}
+	};
 
 	return (
 		<div className="pin-item">

@@ -1,8 +1,6 @@
-// Constants
 const RECEIVE_SESSION_ERRORS = "session/RECEIVE_SESSION_ERRORS";
 const CLEAR_SESSION_ERRORS = "session/CLEAR_SESSION_ERRORS";
 
-// Action creators
 export const receiveErrors = (errors) => ({
 	type: RECEIVE_SESSION_ERRORS,
 	errors,
@@ -12,7 +10,6 @@ export const clearSessionErrors = () => ({
 	type: CLEAR_SESSION_ERRORS,
 });
 
-// Reducer
 const nullErrors = null;
 const sessionErrorsReducer = (state = nullErrors, action) => {
 	switch (action.type) {

@@ -11,9 +11,7 @@ import {
 	getRadarChartOptions,
 } from "./chartData";
 
-// import store stuff
 import { fetchUserRatings, getRatings } from "../../store/ratings";
-import { createFollow, deleteFollow } from "../../store/follows";
 
 // import the top and bottom components
 import Top from "./top";
@@ -21,7 +19,9 @@ import Bottom from "./bottom";
 
 // css
 import "./Profile.css";
-import { getCurrentUser, getTargetUser } from "../../store/session";
+// import { is } from "date-fns/locale";
+// import { isPast } from "date-fns";
+// import { getCurrentUser, getTargetUser } from "../../store/session";
 
 // start of Profile component
 export default function Profile() {
@@ -31,31 +31,32 @@ export default function Profile() {
 	const [lineOptions, setLineOptions] = useState({});
 	const [radarOptions, setRadarOptions] = useState({});
 
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	// set up dispatch
 	const dispatch = useDispatch();
 
-	// get the target user id from the url
-	// const targetUserId = useParams().userId;
-
 	// get current user and ratings from the store
-	const user = useSelector((state) => state.session.user);
+	const sessionUser = useSelector((state) => state.session.user);
 	const targetUser = useSelector((state) => state.session.targetUser);
 
 	// final user
-	const finalUser = targetUser ? targetUser : user;
+	const finalUser = targetUser ? targetUser : sessionUser;
+
+	// is the profile self?
+	const isProfileSelf = sessionUser._id === finalUser._id;
 
 	// get the pertinent ratings from the store, be it the current user's or the target user's
 	const ratings = useSelector(getRatings);
 
-	// fetch target user ratings or current user ratings
-	// Fetch user ratings
-	// Fetch user ratings
 	useEffect(() => {
-		// why am I trying to fetch for the target user from the backend?
-		// dispatch();
-		dispatch(fetchUserRatings(finalUser._id));
+		setIsLoading(true);
+		async function fetchData() {
+			// await dispatch(getCurrentUser()); // Fetch current user
+			// await dispatch(getTargetUser(targetUserId)); // Fetch target user
+			await dispatch(fetchUserRatings(finalUser._id)); // Fetch user ratings
+		}
+		fetchData().then(() => setIsLoading(false));
 	}, [dispatch, finalUser]);
 
 	// Update chart data and options
@@ -69,9 +70,6 @@ export default function Profile() {
 		const radarChartData = getRadarChartData(ratings);
 		const lineChartOptions = getLineChartOptions();
 		const radarChartOptions = getRadarChartOptions();
-
-		// console.log("lineChartData", lineChartData);
-		console.log("radarChartData", radarChartData);
 
 		setLineData(lineChartData);
 		setRadarData(radarChartData);
@@ -87,7 +85,7 @@ export default function Profile() {
 	// init the top and bottom functions.
 	// extract these to their own components at a later point, as this file is getting too big: 400+ lines
 
-	if (isLoading) {
+	if (isLoading || !finalUser) {
 		return <div>Loading...</div>;
 	}
 
@@ -95,23 +93,21 @@ export default function Profile() {
 	return (
 		<div className="profile-page">
 			{Top({
-				user,
+				sessionUser,
 				targetUser,
 				finalUser,
 				sortedRatings,
-				followUser: createFollow,
-				unfollowUser: deleteFollow,
-				// Add any other necessary properties and functions for the top function
 			})}
-			{Bottom({
-				finalUser,
-				radarData,
-				radarOptions,
-				lineData,
-				lineOptions,
-				sortedRatings,
-				// Add any other necessary properties and functions for the bottom function
-			})}
+			<Bottom
+				finalUser={finalUser}
+				radarData={radarData}
+				radarOptions={radarOptions}
+				lineData={lineData}
+				lineOptions={lineOptions}
+				sortedRatings={sortedRatings}
+				isProfileSelf={isProfileSelf}
+				sessionUser={sessionUser}
+			/>
 		</div>
 	);
 }

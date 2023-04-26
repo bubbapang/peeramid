@@ -4,38 +4,34 @@ export const RECEIVE_PINS = `pins/RECEIVE_PINS`;
 export const RECEIVE_PIN = `pins/RECEIVE_PIN`;
 export const REMOVE_PIN = `pins/REMOVE_PIN`;
 
-export const receivePins = (suggestions) => {
-	return {
-		type: RECEIVE_PINS,
-		suggestions,
-	};
-};
+export const receivePins = (suggestions) => ({
+	type: RECEIVE_PINS,
+	suggestions,
+});
 
-export const receivePin = (suggestion, userId) => {
-	return {
-		type: RECEIVE_PIN,
-		suggestion,
-		userId,
-	};
-};
+export const receivePin = (suggestion, userId) => ({
+	type: RECEIVE_PIN,
+	suggestion,
+	userId,
+});
 
-export const removePin = (suggestionId) => {
-	return {
-		type: REMOVE_PIN,
-		suggestionId,
-	};
-};
+export const removePin = (suggestionId) => ({
+	type: REMOVE_PIN,
+	suggestionId,
+});
 
-export const getUserPins = (userId) => (store) => {
-	return store.session.user ? store.session.user.pins : [];
-};
+// helper functions
 
-export const getTargetPins = (store) => {
-	return store.session.targetUser ? store.session.targetUser.pins : [];
-}
+export const getUserPins = () => (store) =>
+	store.session.user ? store.session.user.pins : [];
 
-export const fetchPins = (user) => async (dispatch) => {
-	const response = await jwtFetch(`/api/users/${user._id}/pins`);
+export const getTargetPins = (store) =>
+	store.session.targetUser ? store.session.targetUser.pins : [];
+
+// thunk action creators
+
+export const fetchPins = (userId) => async (dispatch) => {
+	const response = await jwtFetch(`/api/user-data/${userId}/pins`);
 
 	if (response.ok) {
 		const pins = await response.json();
@@ -46,13 +42,10 @@ export const fetchPins = (user) => async (dispatch) => {
 export const createPin = (suggestion, userId) => async (dispatch) => {
 	const response = await jwtFetch(`/api/suggestions/${suggestion._id}/pin`, {
 		method: "POST",
-		// headers: {"Content-type": "application/json"},
-		// body: JSON.stringify(suggestionId)
 	});
+
 	if (response.ok) {
-		// const userId = useSelector(state => state.session.user._id);
 		dispatch(receivePin(suggestion, userId));
-		// dispatch(addUserPin(suggestionId, userId));
 	}
 };
 
@@ -67,11 +60,26 @@ export const deletePin = (suggestionId) => async (dispatch) => {
 };
 
 export const deleteTargetUserPin = (suggestionId) => async (dispatch) => {
-	await jwtFetch(`/api/suggestions/${suggestionId}/pin`, {
-		method: "DELETE",
-	});
-
+	// const response = await jwtFetch(`/api/suggestions/${suggestionId}/pin`, {
+	// 	method: "DELETE",
+	// });
 };
+
+// const initialState = {};
+// const pinsReducer = (state = initialState, action = {}) => {
+// 	switch (action.type) {
+// 		case RECEIVE_PINS:
+// 			return action.pins;
+// 		case RECEIVE_PIN:
+// 			return { ...state, [action.pin._id]: action.pin };
+// 		case REMOVE_PIN:
+// 			const newState = { ...state };
+// 			delete newState[action.pinId];
+// 			return newState;
+// 		default:
+// 			return state;
+// 	}
+// };
 
 const pinsReducer = (oldState = {}, action) => {
 	let newState = { ...oldState };

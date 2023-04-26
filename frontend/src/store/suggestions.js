@@ -1,7 +1,5 @@
-// import jwt
 import jwtFetch from "./jwt";
 
-// export constants
 const RECEIVE_SUGGESTIONS = `suggestions/RECEIVE_SUGGESTIONS`;
 const RECEIVE_SUGGESTION = `suggestions/RECEIVE_SUGGESTION`;
 const REMOVE_SUGGESTION = `suggestions/REMOVE_SUGGESTION`;
@@ -27,6 +25,8 @@ export const removeSuggestion = (suggestionId) => {
 	};
 };
 
+// helper functions
+
 export const getAllSuggestions = (store) => {
 	return store.suggestions ? Object.values(store.suggestions) : [];
 };
@@ -35,17 +35,10 @@ export const getSuggestion = (suggestionId) => (store) => {
 	return store.suggestions ? store.suggestions[suggestionId] : null;
 };
 
-export const fetchRatingSuggestions = (ratingId) => async (dispatch) => {
-	const response = await jwtFetch(`/api/reviews/${ratingId}/suggestions`);
-
-	if (response.ok) {
-		const suggestions = await response.json();
-		dispatch(receiveSuggestions(suggestions));
-	}
-};
+// thunk action creators
 
 export const fetchUserSuggestions = (userId) => async (dispatch) => {
-	const response = await jwtFetch(`/api/users/${userId}/suggestions`);
+	const response = await jwtFetch(`/api/user-data/${userId}/suggestions`);
 
 	if (response.ok) {
 		const suggestions = await response.json();

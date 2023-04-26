@@ -1,68 +1,67 @@
 :root {
-    --secondary-color: #346596;
-    --text-color: #ffffff;
-    --button-color: #c5e0d6;
-    /* --button-color: #4d908e; */
-    --button-hover-color: #dba7d8;
-    --transition-duration: 0.3s;
+	--secondary-color: #346596;
+	--text-color: #ffffff;
+	--button-color: #c5e0d6;
+	--button-hover-color: #dba7d8;
+	--transition-duration: 0.3s;
 }
 
 .pin-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: var(--secondary-color);
-    color: var(--text-color);
-    width: 80%;
-    height: 100px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all var(--transition-duration);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	padding: 10px;
+	border-radius: 10px;
+	background-color: var(--secondary-color);
+	color: var(--text-color);
+	width: 80%;
+	height: 100px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all var(--transition-duration);
 }
 
 .pin-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+	transform: translateY(-5px);
+	box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
 }
 
 .buttons-part {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
 }
 
 button {
-    background-color: var(--button-color);
-    color: #4d908e;
-    border: none;
-    padding: 6px 12px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all var(--transition-duration);
+	background-color: var(--button-color);
+	color: #4d908e;
+	border: none;
+	padding: 6px 12px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: all var(--transition-duration);
 }
 
 button:hover {
-    background-color: var(--button-hover-color);
+	background-color: var(--button-hover-color);
 }
 
 button:focus {
-    outline: none;
+	outline: none;
 }
 
 .profile-part {
-    width: 30px;
-    height: 30px;
+	width: 30px;
+	height: 30px;
 }
 
 .profile-part .fas {
-    font-size: 30px; /* Adjust the size by changing this value */
+	font-size: 30px;
 }
 
 .category-tag {
-    font-size: 25px;
+	font-size: 25px;
 }
