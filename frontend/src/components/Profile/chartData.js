@@ -28,10 +28,16 @@ const needsAndColorsArray = Object.entries(needsAndColors);
 const needs = Object.keys(needsAndColors);
 
 const datasets = [];
-const monthsAndRatings = {};
-const monthsAndAverageRatings = {};
+let monthsAndRatings = {};
+let monthsAndAverageRatings = {};
 
+// Helper function
+// takes in an array of ratings and returns an object with keys of months and values of arrays of ratings
 const createDatasets = (ratings) => {
+	datasets.length = 0;
+	monthsAndRatings = {};
+	monthsAndAverageRatings = {};
+
 	ratings.forEach((rating) => {
 		const currentYear = new Date().getFullYear();
 		const ratingTimestamp = Date.parse(rating.createdAt);
@@ -53,9 +59,10 @@ const createDatasets = (ratings) => {
 				sum += rating[need];
 			});
 			const average = sum / ratingsArray.length;
-			monthsAndAverageRatings[month] = monthsAndAverageRatings[month] || {};
+			monthsAndAverageRatings[month] =
+				monthsAndAverageRatings[month] || {};
 			monthsAndAverageRatings[month][needs[idx]] = average;
-		}	
+		}
 	});
 
 	return monthsAndAverageRatings;
@@ -63,10 +70,13 @@ const createDatasets = (ratings) => {
 
 export const getLineChartData = (ratings) => {
 	const monthsAndAverageRatings = createDatasets(ratings);
+
 	for (let [need, color] of needsAndColorsArray) {
-		const data = months.map((_, idx) =>
-			monthsAndAverageRatings[idx] ? monthsAndAverageRatings[idx][need] : null
-		);
+		const data = months.map((_, idx) => {
+			return monthsAndAverageRatings[idx]
+				? monthsAndAverageRatings[idx][need]
+				: null;
+		});
 
 		datasets.push({
 			label: need,
@@ -75,7 +85,7 @@ export const getLineChartData = (ratings) => {
 			fill: false,
 			tension: 0.1,
 		});
-	}	
+	}
 
 	const lineChartData = {
 		labels: [...months],

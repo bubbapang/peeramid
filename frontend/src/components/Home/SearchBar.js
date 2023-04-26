@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 // import session actions
-import { setTargetUser, searchUsers } from "../../store/session";
+import { receiveTargetUser, searchUsers } from "../../store/session";
 
 // css
 import "./SearchBar.css";
@@ -55,7 +55,7 @@ export default function SearchBar({ onSearch }) {
 		setSearchTerm("");
 		onSearch(user.firstName + " " + user.lastName);
 		setIsDropdownVisible(false);
-		dispatch(setTargetUser(user)); // Dispatch the setTargetUser action
+		dispatch(receiveTargetUser(user)); // Dispatch the receiveTargetUser action
 		history.push(`/profile/${user._id}`);
 	};
 

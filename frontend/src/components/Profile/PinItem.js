@@ -13,7 +13,9 @@ export default function PinItem({
 	isProfileSelf,
 }) {
 	const dispatch = useDispatch();
+
 	const currentUser = useSelector((state) => state.session.user);
+
 	const [likeCount, setLikeCount] = useState(suggestion.likes.length);
 	const [pinDisplay, setPinDisplay] = useState("Unpin");
 	const [likeDisplay, setLikeDisplay] = useState(
@@ -64,7 +66,6 @@ export default function PinItem({
 	};
 
 	const unpinCurrentUserClick = async () => {
-		console.log("UNPIN")
 		await dispatch(deletePin(suggestion._id));
 	};
 
