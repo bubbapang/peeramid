@@ -35,11 +35,11 @@ const ratingSchema = new Schema(
 			type: Number,
 			required: true,
 		},
-		highlights: {
+		highlight: {
 			type: String,
 			optional: true,
 		},
-		lowlights: {
+		lowlight: {
 			type: String,
 			optional: true,
 		},
