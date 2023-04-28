@@ -15,6 +15,9 @@ export default function SuggestionBox({ user, filter }) {
 
 	useEffect(() => {
 		dispatch(fetchAllPublicSuggestions());
+	}, [dispatch]);
+
+	useEffect(() => {
 		dispatch(fetchPins(user._id));
 		dispatch(fetchLikes(user._id));
 	}, [dispatch, user]);
@@ -36,6 +39,7 @@ export default function SuggestionBox({ user, filter }) {
 					suggestion={suggestion}
 					pins={pins}
 					likes={likes}
+					suggestions={suggestions}
 				/>
 			))}
 		</div>
