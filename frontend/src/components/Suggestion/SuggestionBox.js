@@ -22,10 +22,6 @@ export default function SuggestionBox({ user, filter }) {
 		dispatch(fetchLikes(user._id));
 	}, [dispatch, user]);
 
-	// useEffect(() => {
-	// 	console.log(suggestions)
-	// }, [suggestions])
-
 	const filteredSuggestions =
 		filter === "All Suggestions"
 			? Object.values(suggestions).sort(
