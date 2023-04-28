@@ -21,6 +21,7 @@ export function FormDrawer({
 			await dispatch(createSuggestion(newSuggestion, rating._id));
 			const suggestionCreatedEvent = new CustomEvent("suggestionCreated");
 			window.dispatchEvent(suggestionCreatedEvent);
+			setSuggestionBody("");
 
 			onSuccess();
 
