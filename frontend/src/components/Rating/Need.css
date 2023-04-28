@@ -22,7 +22,7 @@
 	transition: opacity 0.3s ease;
 }
 
-.need .middle {
+.need .mid {
 	position: absolute;
 	left: 50%;
 	transform: translateX(-50%);

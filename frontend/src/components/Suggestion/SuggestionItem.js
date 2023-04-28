@@ -6,34 +6,33 @@ import { updateSuggestion } from "../../store/suggestions";
 import { deleteSuggestion } from "../../store/suggestions";
 import "./SuggestionItem.css";
 
-export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
+export default function SuggestionItem({ suggestion, pins, likes }) {
 	const dispatch = useDispatch();
-
 	const currentUser = useSelector((state) => state.session.user);
-
 	const [editMode, setEditMode] = useState(false);
 	const [showSuccessBanner, setShowSuccessBanner] = useState(false);
-	const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] = useState(false);
+	const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] =
+		useState(false);
 	const [likeDisplay, setLikeDisplay] = useState("Like");
 	const [pinDisplay, setPinDisplay] = useState("Pin");
 	const [likeCount, setLikeCount] = useState(suggestion.likes.length);
 	const [pinCount, setPinCount] = useState(suggestion.pins.length);
 
 	useEffect(() => {
-		if (likeIds.includes(suggestion._id)) {
+		if (likes.includes(suggestion._id)) {
 			setLikeDisplay("Liked");
 		} else {
 			setLikeDisplay("Like");
 		}
-	}, [likeIds, suggestion._id]);
+	}, [likes, suggestion._id]);
 
 	useEffect(() => {
-		if (pinIds.includes(suggestion._id)) {
+		if (pins.includes(suggestion._id)) {
 			setPinDisplay("Pinned");
 		} else {
 			setPinDisplay("Pin");
 		}
-	}, [pinIds, suggestion._id]);
+	}, [pins, suggestion._id]);
 
 	const displayDeleteSuccessBanner = () => {
 		setShowDeleteSuccessBanner(true);
@@ -67,7 +66,7 @@ export default function SuggestionItem({ suggestion, pinIds, likeIds }) {
 			categoryTag: suggestion.categoryTag,
 		};
 		dispatch(updateSuggestion(newSuggestion));
-		suggestion.body = newSuggestion.body;
+
 		toggleEditMode();
 		displaySuccessBanner();
 	};

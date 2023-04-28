@@ -7,10 +7,9 @@ export default function Need({
 	color,
 	width,
 	onRatingChange,
-	onNeedHover,
+	// onNeedHover,
 	onNeedLeave,
 }) {
-
 	const buttonColors = [
 		"#b76935",
 		"#a56336",
@@ -35,11 +34,11 @@ export default function Need({
 		e.preventDefault();
 		const buttonNumber = e.target.innerText;
 		setRating(buttonNumber);
-		onRatingChange(name, buttonNumber); // Call the function passed from the parent
+		onRatingChange(name, buttonNumber);
 	};
 
 	const handleMouseEnter = (e) => {
-		onNeedHover(name);
+		// onNeedHover(name);
 	};
 
 	return (
@@ -53,7 +52,7 @@ export default function Need({
 				style={{ backgroundColor: color, width: `${width}px` }}
 			>
 				<h1>{rating}</h1>
-				<h1 className="middle">{name}</h1>
+				<h1 className="mid">{name}</h1>
 			</div>
 			<div className="buttons">
 				{reversedButtonColors.map((buttonColor, idx) => {

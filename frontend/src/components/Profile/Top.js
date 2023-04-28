@@ -1,29 +1,24 @@
+import React from "react";
+import "./Top.css";
+
 export default function Top({
 	user,
-	targetUser,
 	finalUser,
-	unfollowUser,
-	followUser,
-	sortedRatings,
+	ratingsLength,
 }) {
 	const renderFollowButton = () => {
-		if (!user || !targetUser) {
-			// Don't render the button if either user object is undefined or null.
-			return null;
-		}
-		// if the user searched for someone else, show the follow/unfollow button
 		if (user._id !== finalUser._id) {
 			return user.following.includes(finalUser._id) ? (
 				<button
 					className="unfollow-button"
-					onClick={() => unfollowUser(finalUser._id)}
+					// onClick={() => unfollowUser(finalUser._id)}
 				>
 					Unfollow
 				</button>
 			) : (
 				<button
 					className="follow-button"
-					onClick={() => followUser(finalUser._id)}
+					// onClick={() => followUser(finalUser._id)}
 				>
 					Follow
 				</button>
@@ -42,7 +37,7 @@ export default function Top({
 				<div className="stats-layer">
 					<div className="stat-item">
 						<span className="stat-value">
-							{sortedRatings.length}
+							{ratingsLength || 0}
 						</span>
 						<span className="stat-label">Ratings</span>
 					</div>
