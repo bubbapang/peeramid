@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { searchUsers, clearTargetUser } from "../../store/session";
 import { logout } from "../../store/session";
 import SearchBar from "./SearchBar";
@@ -11,6 +12,8 @@ export default function Navigation() {
 	const dispatch = useDispatch();
 	const ratedToday = useSelector((state) => state.session.ratedToday);
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const history = useHistory();
+
 
 	useEffect(() => {
 		if (isModalOpen) {
@@ -33,9 +36,10 @@ export default function Navigation() {
 		}
 	};
 
-	const handleLogout = (e) => {
+	const handleLogout = async (e) => {
 		e.preventDefault();
-		dispatch(logout());
+		await (dispatch(logout()));
+		history.push('/');
 	};
 
 	const handleSearch = (searchTerm) => {

@@ -5,12 +5,10 @@ import { login } from "../../store/session";
 import "./Welcome.css";
 
 export default function Welcome() {
+	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
-	const dispatch = useDispatch();
 	const history = useHistory();
-
 	const currentUser = useSelector((state) => state.session.user);
 	const errors = useSelector((state) => state.errors);
 
@@ -18,6 +16,11 @@ export default function Welcome() {
 	if (errors) {
 		objectErrors = Object.values(errors);
 	}
+
+	// for testing purposes
+	useEffect (() => {
+		console.log("errors", errors)
+	}, [errors])
 
 	const handleDemo = (e) => {
 		e.preventDefault();
@@ -36,7 +39,12 @@ export default function Welcome() {
 			password,
 		};
 
-		dispatch(login(userCredentials));
+		console.log("credentials submitted")
+		await dispatch(login(userCredentials))
+			// .catch(async (res) => {
+			// 	const data = await res;
+			// 	console.log("TEST", data)
+			// });
 	};
 
 	useEffect(() => {

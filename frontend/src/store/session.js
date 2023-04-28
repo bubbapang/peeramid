@@ -26,24 +26,6 @@ export const receiveTargetUser = (targetUser) => ({
 	targetUser,
 });
 
-// helper method for signup and login
-const startSession = (userInfo, route) => async (dispatch) => {
-	try {
-		const res = await jwtFetch(route, {
-			method: "POST",
-			body: JSON.stringify(userInfo),
-		});
-		const { user, token } = await res.json();
-		localStorage.setItem("jwtToken", token);
-		return dispatch(receiveCurrentUser(user));
-	} catch (err) {
-		const res = await err.json();
-		if (res.statusCode === 400) {
-			return dispatch(receiveErrors(res.errors));
-		}
-	}
-};
-
 // Action creators, "public"
 
 // frontend, exported actions
@@ -70,9 +52,36 @@ export const addUserPin = (suggestionId, userId) => {
 	};
 };
 
+// helper method for signup and login
+const startSession = (userInfo, route) => async (dispatch) => {
+	console.log("starting session", userInfo, route);
+	try {
+		console.log("try block")
+		const res = await jwtFetch(route, {
+			method: "POST",
+			body: JSON.stringify(userInfo),
+		});
+
+		if (res.ok) {
+			console.log("res.ok");
+			const { user, token } = await res.json();
+			localStorage.setItem("jwtToken", token);
+			return dispatch(receiveCurrentUser(user));
+		}
+	} catch (err) {
+		console.log("catch block", err)
+		const errorResponse = err;
+		// const errorResponse = await err.clone();
+		console.log("errorResponse", errorResponse.errors);
+		return dispatch(receiveErrors(errorResponse.errors));
+	}
+};
+
 // exported session actions based on api path
-export const signup = (user) => startSession(user, "/api/user-authentication/register");
-export const login = (user) => startSession(user, "/api/user-authentication/login");
+export const signup = (user) =>
+	startSession(user, "/api/user-authentication/register");
+export const login = (user) =>
+	startSession(user, "/api/user-authentication/login");
 
 export const logout = () => (dispatch) => {
 	localStorage.removeItem("jwtToken");
@@ -107,6 +116,7 @@ const initialState = {
 	user: undefined,
 	targetUser: undefined,
 	searchResults: [],
+	errors: [],
 };
 
 function sessionReducer(state = initialState, action) {
@@ -117,15 +127,20 @@ function sessionReducer(state = initialState, action) {
 			return { ...state, targetUser: action.targetUser };
 		case CLEAR_TARGET_USER:
 			return { ...state, targetUser: undefined };
+
 		case RECEIVE_USER_LOGOUT:
 			return initialState;
+
 		case RECEIVE_SEARCH_RESULTS:
 			return { ...state, searchResults: action.searchResults };
+
 		case SET_RATED_TODAY:
 			return { ...state, ratedToday: action.ratedToday };
+
 		case ADD_USER_PIN:
 			state[action.userId].pins.push(action.suggestionId);
 			return state;
+
 		default:
 			return state;
 	}
