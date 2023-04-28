@@ -116,7 +116,7 @@ export default function FeedItem({ rating, idx }) {
 					<i id="profile-picture" className="fas fa-user-circle" />
 					<canvas className="chart" id={`chart-${idx}`} />
 				</div>
-				{currentUser._id === rating.user._id && (
+				{currentUser && currentUser._id === rating.user._id && (
 					<button
 						className="delete-rating-button"
 						onClick={handleDeleteRating}

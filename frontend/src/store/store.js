@@ -10,8 +10,10 @@ import pins from "./pins";
 const rootReducer = combineReducers({
 	session,
 	sessionErrors,
+
 	ratings,
 	suggestions,
+
 	pins,
 	likes,
 });
