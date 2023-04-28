@@ -9,7 +9,7 @@ import "./PinItem.css";
 export default function PinItem({
 	suggestion,
 	likes,
-	sessionUserPins,
+	userPins,
 	isProfileSelf,
 }) {
 	const dispatch = useDispatch();
@@ -29,12 +29,12 @@ export default function PinItem({
 	useEffect(() => {
 		if (!isProfileSelf) {
 			setPinDisplay(
-				sessionUserPins.includes(suggestion._id) ? "Pinned" : "Pin"
+				userPins.includes(suggestion._id) ? "Pinned" : "Pin"
 			);
 		} else {
 			setPinDisplay("Unpin");
 		}
-	}, [sessionUserPins, suggestion._id, isProfileSelf]);
+	}, [userPins, suggestion._id, isProfileSelf]);
 
 	useEffect(() => {
 		setLikeCount(suggestion.likes.length);

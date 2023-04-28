@@ -78,7 +78,7 @@ export const createSuggestion = (suggestion, ratingId) => async (dispatch) => {
 };
 
 export const updateSuggestion = (suggestion) => async (dispatch) => {
-	const response = await jwtFetch(`/api/suggestions/${suggestion.id}`, {
+	const response = await jwtFetch(`/api/suggestions/${suggestion._id}`, {
 		method: "PUT",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(suggestion),
@@ -86,6 +86,7 @@ export const updateSuggestion = (suggestion) => async (dispatch) => {
 
 	if (response.ok) {
 		const newSuggestion = await response.json();
+		console.log(newSuggestion)
 		dispatch(receiveSuggestion(newSuggestion));
 	}
 };
@@ -108,7 +109,8 @@ const suggestionsReducer = (oldState = initialState, action) => {
 		case RECEIVE_SUGGESTIONS:
 			return action.suggestions;
 		case RECEIVE_SUGGESTION:
-			nextState[action.suggestion.id] = action.suggestion;
+			console.log(action.suggestion)
+			nextState[action.suggestion._id] = action.suggestion;
 			return nextState;
 		case REMOVE_SUGGESTION:
 			const suggestionId = action.suggestionId;

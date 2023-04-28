@@ -1,0 +1,15 @@
+.need-list {
+	width: 1400px;
+	height: 900px;
+	border-radius: 30px;
+	font-size: 2rem;
+	font-family: "Monaco", "Courier New", monospace;
+	font-weight: bold;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0px;
+	overflow-y: hidden;
+}

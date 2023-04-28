@@ -1,28 +1,23 @@
 import { React, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import { fetchPins } from "../../store/pins";
 import { fetchLikes } from "../../store/likes";
-
 import PinItem from "./PinItem";
+import "./PinBox.css";
 
-import "./Pin.css";
-
-export default function Pin({ finalUser, sessionUser }) {
+export default function PinBox({ finalUser, user }) {
 	const dispatch = useDispatch();
-
-	const user = finalUser;
 
 	const pins = useSelector((state) => state.pins);
 	const likes = useSelector((state) => state.likes);
 
 	useEffect(() => {
-		if (user && user._id) {
-			dispatch(fetchPins(user._id));
-			dispatch(fetchLikes(user._id));
+		if (finalUser && finalUser._id) {
+			dispatch(fetchPins(finalUser._id));
+			dispatch(fetchLikes(finalUser._id));
 		}
-	}, [dispatch, user]);
+	}, [dispatch, finalUser]);
 
 	if (pins) {
 		if (Object.values(pins).length > 0) {
@@ -33,8 +28,8 @@ export default function Pin({ finalUser, sessionUser }) {
 							key={idx}
 							suggestion={object}
 							likes={likes}
-							sessionUserPins={sessionUser.pins}
-							isProfileSelf={user._id === sessionUser._id}
+							userPins={user.pins}
+							isProfileSelf={finalUser._id === user._id}
 						/>
 					))}
 				</div>

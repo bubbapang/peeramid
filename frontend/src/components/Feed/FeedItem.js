@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteRating } from "../../store/ratings";
 import { format } from "date-fns";
 import Chart from "chart.js/auto";
-import "./FeedItem.css";
 import { FormDrawer } from "./FormDrawer";
+import "./FeedItem.css";
 
 export default function FeedItem({ rating, idx }) {
 	// const [showFormDrawer, setShowFormDrawer] = useState(true);
@@ -246,7 +246,7 @@ export default function FeedItem({ rating, idx }) {
 					className="highlight"
 					// onClick={() => toggleFormDrawer('highlight')}
 				>
-					{rating.highlights ? (
+					{rating.highlight ? (
 						<>
 							<h2>
 								<span id="username">
@@ -256,7 +256,7 @@ export default function FeedItem({ rating, idx }) {
 								highlight today was:
 							</h2>
 							<br></br>
-							<p> {rating.highlights} </p>
+							<p> {rating.highlight} </p>
 						</>
 					) : (
 						<h2>
@@ -271,7 +271,7 @@ export default function FeedItem({ rating, idx }) {
 					className="lowlight"
 					// onClick={() => toggleFormDrawer('lowlight')}
 				>
-					{rating.lowlights ? (
+					{rating.lowlight ? (
 						<>
 							<h3>
 								{" "}
@@ -282,7 +282,7 @@ export default function FeedItem({ rating, idx }) {
 								lowlight today was:
 							</h3>
 							<br></br>
-							{rating.lowlights}
+							{rating.lowlight}
 						</>
 					) : (
 						<h3>

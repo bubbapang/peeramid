@@ -1,26 +1,14 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAllPublicSuggestions } from "../../store/suggestions";
-import { fetchPins } from "../../store/pins";
-import { fetchLikes } from "../../store/likes";
-import SuggestionItem from "./SuggestionItem";
+import SuggestionBox from "./SuggestionBox";
 import "./Suggestion.css";
 import "./Sidebar.css";
 
 export default function Suggestion() {
 	const dispatch = useDispatch();
-
 	const user = useSelector((state) => state.session.user);
-	const suggestions = useSelector((state) => state.suggestions);
-	const pinIds = Object.keys(useSelector((state) => state.pins));
-	const likeIds = Object.keys(useSelector((state) => state.likes));
-
 	const [filter, setFilter] = useState("All Suggestions");
-
-	useEffect(() => {
-		dispatch(fetchPins(user._id));
-		dispatch(fetchLikes(user._id));
-	}, [dispatch, user]);
 
 	useEffect(() => {
 		const handleSuggestionCreated = () => {
@@ -52,15 +40,6 @@ export default function Suggestion() {
 		{ label: "Physiology", emoji: "💪" },
 	];
 
-	const filteredSuggestions =
-		filter === "All Suggestions"
-			? Object.values(suggestions).sort(
-					(a, b) => b.likes.length - a.likes.length
-			)
-			: Object.values(suggestions)
-					.filter((suggestion) => suggestion.categoryTag === filter)
-					.sort((a, b) => b.likes.length - a.likes.length);
-
 	return (
 		<div className="suggestion-page">
 			<div className="sidebar">
@@ -75,16 +54,7 @@ export default function Suggestion() {
 					</button>
 				))}
 			</div>
-			<div className="suggestion-list">
-				{Object.values(filteredSuggestions).map((suggestion, idx) => (
-					<SuggestionItem
-						key={idx}
-						suggestion={suggestion}
-						pinIds={pinIds}
-						likeIds={likeIds}
-					/>
-				))}
-			</div>
+			<SuggestionBox user={user} filter={filter} />
 		</div>
 	);
 }

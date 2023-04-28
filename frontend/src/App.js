@@ -1,20 +1,14 @@
-// import react shit
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Switch } from "react-router-dom";
-import { Route } from "react-router-dom";
-
-// import session shit
+import { Switch, Route } from "react-router-dom";
 import { getCurrentUser } from "./store/session";
-
-// import components
 import Welcome from "./components/Welcome";
-import Home from "./components/Home";
-import Navigation from "./components/Home/Navigation";
+import Navigation from "./components/Navigation";
 import Feed from "./components/Feed";
 import Suggestion from "./components/Suggestion";
 import Rating from "./components/Rating";
 import Signup from "./components/Welcome/SignupForm";
+import Profile from "./components/Profile";
 
 function App() {
 	const [loaded, setLoaded] = useState(false);
@@ -29,39 +23,15 @@ function App() {
 			<>
 				<Switch>
 					<Route exact path="/" component={Welcome} />
-
-					<Route exact path="/home">
-						<Home />
-					</Route>
-
-					<Route exact path="/profile">
-						<Home />
-					</Route>
-
-					<Route exact path="/profile/:userId">
-						<Home />
-					</Route>
-
-					<Route exact path="/feed">
+					<Route exact path="/signup" component={Signup} />
+					<Route path="/">
 						<Navigation />
-						<Feed />
-					</Route>
-
-					<Route exact path="/rating">
-						<Navigation />
-						<Rating />
-					</Route>
-
-					<Route exact path="/suggestions">
-						<Navigation />
-						<Suggestion />
-					</Route>
-
-					<Route exact path="/signup">
-						<Signup />
+						<Route path="/feed" component={Feed} />
+						<Route path="/suggestions" component={Suggestion} />
+						<Route path="/rating" component={Rating} />
+						<Route path="/profile" component={Profile} />
 					</Route>
 				</Switch>
-				{/* <AboutUs /> */}
 			</>
 		)
 	);
