@@ -6,7 +6,11 @@ import { updateSuggestion } from "../../store/suggestions";
 import { deleteSuggestion } from "../../store/suggestions";
 import "./SuggestionItem.css";
 
-export default function SuggestionItem({ suggestion, pins, likes }) {
+export default function SuggestionItem({
+	suggestion,
+	pins,
+	likes,
+}) {
 	const dispatch = useDispatch();
 	const currentUser = useSelector((state) => state.session.user);
 	const [editMode, setEditMode] = useState(false);
@@ -58,14 +62,16 @@ export default function SuggestionItem({ suggestion, pins, likes }) {
 		displayDeleteSuccessBanner();
 	};
 
-	const submitEdit = () => {
+	const submitEdit = async () => {
+		const suggBody = document.getElementById(
+			"update-suggestion-body"
+		).value;
 		const newSuggestion = {
-			id: suggestion._id,
-			body: document.getElementById("update-suggestion-body").value,
-			dayRating: suggestion.dayRating,
-			categoryTag: suggestion.categoryTag,
+			_id: suggestion._id,
+			body: suggBody,
 		};
-		dispatch(updateSuggestion(newSuggestion));
+		suggestion.body = suggBody;
+		await dispatch(updateSuggestion(newSuggestion));
 
 		toggleEditMode();
 		displaySuccessBanner();

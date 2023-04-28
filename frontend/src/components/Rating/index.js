@@ -178,7 +178,6 @@ export default function Rating() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log(highlight, lowlight);
 		const rating = {
 			transcendence,
 			actualization,

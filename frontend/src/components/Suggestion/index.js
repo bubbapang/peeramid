@@ -1,32 +1,12 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchAllPublicSuggestions } from "../../store/suggestions";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import SuggestionBox from "./SuggestionBox";
 import "./Suggestion.css";
 import "./Sidebar.css";
 
 export default function Suggestion() {
-	const dispatch = useDispatch();
 	const user = useSelector((state) => state.session.user);
 	const [filter, setFilter] = useState("All Suggestions");
-
-	useEffect(() => {
-		const handleSuggestionCreated = () => {
-			dispatch(fetchAllPublicSuggestions());
-		};
-
-		window.addEventListener("suggestionCreated", handleSuggestionCreated);
-
-		// Fetch suggestions initially
-		dispatch(fetchAllPublicSuggestions());
-
-		return () => {
-			window.removeEventListener(
-				"suggestionCreated",
-				handleSuggestionCreated
-			);
-		};
-	}, [dispatch]);
 
 	const buttons = [
 		{ label: "All Suggestions", emoji: "🔎" },
