@@ -27,6 +27,10 @@ export default function Top({
 		return null;
 	};
 
+	// console.log("finalUser", finalUser)
+	// console.log("finalUser.followers?.length", finalUser.followers?.length)
+	// console.log("finalUser.following?.length", finalUser.following?.length)
+
 	return (
 		<div className="top">
 			{renderFollowButton()}

@@ -2,25 +2,39 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import { login } from "../../store/session";
+import { clearSessionErrors } from "../../store/sessionErrors";
 import "./Welcome.css";
 
-export default function Welcome() {
+export default function Login() {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const history = useHistory();
 	const currentUser = useSelector((state) => state.session.user);
-	const errors = useSelector((state) => state.errors);
+	const errors = useSelector((state) => state.sessionErrors);
 
-	let objectErrors;
+	useEffect(() => {
+		dispatch(clearSessionErrors());
+	}, [dispatch]);
+
+	let readableErrors;
 	if (errors) {
-		objectErrors = Object.values(errors);
+		readableErrors = Object.entries(errors.errors);
+		// map to a more readable format
+		readableErrors = readableErrors.map((error) => {
+			let errorType = error[0];
+			let errorMessage = error[1];
+			// capitalize first letter of error type
+			errorType = errorType[0].toUpperCase() + errorType.slice(1);
+			// remove underscores and replace with spaces
+			errorType = errorType.replace(/_/g, " ");
+			// capitalize first letter of each word
+			errorType = errorType.replace(/\w\S*/g, (w) =>
+				w.replace(/^\w/, (c) => c.toUpperCase())
+			);
+			return `${errorType}: ${errorMessage}`;
+		});
 	}
-
-	// for testing purposes
-	useEffect (() => {
-		console.log("errors", errors)
-	}, [errors])
 
 	const handleDemo = (e) => {
 		e.preventDefault();
@@ -39,12 +53,7 @@ export default function Welcome() {
 			password,
 		};
 
-		console.log("credentials submitted")
-		await dispatch(login(userCredentials))
-			// .catch(async (res) => {
-			// 	const data = await res;
-			// 	console.log("TEST", data)
-			// });
+		await dispatch(login(userCredentials));
 	};
 
 	useEffect(() => {
@@ -60,8 +69,9 @@ export default function Welcome() {
 					<h1 id="title">Peeramid</h1>
 					<div className="fas fa-user-circle fa-6x" />
 
-					{objectErrors &&
-						objectErrors.map((error, idx) => (
+					{/* render all errors for user feedback */}
+					{readableErrors &&
+						readableErrors.map((error, idx) => (
 							<div key={idx} className="error-message">
 								{error}
 							</div>

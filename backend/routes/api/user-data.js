@@ -66,7 +66,9 @@ router.get("/dislikes", requireUser, async (req, res, next) => {
 
 router.get("/:id", async (req, res) => {
 	const user = await User.findById(req.params.id);
-	res.json(user);
+	res.json({
+		...req.user._doc,
+	});
 });
 
 // GET USERS RATINGS

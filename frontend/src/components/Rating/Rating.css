@@ -1,7 +1,6 @@
-/* whole page */
 .today {
 	background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/ocean+painting.jpg");
-	background-size: 100%;
+	background-size: cover;
 	background-position: center;
 	overflow: hidden;
 	width: 100%;
@@ -11,7 +10,6 @@
 	justify-content: center;
 	align-items: center;
 	position: relative;
-	/* overflow-y: hidden; */
 }
 
 /* left */
@@ -119,12 +117,8 @@ button.submit:active {
 		padding: 0px;
 		height: 92vh;
 		overflow-y: hidden;
-		background-size: 100vh;
-	}
-
-	.container {
-		width: 100%;
-		margin: 1px;
+		background-size: cover;
+		background-position: center;
 	}
 	/* Adjust the left-side layout */
 	.left-side {
@@ -133,7 +127,7 @@ button.submit:active {
 		justify-content: center;
 	}
 
-	/* Adjust the needs layout */
+	/* Adjust the need list layout */
 	.needs {
 		width: 100%;
 		height: auto;
