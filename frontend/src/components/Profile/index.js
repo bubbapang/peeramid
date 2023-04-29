@@ -10,14 +10,17 @@ import "./Profile.css";
 
 export default function Profile() {
 	const dispatch = useDispatch();
+
 	const user = useSelector((state) => state.session.user);
-	const targetUser = useSelector((state) => state.session.targetUser);
 	const ratings = useSelector(getRatings);
 
 	const targetUserId = useParams().userId;
+	const targetUser = useSelector((state) => state.session.targetUser);
 
 	const finalUser = targetUser ? targetUser : user;
+
 	const isProfileSelf = user && finalUser && user._id === finalUser._id;
+	
 	const sortedRatings = ratings
 		.slice()
 		.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));

@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import { getCurrentUser } from "./store/session";
-import Welcome from "./components/Welcome";
+import Login from "./components/Welcome/Login";
 import Navigation from "./components/Navigation";
 import Feed from "./components/Feed";
 import Suggestion from "./components/Suggestion";
 import Rating from "./components/Rating";
-import Signup from "./components/Welcome/SignupForm";
+import SignUp from "./components/Welcome/SignUp";
 import Profile from "./components/Profile";
 
 function App() {
@@ -22,8 +22,8 @@ function App() {
 		loaded && (
 			<>
 				<Switch>
-					<Route exact path="/" component={Welcome} />
-					<Route exact path="/signup" component={Signup} />
+					<Route exact path="/" component={Login} />
+					<Route exact path="/signup" component={SignUp} />
 					<Route path="/">
 						<Navigation />
 						<Route path="/feed" component={Feed} />

@@ -54,26 +54,22 @@ export const addUserPin = (suggestionId, userId) => {
 
 // helper method for signup and login
 const startSession = (userInfo, route) => async (dispatch) => {
-	console.log("starting session", userInfo, route);
 	try {
-		console.log("try block")
 		const res = await jwtFetch(route, {
 			method: "POST",
 			body: JSON.stringify(userInfo),
 		});
 
 		if (res.ok) {
-			console.log("res.ok");
 			const { user, token } = await res.json();
 			localStorage.setItem("jwtToken", token);
 			return dispatch(receiveCurrentUser(user));
 		}
-	} catch (err) {
-		console.log("catch block", err)
-		const errorResponse = err;
-		// const errorResponse = await err.clone();
-		console.log("errorResponse", errorResponse.errors);
-		return dispatch(receiveErrors(errorResponse.errors));
+	} catch (error) {
+		// Make sure to extract error information from the Response object
+		const errorResponse = await error.json(); // <-- This should be an object containing error information
+		// Dispatch the error action with the extracted error information
+		dispatch(receiveErrors(errorResponse));
 	}
 };
 

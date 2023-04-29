@@ -72,7 +72,6 @@ router.post("/register", validateRegisterInput, async (req, res, next) => {
 });
 
 router.post("/login", validateLoginInput, async (req, res, next) => {
-	console.log("login route hit")
 	passport.authenticate("local", async function (err, user) {
 		if (err) return next(err);
 		if (!user) {
