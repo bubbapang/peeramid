@@ -1,4 +1,4 @@
-import { React, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchPins } from "../../store/pins";
@@ -16,19 +16,22 @@ export default function PinBox({ finalUser, user }) {
 	const targetsPage = user && finalUser && user._id !== finalUser._id;
 
 	useEffect(() => {
-		if (finalUser && finalUser._id) {
-			dispatch(fetchPins(finalUser._id));
-			dispatch(fetchLikes(finalUser._id));
-		}
-	}, [dispatch, finalUser]);
+		const fetchPinData = async () => {
+			if (finalUser && finalUser._id) {
+				await dispatch(fetchPins(finalUser._id));
+			}
+		};
 
-	// cases:
-		// your page, 
-			// pins = render your pins
-			// no pins = render a banner that says "head to suggestions to pin a suggestion"
-		// target user page, 
-			// pins = render their pins
-			// no pins = render a banner that says "this user has no pins"
+		const fetchLikeData = async () => {
+			if (finalUser && finalUser._id) {
+				await dispatch(fetchLikes(finalUser._id));
+			}
+		};
+
+		fetchPinData();
+		fetchLikeData();
+
+	}, [dispatch, finalUser]);
 
 	const renderPins = () => {
 		return (
@@ -37,8 +40,8 @@ export default function PinBox({ finalUser, user }) {
 					<PinItem
 						key={idx}
 						suggestion={object}
-						likes={likes}
 						userPins={user.pins}
+						likes={likes}
 						isProfileSelf={yourPage}
 					/>
 				))}
@@ -63,7 +66,7 @@ export default function PinBox({ finalUser, user }) {
 				</div>
 			</div>
 		);
-	}
+	};
 
 	const targetHasNoPins = () => {
 		return (
@@ -71,12 +74,11 @@ export default function PinBox({ finalUser, user }) {
 				<div className="banner-container">
 					<h1 id="pin-banner">
 						{finalUser.username} has no pins!
-						{}
 					</h1>
 				</div>
 			</div>
 		);
-	}
+	};
 
 	if (pins && Object.values(pins).length > 0) {
 		return renderPins();

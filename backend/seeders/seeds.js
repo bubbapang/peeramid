@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "./backend/.env" });
 const {
 	firstNames,
 	lastNames,
@@ -39,6 +39,7 @@ for (let i = 0; i < 10; i++) {
 		following: [],
 		pins: [],
 	};
+
 	for (let j = 0; j < 11; j++) {
 		const randomID = IDs[Math.floor(Math.random() * IDs.length)];
 		if (!user.followers.includes(randomID)) user.followers.push(randomID);
@@ -74,6 +75,7 @@ IDs.forEach((ID, idx) => {
 		);
 		ratings.push(rating);
 	}
+
 	for (let i = 0; i < 2; i++) {
 		const suggestionData =
 			mockSuggestions[(idx + i) % mockSuggestions.length];
@@ -107,6 +109,7 @@ for (let i = 0; i < numOfDemoUserRatings; i++) {
 	);
 	ratings.push(rating);
 }
+
 for (let i = 0; i < numOfSuggestions; i++) {
 	const suggestionId = new ObjectId(),
 		suggestionData = mockSuggestions[i % mockSuggestions.length];
@@ -126,7 +129,7 @@ for (let i = 0; i < numOfSuggestions; i++) {
 users.find((user) => user._id === demoID).pins = demoPins;
 
 mongoose
-	.connect(db, { useNewUrlParser: true })
+	.connect(db, { useNewUrlParser: true }) // here we connect to the database
 	.then(() => {
 		console.log("Connected to MongoDB successfully");
 		insertSeeds();

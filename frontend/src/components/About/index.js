@@ -1,13 +1,13 @@
-import './AboutUs.css'
+import './About.css'
 
-export default function AboutUs() {
+export default function About() {
     return (
         <div className="about-us">
             <h1>Meet the team!</h1>
             <br></br>
             <div className="team-members">
                 <div className="adam">
-                    <img src="https://secure.gravatar.com/avatar/c61227c975241b8b38071256024d71b9?secure=true&size=300" alt="profile" />
+                    <img src="https://avatars.githubusercontent.com/u/49807160?v=4" alt="profile" />
                     <h2>Adam Pangelinan</h2>
                     {/* github and linkedIn buttons */}
                     <button className="github"><a href="https://github.com/bubbapang" target="_blank" rel="noreferrer"><i className="fab fa-github fa-2x"></i></a></button>

@@ -8,8 +8,8 @@ import "./PinItem.css";
 
 export default function PinItem({
 	suggestion,
-	likes,
 	userPins,
+	likes,
 	isProfileSelf,
 }) {
 	const dispatch = useDispatch();
@@ -21,6 +21,19 @@ export default function PinItem({
 	const [likeDisplay, setLikeDisplay] = useState(
 		likes[suggestion._id] ? "Liked" : "Like"
 	);
+
+	const needsAndColors = {
+		physiology: "#577590",
+		safety: "#4d908e",
+		love: "#43aa8b",
+		esteem: "#90be6d",
+		cognition: "#f9c74f",
+		aesthetics: "#f8961e",
+		actualization: "#f3722c",
+		transcendence: "#f94144",
+	};
+
+	const lowerCategory = suggestion.categoryTag.toLowerCase();
 
 	useEffect(() => {
 		setLikeDisplay(likes[suggestion._id] ? "Liked" : "Like");
@@ -84,7 +97,7 @@ export default function PinItem({
 	};
 
 	return (
-		<div className="pin-item">
+		<div className="pin-item" style={{ backgroundColor: needsAndColors[lowerCategory] }}>
 			<div className="profile-part">
 				<i className="fas fa-user-circle fa-2x" />
 			</div>

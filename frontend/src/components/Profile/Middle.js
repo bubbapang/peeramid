@@ -30,11 +30,13 @@ export default function Middle({ user, finalUser, isProfileSelf, ratings }) {
 	return (
 		<div className="middle">
 			<div className="charts-container">
-				<div className="radar-chart-container">
-					<Radar
-						data={radarData}
-						options={radarOptions}
-					/>
+				<div className="radar-and-pinbox-container">
+					<div className="radar">
+						<Radar
+							data={radarData}
+							options={radarOptions}
+						/>
+					</div>
 					<div className="pin-box">
 						<PinBox
 							finalUser={finalUser}

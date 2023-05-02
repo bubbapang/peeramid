@@ -209,8 +209,8 @@ const mockSuggestions = [
 		categoryTag: "Love",
 	},
 	{
-		body: "To boost your knowledge, try to read at least one book per month in various fields.",
-		categoryTag: "Knowledge",
+		body: "To boost your cognition, try to read at least one book per month in various fields.",
+		categoryTag: "Cognition",
 	},
 	{
 		body: "To improve your aesthetics, explore new forms of art and try to incorporate them into your daily life.",
@@ -225,8 +225,8 @@ const mockSuggestions = [
 		categoryTag: "Transcendence",
 	},
 	{
-		body: "For better physiological well-being, maintain a balanced diet and exercise regularly.",
-		categoryTag: "Physiological",
+		body: "For better physiology well-being, maintain a balanced diet and exercise regularly.",
+		categoryTag: "Physiology",
 	},
 ];
 

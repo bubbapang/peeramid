@@ -18,12 +18,15 @@ export default function SuggestionBox({ user, filter }) {
 	}, [dispatch]);
 
 	useEffect(() => {
-		dispatch(fetchPins(user._id));
-		dispatch(fetchLikes(user._id));
+		if (user && user._id) {
+			dispatch(fetchPins(user._id));
+			dispatch(fetchLikes(user._id));
+		}
 	}, [dispatch, user]);
+	
 
 	const filteredSuggestions =
-		filter === "All Suggestions"
+		filter === "Explore"
 			? Object.values(suggestions).sort(
 					(a, b) => b.likes.length - a.likes.length
 			)
@@ -32,14 +35,13 @@ export default function SuggestionBox({ user, filter }) {
 					.sort((a, b) => b.likes.length - a.likes.length);
 
 	return (
-		<div className="suggestion-list">
+		<div className="suggestion-box">
 			{Object.values(filteredSuggestions).map((suggestion, idx) => (
 				<SuggestionItem
 					key={idx}
 					suggestion={suggestion}
 					pins={pins}
 					likes={likes}
-					suggestions={suggestions}
 				/>
 			))}
 		</div>

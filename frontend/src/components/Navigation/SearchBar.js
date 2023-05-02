@@ -1,37 +1,26 @@
-// import dependencies
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-
-// import session actions
-import { receiveTargetUser, searchUsers } from "../../store/session";
-
-// css
+import { getTargetUser, searchUsers } from "../../store/session";
 import "./SearchBar.css";
 
-// making the search bar component
 export default function SearchBar({ onSearch }) {
-	// getting the search results from the store
 	const allSearchResults = useSelector(
 		(state) => state.session.searchResults || []
 	);
 
-	// getting the dispatch function from the store and the history object from react-router-dom
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	// setting up the state variables
 	const [searchTerm, setSearchTerm] = useState("");
 	const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-	// using the useEffect hook to dispatch the searchUsers action creator when the searchTerm changes
 	useEffect(() => {
 		if (searchTerm !== "") {
 			dispatch(searchUsers(searchTerm));
 		}
 	}, [searchTerm, dispatch]);
 
-	// handling the change in the input field
 	const handleChange = (event) => {
 		setSearchTerm(event.target.value);
 		setIsDropdownVisible(true);
@@ -41,7 +30,6 @@ export default function SearchBar({ onSearch }) {
 		}
 	};
 
-	// handling the key press in the input field
 	const handleKeyPress = (event) => {
 		if (event.key === "Enter") {
 			setSearchTerm("");
@@ -55,18 +43,16 @@ export default function SearchBar({ onSearch }) {
 		setSearchTerm("");
 		onSearch(user.firstName + " " + user.lastName);
 		setIsDropdownVisible(false);
-		dispatch(receiveTargetUser(user)); // Dispatch the receiveTargetUser action
+		dispatch(getTargetUser(user._id)); // Dispatch the receiveTargetUser action
 		history.push(`/profile/${user._id}`);
 	};
 
-	// handling the click outside of the search bar
 	const handleClickOutside = (event) => {
 		if (event.target.className !== "search-input") {
 			setIsDropdownVisible(false);
 		}
 	};
 
-	// using the useEffect hook to add the event listener
 	useEffect(() => {
 		document.addEventListener("click", handleClickOutside);
 		return () => {
@@ -74,7 +60,6 @@ export default function SearchBar({ onSearch }) {
 		};
 	}, []);
 
-	// rendering the search bar
 	return (
 		<div className="search-container">
 			<input
@@ -94,7 +79,8 @@ export default function SearchBar({ onSearch }) {
 							className="search-result"
 							onClick={() => handleUserClick(user)}
 						>
-							{user.username} ({user.firstName} {user.lastName})
+							{/*  <img src={user.profileImageUrl} alt={`${user.username}'s profile`} />  */}
+							<span id="bold">{user.username }</span> &nbsp;( <span id="ital"> {user.firstName} {user.lastName} </span>&nbsp;)
 						</div>
 					))}
 				</div>
