@@ -15,12 +15,24 @@ export default function SuggestionItem({
 	const currentUser = useSelector((state) => state.session.user);
 	const [editMode, setEditMode] = useState(false);
 	const [showSuccessBanner, setShowSuccessBanner] = useState(false);
-	const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] =
-		useState(false);
+	const [showDeleteSuccessBanner, setShowDeleteSuccessBanner] = useState(false);
 	const [likeDisplay, setLikeDisplay] = useState("Like");
 	const [pinDisplay, setPinDisplay] = useState("Pin");
 	const [likeCount, setLikeCount] = useState(suggestion.likes.length);
 	const [pinCount, setPinCount] = useState(suggestion.pins.length);
+
+	const needsAndColors = {
+		physiology: "#577590",
+		safety: "#4d908e",
+		love: "#43aa8b",
+		esteem: "#90be6d",
+		cognition: "#f9c74f",
+		aesthetics: "#f8961e",
+		actualization: "#f3722c",
+		transcendence: "#f94144",
+	};
+
+	const lowerCategory = suggestion.categoryTag.toLowerCase()
 
 	useEffect(() => {
 		if (likes.includes(suggestion._id)) {
@@ -102,7 +114,7 @@ export default function SuggestionItem({
 	};
 
 	return (
-		<div className="sugg-wrapper">
+		<>
 			{showSuccessBanner && (
 				<div className="success-banner">
 					<span>Suggestion successfully updated!</span>
@@ -127,8 +139,9 @@ export default function SuggestionItem({
 				</div>
 			)}
 
-			<div className="sugg-item">
+			<div className="sugg-item" style={{ backgroundColor: needsAndColors[lowerCategory] }}>
 				<div className="sugg-item-content">
+					<div className="left-sugg-item">
 					<div className="user-emoji-container">
 						<h1>{suggestion.user.username} says:</h1>
 					</div>
@@ -145,7 +158,7 @@ export default function SuggestionItem({
 							suggestion.body
 						)}
 					</div>
-
+					</div>
 					<div className="buttons-parts">
 						{editMode ? (
 							<>
@@ -190,8 +203,9 @@ export default function SuggestionItem({
 							</>
 						)}
 					</div>
+					
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }

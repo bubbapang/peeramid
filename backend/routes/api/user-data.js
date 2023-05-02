@@ -17,17 +17,6 @@ router.get("/", function (res) {
 	});
 });
 
-router.get("/current", restoreUser, (req, res) => {
-	if (!isProduction) {
-		const csrfToken = req.csrfToken();
-		res.cookie("CSRF-TOKEN", csrfToken);
-	}
-	if (!req.user) return res.json(null);
-	res.json({
-		...req.user._doc,
-	});
-});
-
 // implemented seach query for users, here regex means regular expression helps in pattern matching, options helps in making the query case-insensitive
 // So, we find the users by the options, and select the fields we need and return them
 // SEARCH FOR USERS
@@ -62,13 +51,32 @@ router.get("/dislikes", requireUser, async (req, res, next) => {
 	}
 });
 
-// ID ROUTES
-
-router.get("/:id", async (req, res) => {
-	const user = await User.findById(req.params.id);
+router.get("/current", restoreUser, (req, res) => {
+	if (!isProduction) {
+		const csrfToken = req.csrfToken();
+		res.cookie("CSRF-TOKEN", csrfToken);
+	}
+	if (!req.user) return res.json(null);
 	res.json({
 		...req.user._doc,
 	});
+});
+
+// ID ROUTES
+
+router.get("/:id", async (req, res) => {
+	try {
+		const user = await User.findById(req.params.id);
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		res.json(user);
+	} catch (error) {
+		console.error("Error in GET /:id route", error);
+		res.status(500).json({ message: "Error getting user by ID" });
+	}
 });
 
 // GET USERS RATINGS

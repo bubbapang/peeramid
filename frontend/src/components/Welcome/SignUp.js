@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { signup } from "../../store/session";
 import { clearSessionErrors } from "../../store/sessionErrors";
-import { Link } from "react-router-dom";
-import "./Welcome.css";
+import ErrorMessage from "./ErrorMessage";
+import "./SignUp.css";
 
 export default function SignUp() {
 	const [firstName, setFirstName] = useState("");
@@ -23,18 +23,14 @@ export default function SignUp() {
 	let readableErrors;
 	if (errors) {
 		readableErrors = Object.entries(errors.errors);
-		// map to a more readable format
 		readableErrors = readableErrors.map((error) => {
 			let errorType = error[0];
 			let errorMessage = error[1];
-			// capitalize first letter of error type
-			errorType = errorType[0].toUpperCase() + errorType.slice(1);
-			// remove underscores and replace with spaces
+
+			// Split and capitalize first and last names
 			errorType = errorType.replace(/_/g, " ");
-			// capitalize first letter of each word
-			errorType = errorType.replace(/\w\S*/g, (w) =>
-				w.replace(/^\w/, (c) => c.toUpperCase())
-			);
+			errorType = errorType.replace(/\b\w/g, (l) => l.toUpperCase());
+
 			return `${errorType}: ${errorMessage}`;
 		});
 	}
@@ -56,92 +52,80 @@ export default function SignUp() {
 		}
 	};
 
-	return (
-		<>
-			<div className="background">
-				<div className="welcome-modal">
-					<div className="welcome-form">
-						<h1 id="title">Peeramid</h1>
-							
-						{/* render all errors for user feedback */}
-						{readableErrors &&
-							readableErrors.map((error, idx) => (
-								<div key={idx}>{error}</div>
-							))}
+	const renderFormFields = () => {
+		return (
+			<>
+				<form onSubmit={handleSubmit}>
+					<label>
+						First Name:
+						<input
+							type="text"
+							name="firstName"
+							value={firstName}
+							onChange={(e) => setFirstName(e.target.value)}
+						/>
+					</label>
 
-						<form onSubmit={handleSubmit}>
+					<label>
+						Last Name:
+						<input
+							type="text"
+							name="lastName"
+							value={lastName}
+							onChange={(e) => setLastName(e.target.value)}
+						/>
+					</label>
 
-							<label>
-								First Name:
-								<input
-									type="text"
-									name="firstName"
-									value={firstName}
-									onChange={(e) =>
-										setFirstName(e.target.value)
-									}
-								/>
-							</label>
+					<label>
+						Username:
+						<input
+							type="text"
+							name="username"
+							value={username}
+							onChange={(e) => setUsername(e.target.value)}
+						/>
+					</label>
 
-							<label>
-								Last Name:
-								<input
-									type="text"
-									name="lastName"
-									value={lastName}
-									onChange={(e) =>
-										setLastName(e.target.value)
-									}
-								/>
-							</label>
+					<label>
+						Email:
+						<input
+							type="text"
+							name="email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+					</label>
 
-							<label>
-								Username:
-								<input
-									type="text"
-									name="username"
-									value={username}
-									onChange={(e) =>
-										setUsername(e.target.value)
-									}
-								/>
-							</label>
+					<label>
+						Password:
+						<input
+							type="password"
+							name="password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</label>
+				</form>
+			</>
+		);
+	};
 
-							<label>
-								Email:
-								<input
-									type="text"
-									name="email"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-								/>
-							</label>
+    return (
+        <div className="form-container signup-form">
+            <h2>Sign Up Form</h2>
 
-							<label>
-								Password:
-								<input
-									type="password"
-									name="password"
-									value={password}
-									onChange={(e) =>
-										setPassword(e.target.value)
-									}
-								/>
-							</label>
+            <form onSubmit={handleSubmit}>
+                {/* Display errors right before the form fields */}
+                {readableErrors &&
+                    readableErrors.map((error, idx) => (
+                        <ErrorMessage key={idx} message={error} />
+                    ))}
+                {renderFormFields()}
 
-							<div className="welcome-buttons">
-								<input type="submit" value="Signup" />
-							</div>
-							<h1>
-								Already have an account?{" "}
-								<Link to="/"> Login </Link>
-							</h1>
-						</form>
-					</div>
-
-					<div className="welcome-image" />
-				</div>
-			</div>
-		</>
-	);
+                <div className="signup-buttons">
+                    <input type="submit" value="Signup" />
+                </div>
+            </form>
+        </div>
+    );
 }

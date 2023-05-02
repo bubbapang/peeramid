@@ -1,78 +1,113 @@
-
 .suggestion-page {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-  background-color: #42465c;
-  box-sizing: border-box;
-  overflow-x: hidden;
+	--primary-color: #37373744;
+	--secondary-color: rgb(0, 221, 140);
+	--text-color: #262626;
+
+	height: 95vh;
+	width: 100vw;
+	--transition-duration: 0.3s;
+	background-color: var(--text-color);
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	overflow: hidden;
 }
 
-.suggestion-list {
-  /* flex: 1; */
-  /* max-width: 85vw;
-  max-width: 100%; */
-  /* gap: 20px; */
-  /* flex-wrap: wrap; */
-  /* margin-top: 120px; */
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-direction: column;
-  background-color: #9DBFB2;
-  overflow-y: auto;
-  padding-right: 10px;
-  border-radius: 5px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
-  height: 100%;
-  width: 70%;
+.filter-sidebar {
+	height: 100%;
+	width: 20%;
+	background-color: var(--primary-color);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.suggestion-box {
+	height: 100%;
+	width: 80%;
+	background-color: var(--secondary-color);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	flex-wrap: wrap;
+	overflow-y: auto;
 }
 
 .suggestion-list::-webkit-scrollbar {
-  width: 8px;
-  background-color: rgba(0, 0, 0, 0.1);
+	width: 8px;
+	background-color: rgba(0, 0, 0, 0.1);
 }
 
 .suggestion-list::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 1px;
+	border-radius: 1px;
+	background-color: rgba(0, 0, 0, 0.4);
 }
 
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  /* padding: 5px; */
-  height: 100%;
-  width: 30%; /* Change to 30% to take up 30% of the screen width */
-  align-items: center;
-  gap: 8px;
-  margin-top: 23px;
-  background-color: #42465c; /* Add a background color */
+.filter-sidebar button {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: 65px;
+	border-radius: 10px;
+	padding: 10px;
+	transition: background-color 0.3s;
+	font-size: 1.2rem;
+	display: block;
+	background: transparent;
+	text-align: left;
+	cursor: pointer;
+	border: none;
+	color: white;
 }
 
-.sidebar-button {
-  display: block;
-  background: transparent;
-  text-align: left;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  cursor: pointer;
-  /* width: fit-content; */
-  height: 65px;
-  border: none;
-  border-radius: 10px;
-  color: white;
-  padding: 10px;
-  transition: background-color 0.3s; /* Add transition for smooth hover effect */
-  font-size: 1.5rem;
+.filter-sidebar button:hover {
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	background-color: #575c78;
 }
 
-.sidebar-button:hover {
-  background-color: #575c78;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle box-shadow on hover */
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+	.suggestion-page {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		height: 100vh;
+		width: 100%;
+		background-color: #42465c;
+		box-sizing: border-box;
+		overflow-x: hidden;
+		flex-wrap: wrap; /* Add this line */
+	}
+
+	.filter-sidebar {
+		flex-direction: row !important;
+		justify-content: center;
+		align-items: center;
+		height: 2%;
+		width: 100%;
+		padding: 10px;
+		top: 0;
+		left: 0;
+		z-index: 2;
+		margin-top: 0px;
+	}
+
+	.sidebar-button {
+		font-size: 0.7rem;
+		width: auto;
+		height: fit-content;
+	}
+
+	.sidebar-button span {
+		display: none;
+	}
+
+	.suggestion-list {
+		width: 100%;
+	}
 }

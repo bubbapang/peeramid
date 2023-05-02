@@ -1,8 +1,17 @@
-:root {
-	--border-radius: 8px;
+.toggle-form button {
+	font-size: 1.2rem;
+	border: none; /* Add this to remove the border */
+	border-radius: 4px; /* Update this value to match the other buttons */
+	background-color: #f2f2f2;
+	color: #333;
+	cursor: pointer;
+	margin: 0 5px;
+	outline: none;
+	padding: 8px 16px;
+	transition: background-color 0.3s;
 }
 
-.login-box {
+.top {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -22,7 +31,7 @@
 }
 
 .welcome-modal {
-	height: 80vh;
+	height: 90vh;
 	width: 80vw;
 	background-size: cover;
 	display: flex;
@@ -35,20 +44,23 @@
 .welcome-form {
 	height: 100%;
 	width: 100%;
-	border-top-left-radius: var(--border-radius);
-	border-bottom-left-radius: var(--border-radius);
-	background-color: #242424;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	background-color: #2f2f2f;
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	flex-direction: column;
 	font-family: "Monaco", "Courier New", monospace;
 	color: #ffffff;
 }
 
+.toggle-form {
+	margin-top: 10px; /* Add a gap between the title and the toggle button */
+}
+
 #title {
 	font-size: 4rem;
-	/* margin-bottom: 80px; */
 }
 
 .welcome-form h2 {
@@ -57,54 +69,65 @@
 }
 
 .welcome-form label {
-	display: block;
 	margin-bottom: 10px;
 	font-size: 1.5rem;
+	display: block;
 }
 
 .welcome-form input {
-	display: block;
 	margin-bottom: 20px;
 	font-size: 1.5rem;
 	border-radius: 10px;
 	padding: 10px;
+	display: block;
 }
 
 .welcome-buttons button {
-	display: block;
-	margin-bottom: 20px;
 	font-size: 1.5rem;
 	border-radius: 10px;
+	display: block;
+	background-color: #191919;
+	color: azure;
+}
+
+/* make a hover effect for all welcome buttons */
+
+.welcome-buttons button:hover {
+	background-color: #6c6c6c;
 }
 
 .welcome-buttons {
+	gap: 10px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: row;
-	gap: 10px;
 }
 
-.profile-pic {
-	height: 150px;
-	width: 150px;
-	border-radius: 50%;
+.toggle-form {
+	margin-top: 20px;
+}
+
+.toggle-form button {
+	font-size: 1.2rem;
+	border-radius: 10px;
 	background-color: #191919;
-	background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/maslow+profile+pic.jpg");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center;
-	margin-bottom: 20px;
+	color: azure;
+	padding: 10px 20px;
+}
+
+.toggle-form button:hover {
+	background-color: #6c6c6c;
 }
 
 .welcome-image {
 	height: 100%;
 	width: 100%;
-	border-top-right-radius: var(--border-radius);
-	border-bottom-right-radius: var(--border-radius);
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+	background-size: 600px 400px;
 	background-color: #191919;
 	background-image: url("https://peeramid-seeds.s3.us-west-1.amazonaws.com/minimal+pyramid.jpg");
-	background-size: 600px 400px;
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -124,6 +147,64 @@
 #username {
 	font-weight: 900;
 }
+
+.already-have {
+	font-size: 1.5rem;
+}
+
+.already-have button {
+	background-color: aliceblue;
+	border-radius: 15px;
+}
+
+.error-placeholder::placeholder {
+	color: red;
+}
+
+.background {
+	/* Add styles for the background */
+}
+
+.welcome-modal {
+	/* Add styles for the modal */
+}
+
+.welcome-form {
+	/* Add styles for the form container */
+}
+
+#title {
+	/* Add styles for the title */
+}
+
+.toggle-form {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 1rem;
+}
+
+.toggle-btn {
+	background-color: #f2f2f2;
+	border: none;
+	border-radius: 4px;
+	color: #333;
+	cursor: pointer;
+	font-size: 16px;
+	margin: 0 5px;
+	outline: none;
+	padding: 8px 16px;
+	transition: background-color 0.3s;
+}
+
+.toggle-btn:hover {
+	background-color: #e2e2e2;
+}
+
+.toggle-btn.active {
+	background-color: #ccc;
+	color: #fff;
+}
+
 @media (max-width: 768px) {
 	.welcome-modal {
 		flex-direction: column;
@@ -132,24 +213,22 @@
 	.welcome-form,
 	.welcome-image {
 		width: 100%;
-		max-width: 100%; /* Constrain the width */
-		box-sizing: border-box; /* Include padding and border in the width calculation */
-		border-radius: var(--border-radius);
+		max-width: 100%;
+		box-sizing: border-box;
+		border-radius: 8px;
 	}
 
 	.welcome-form {
-		border-top-left-radius: var(--border-radius);
+		border-top-left-radius: 8px;
 		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0; /* Move the border-radius property to the correct rule */
-		padding: 20px; /* Move the padding property to the correct rule */
-		/* padding-left: 40px; */
-		/* padding-right: 40px; */
+		border-bottom-right-radius: 0;
+		padding: 20px;
 		margin-bottom: -1px;
 	}
 
 	.welcome-image {
 		border-top-right-radius: 0;
-		border-bottom-right-radius: var(--border-radius);
+		border-bottom-right-radius: 8px;
 		border-top-left-radius: 0;
 		background-size: cover;
 		margin-top: 0;

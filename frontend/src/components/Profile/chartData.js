@@ -145,6 +145,7 @@ export const getLineChartOptions = () => {
 
 export const getRadarChartOptions = () => {
 	const radarChartOptions = {
+		maintainAspectRatio: false,
 		plugins: {
 			legend: {
 				display: false,

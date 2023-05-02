@@ -6,34 +6,30 @@ export default function Top({
 	finalUser,
 	ratingsLength,
 }) {
-	const renderFollowButton = () => {
-		if (user._id !== finalUser._id) {
-			return user.following.includes(finalUser._id) ? (
-				<button
-					className="unfollow-button"
-					// onClick={() => unfollowUser(finalUser._id)}
-				>
-					Unfollow
-				</button>
-			) : (
-				<button
-					className="follow-button"
-					// onClick={() => followUser(finalUser._id)}
-				>
-					Follow
-				</button>
-			);
-		}
-		return null;
-	};
-
-	// console.log("finalUser", finalUser)
-	// console.log("finalUser.followers?.length", finalUser.followers?.length)
-	// console.log("finalUser.following?.length", finalUser.following?.length)
+	// const renderFollowButton = () => {
+	// 	if (user._id !== finalUser._id) {
+	// 		return user.following.includes(finalUser._id) ? (
+	// 			<button
+	// 				className="unfollow-button"
+	// 				// onClick={() => unfollowUser(finalUser._id)}
+	// 			>
+	// 				Unfollow
+	// 			</button>
+	// 		) : (
+	// 			<button
+	// 				className="follow-button"
+	// 				// onClick={() => followUser(finalUser._id)}
+	// 			>
+	// 				Follow
+	// 			</button>
+	// 		);
+	// 	}
+	// 	return null;
+	// };
 
 	return (
 		<div className="top">
-			{renderFollowButton()}
+			{/* {renderFollowButton()} */}
 			<div className="profile-image"></div>
 			<div className="info-box">
 				<i id="profile-icon" className="fas fa-user-circle"></i>

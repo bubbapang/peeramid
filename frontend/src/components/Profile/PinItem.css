@@ -1,12 +1,9 @@
-:root {
-	--secondary-color: #346596;
+.pin-item {
+	--secondary-color: #8b8b8b;
 	--text-color: #ffffff;
 	--button-color: #c5e0d6;
 	--button-hover-color: #dba7d8;
 	--transition-duration: 0.3s;
-}
-
-.pin-item {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -35,7 +32,7 @@
 	gap: 10px;
 }
 
-button {
+.buttons-part button {
 	background-color: var(--button-color);
 	color: #4d908e;
 	border: none;
@@ -64,4 +61,10 @@ button:focus {
 
 .category-tag {
 	font-size: 25px;
+}
+
+@media (max-width: 700px) {
+	.pin-item > * {
+		font-size: 8px;
+	}
 }

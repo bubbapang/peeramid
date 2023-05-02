@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { login } from "../../store/session";
 import { clearSessionErrors } from "../../store/sessionErrors";
-import "./Welcome.css";
+import "./Login.css";
 
 export default function Login() {
 	const dispatch = useDispatch();
@@ -20,15 +20,11 @@ export default function Login() {
 	let readableErrors;
 	if (errors) {
 		readableErrors = Object.entries(errors.errors);
-		// map to a more readable format
 		readableErrors = readableErrors.map((error) => {
 			let errorType = error[0];
 			let errorMessage = error[1];
-			// capitalize first letter of error type
 			errorType = errorType[0].toUpperCase() + errorType.slice(1);
-			// remove underscores and replace with spaces
 			errorType = errorType.replace(/_/g, " ");
-			// capitalize first letter of each word
 			errorType = errorType.replace(/\w\S*/g, (w) =>
 				w.replace(/^\w/, (c) => c.toUpperCase())
 			);
@@ -63,51 +59,40 @@ export default function Login() {
 	}, [currentUser, history]);
 
 	return (
-		<div className="background">
-			<div className="welcome-modal">
-				<div className="welcome-form">
-					<h1 id="title">Peeramid</h1>
-					<div className="fas fa-user-circle fa-6x" />
+		<div className="form-container login-form">
+			<h2>Login Form</h2>
 
-					{/* render all errors for user feedback */}
-					{readableErrors &&
-						readableErrors.map((error, idx) => (
-							<div key={idx} className="error-message">
-								{error}
-							</div>
-						))}
+			{readableErrors &&
+				readableErrors.map((error, idx) => (
+					<div key={idx} className="error-message">
+						{error}
+					</div>
+				))}
 
-					<form onSubmit={handleSubmit}>
-						<div className="login-box"></div>
-						<label>
-							Email:
-							<input
-								type="text"
-								name="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</label>
-						<label>
-							Password:
-							<input
-								type="password"
-								name="password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-							/>
-						</label>
-						<div className="welcome-buttons">
-							<button>Login</button>
-							<NavLink to="/signup">
-								<button>Signup</button>
-							</NavLink>
-							<button onClick={handleDemo}>Demo</button>
-						</div>
-					</form>
+			<form onSubmit={handleSubmit}>
+				<label>
+					Email:
+					<input
+						type="text"
+						name="email"
+						value={email}
+						onChange={(e) => setEmail(e.target.value)}
+					/>
+				</label>
+				<label>
+					Password:
+					<input
+						type="password"
+						name="password"
+						value={password}
+						onChange={(e) => setPassword(e.target.value)}
+					/>
+				</label>
+				<div className="login-buttons">
+					<input type="submit" value="Login" />
+					<input type="submit" value="Demo" onClick={handleDemo} />
 				</div>
-				<div className="welcome-image" />
-			</div>
+			</form>
 		</div>
 	);
 }

@@ -4,12 +4,14 @@ import { useHistory } from "react-router-dom";
 import { searchUsers, clearTargetUser } from "../../store/session";
 import { logout } from "../../store/session";
 import SearchBar from "./SearchBar";
-import AboutUs from "../AboutUs";
-import "./Navigation.css";
+import About from "../About";
 import { Link } from "react-router-dom";
+import "./Navigation.css";
+
 
 export default function Navigation() {
 	const dispatch = useDispatch();
+	const currentUser = useSelector((state) => state.session.user);
 	const ratedToday = useSelector((state) => state.session.ratedToday);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const history = useHistory();
@@ -46,6 +48,15 @@ export default function Navigation() {
 		dispatch(searchUsers(searchTerm));
 	};
 
+	const handleProfileClick = () => {
+        if (currentUser) {
+            dispatch(clearTargetUser());
+            history.push("/profile");
+        } else {
+            history.push("/");
+        }
+    };
+
 	return (
 		<div className="nav-bar-container">
 			<button className="logout-icon" onClick={handleLogout}>
@@ -53,14 +64,10 @@ export default function Navigation() {
 			</button>
 			<div className="profile-today-search">
 				<div className="profile-today">
-					<Link
-						to="/profile"
-						onClick={() => dispatch(clearTargetUser())}
-					>
-						<button className="profile-icon">
-							<i className="fas fa-user-circle fa-2x" />
-						</button>
-					</Link>
+				<button className="profile-icon" onClick={handleProfileClick}>
+                        <i className="fas fa-user-circle fa-2x" />
+                    </button>
+
 					<Link to="/rating">
 						<button
 							className={
@@ -74,7 +81,7 @@ export default function Navigation() {
 				<SearchBar onSearch={handleSearch} />
 			</div>
 			<button className="about-us-icon" onClick={handleModalToggle}>
-				About Us
+				About
 			</button>
 			{isModalOpen && (
 				<div className="modal modal-background">
@@ -85,7 +92,7 @@ export default function Navigation() {
 						>
 							<p>X</p>
 						</button>
-						<AboutUs />
+						<About />
 					</div>
 				</div>
 			)}

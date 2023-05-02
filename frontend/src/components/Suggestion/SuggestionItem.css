@@ -1,36 +1,30 @@
-.sugg-wrapper {
-	width: 100%;
-	height: 150px;
-	margin: 5px;
-}
-
 .sugg-item {
+	--primary-color: #373737;
+	--button-color: #c5e0d6;
+	--button-hover-color: #dba7d8;
+	--transition-duration: 0.3s;
+	
+	width: 40%;
+	padding: 30px;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	margin: 5px;
+	background-color: var(--primary-color);
+	color: var(--text-color);
+	transition: all var(--transition-duration);
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
-	gap: 10px;
-	padding: 10px;
-	border-radius: 10px;
-	background-color: var(--secondary-color);
-	color: var(--text-color);
-	width: 95%;
-	min-height: 100px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	transition: all var(--transition-duration);
-	margin-left: 5px;
-	margin: 5px;
 	position: relative;
-	height: fit-content;
 }
 
 .sugg-item-content {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
 	width: 100%;
-	padding: 10px;
 	height: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .sugg-item .emoji {
@@ -46,6 +40,10 @@
 	margin: 0;
 }
 
+.left-sugg-item {
+	width: calc(100% - 100px);
+}
+
 .sugg-body {
 	color: white;
 	font-family: "Roboto", sans-serif;
@@ -54,7 +52,7 @@
 	margin: 10px 0 0 0;
 	word-wrap: break-word;
 	flex-wrap: wrap;
-	width: 90%;
+	width: 100%;
 	border-top: #ffffff 1px solid;
 	padding-top: 15px;
 	max-height: fit-content;
@@ -72,7 +70,7 @@
 	transform: translateY(-50%);
 }
 
-button {
+.buttons-parts button {
 	background-color: var(--button-color);
 	color: #4d908e;
 	border: none;
@@ -93,6 +91,7 @@ button:focus {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	width: fit-content;
 }
 
 .sugg-item:hover {
@@ -131,8 +130,12 @@ button:focus {
 	}
 
 	.sugg-item-content {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 		padding: 5px;
 		height: auto;
+
 	}
 
 	.sugg-body {

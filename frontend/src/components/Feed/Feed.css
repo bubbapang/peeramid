@@ -1,46 +1,15 @@
-/* Variables */
-:root {
-  /* --scroll-size: 15px;
-  --scroll-radius: 20px;
-  --scroll-track: rgba(255, 255, 255, 0.1);
-  --scroll-thumb: linear-gradient(45deg, #00aeff, #a68eff); */
-}
-
-/* Feed Container */
 .feed-container {
   height: 100vh;
   width: 100%;
   overflow-y: auto;
-  /* overflow-y: hidden; */
-  background-color: #a8a1bc;
-
-  /* Hide scrollbar for Firefox, IE, and Edge */
-  /* scrollbar-width: none; */ /* Firefox */
-  /* -ms-overflow-style: none; */ /* IE and Edge */
-
+  background-color: #e6e6e6;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  /* margin-top: 50px; */
 }
 
-/* Typography */
 .feed-container > * {
-  /* margin: 5px; */
   color: white;
   font-family: 'Roboto', sans-serif;
 }
-
-/* Custom scrollbar styles */
-/* .feed-container::-webkit-scrollbar {
-  width: var(--scroll-size);
-  height: var(--scroll-size);
-  border-radius: var(--scroll-radius);
-  background-color: var(--scroll-track);
-}
-
-.feed-container::-webkit-scrollbar-thumb {
-  background-image: var(--scroll-thumb);
-  border-radius: var(--scroll-radius);
-} */
